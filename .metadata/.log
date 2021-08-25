@@ -1,0 +1,29 @@
+!SESSION 2021-08-25 13:50:11.341 -----------------------------------------------
+eclipse.buildId=Version 1.7.0
+java.version=11.0.10
+java.vendor=AdoptOpenJDK
+BootLoader constants: OS=macosx, ARCH=x86_64, WS=cocoa, NL=en_US
+Framework arguments:  -keyring /Users/Joshua/.eclipse_keyring
+Command-line arguments:  -os macosx -ws cocoa -arch x86_64 -keyring /Users/Joshua/.eclipse_keyring
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2021-08-25 13:50:33.326
+!MESSAGE Log4j initialized with config file /Users/Joshua/STM32CubeIDE/workspace_1.7.0/STM32_Workspace/STM32_GitHub/.metadata/.log4j.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2021-08-25 13:50:37.446
+!MESSAGE Started RMI Server, listening on port 41337
+!SESSION 2021-08-25 13:55:34.023 -----------------------------------------------
+eclipse.buildId=Version 1.7.0
+java.version=11.0.10
+java.vendor=AdoptOpenJDK
+BootLoader constants: OS=macosx, ARCH=x86_64, WS=cocoa, NL=en_US
+Framework arguments:  -keyring /Users/Joshua/.eclipse_keyring
+Command-line arguments:  -os macosx -ws cocoa -arch x86_64 -keyring /Users/Joshua/.eclipse_keyring
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2021-08-25 13:55:45.345
+!MESSAGE Log4j initialized with config file /Users/Joshua/STM32CubeIDE/workspace_1.7.0/STM32_Workspace/STM32_GitHub/.metadata/.log4j.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2021-08-25 13:55:49.171
+!MESSAGE Started RMI Server, listening on port 41337
+
+!ENTRY org.eclipse.cdt.core 1 0 2021-08-25 13:57:15.931
+!MESSAGE Indexed 'STM32_TEST' (24 sources, 85 headers) in 9.92 sec: 7,759 declarations; 51,568 references; 0 unresolved inclusions; 1 syntax errors; 2 unresolved names (0.0034%)
