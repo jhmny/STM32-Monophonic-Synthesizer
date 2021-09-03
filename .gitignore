@@ -4,3 +4,7 @@
 /.metadata
 .metadata
 Debug/
+.log
+.index
+.pdom
+.xmi
