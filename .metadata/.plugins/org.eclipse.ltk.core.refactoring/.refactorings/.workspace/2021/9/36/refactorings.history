@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Delete resource &apos;STM_Led_Blink&apos;" deleteContents="false" description="Delete resource &apos;STM_Led_Blink&apos;" element1="/STM_Led_Blink" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="1" stamp="1630717643653"/>
+</session>
