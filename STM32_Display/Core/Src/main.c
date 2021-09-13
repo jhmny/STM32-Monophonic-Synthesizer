@@ -27,6 +27,7 @@
 #include "ssd1306.h"
 #include "fonts.h"
 #include "test.h"
+#include "bitmap.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -94,17 +95,50 @@ int main(void)
   MX_I2C2_Init();
   /* USER CODE BEGIN 2 */
 
-  	  	  	SSD1306_Init (); // initialize the LCD screen display
+   	  	  	SSD1306_Init (); // initialize the LCD screen display
 
-//print something on the screen
-  	  	  	SSD1306_GotoXY (10,10); // goto 10, 10
-  	  	  	SSD1306_Puts ("HELLO", &Font_11x18, 1); // print Hello
-  	  	  	SSD1306_GotoXY (10, 30);
-  	  	  	SSD1306_Puts ("WORLD !!", &Font_11x18, 1);
-  	  	  	SSD1306_UpdateScreen(); // update screen [DISPLAY]
+ //print something on the screen
+   	  	  	SSD1306_GotoXY (10,10); 					// goto 10, 10
+   	  	  	SSD1306_Puts ("ECE 186B", &Font_11x18, 1); // print ECE 186B & our names
+   	  	  	SSD1306_GotoXY (10, 30);
+   	  	  	SSD1306_Puts ("Joshua Mendoza", &Font_7x10, 1);
+   	  	  	SSD1306_GotoXY (10, 40);
+   	  	  	SSD1306_Puts ("Megan Abundo", &Font_7x10, 1);
+   	  	  	SSD1306_GotoXY (10, 50);
+   	  	  	SSD1306_Puts ("Paris Villarrial", &Font_7x10, 1);
+   	  	  	SSD1306_UpdateScreen(); 					// update screen [DISPLAY]
 
-  	  	  	HAL_Delay (2000);
-  /* USER CODE END 2 */
+   	  	  	HAL_Delay (2000);							//2 second delay
+
+   	  	  	SSD1306_Stopscroll(); 						//Stop Scrolling, it will go on forever otherwise
+   	  	  	SSD1306_Clear();
+
+
+///////Upload Custom Image by using a drawn bitmap
+   	  	  	SSD1306_DrawBitmap(30,0,FSULogo,128,64,1); //custom bitmap for a custom image
+   	  	  	SSD1306_UpdateScreen();
+   	  	  	HAL_Delay (2000);							//2 second delay
+
+   	  	  	SSD1306_ScrollLeft(0x00, 0x0f); 			//Scroll entire screen left
+   	  	  	HAL_Delay (2000); 							//2 second delay
+
+   	  	  	SSD1306_ScrollRight(0x00, 0x0f); 			//Scroll entire screen right
+   	  	  	HAL_Delay (2000);							//2 second delay
+
+   	  	  	SSD1306_Scrolldiagright(0x00, 0x0f); 		//Scroll entire screen diagonally right
+   	  	  	HAL_Delay (2000); 							//2 second delay
+
+   	  	  	SSD1306_Scrolldiagleft(0x00, 0x0f); 		//Scroll entire screen diagonally left
+   	  	  	HAL_Delay (2000);							//2 second delay
+
+   	  		SSD1306_Stopscroll();						//stop scrolling
+
+
+   	  		//SSD1306_InvertDisplay(1); 					//Invert the display
+   	  		//HAL_Delay (2000);							//2 second delay
+   	  		//SSD1306_InvertDisplay(0); 					//normalize display
+   /* USER CODE END 2 */
+
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
