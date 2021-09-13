@@ -1,0 +1,18 @@
+/*
+ * Codec.cpp
+ *
+ *  Created on: Sep 12, 2021
+ *      Author: Joshua
+ */
+
+#include "Codec.h"
+
+Codec::Codec() {
+	// TODO Auto-generated constructor stub
+
+}
+
+Codec::~Codec() {
+	// TODO Auto-generated destructor stub
+}
+

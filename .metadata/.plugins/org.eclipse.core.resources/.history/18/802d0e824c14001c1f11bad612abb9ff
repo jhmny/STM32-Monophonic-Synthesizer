@@ -1,0 +1,17 @@
+/*
+ * Synth.h
+ *
+ *  Created on: Sep 12, 2021
+ *      Author: Joshua
+ */
+
+#ifndef SRC_SYNTH_H_
+#define SRC_SYNTH_H_
+
+class Synth {
+public:
+	Synth();
+	virtual ~Synth();
+};
+
+#endif /* SRC_SYNTH_H_ */
