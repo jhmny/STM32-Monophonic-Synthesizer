@@ -7,10 +7,13 @@
 
 #include "Codec.h"
 
-#include "stm32f7xx_hal_conf.h"
+//#include "stm32f7xx_hal_conf.h"
+#include "stm32f7xx_hal.h"
 
 #include "stm32f7xx.h"
 #include "stm32f7xx_it.h"
+
+extern I2C_HandleTypeDef hi2c1;
 
 #define CODEC_RESET_Pin GPIO_PIN_4
 //FOR HAL FUNCTIONS
@@ -38,6 +41,10 @@ uint8_t Codec::init(){
 uint8_t Codec::write(uint8_t reg, uint8_t val){
 	HAL_StatusTypeDef status = HAL_OK;
 
-	status = HAL_I2C_Mem_Write(&hi2c1, AUDIO_I2C_ADDR, reg, 1, &val, sizeof(val), HAL_MAX_DELAY);
+	status = HAL_I2C_Mem_Write(&hi2c1, 0x94, reg, 1, &val, sizeof(val), HAL_MAX_DELAY);
+	if (status != HAL_OK){
+		return 1;
+	}
+	return 0;
 }
 

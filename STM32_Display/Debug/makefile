@@ -76,8 +76,8 @@ all: main-build
 main-build: STM32_Display.elf secondary-outputs
 
 # Tool invocations
-STM32_Display.elf: $(OBJS) $(USER_OBJS) C:\Users\PV9\STM32CubeIDE\workspace_1.7.0\STM32_Display\STM32F429ZITX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-g++ -o "STM32_Display.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\PV9\STM32CubeIDE\workspace_1.7.0\STM32_Display\STM32F429ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="STM32_Display.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
+STM32_Display.elf: $(OBJS) $(USER_OBJS) C:\Users\omgwu\Documents\School\Senior\ Design\STM32_GitHub\STM32_Display\STM32F429ZITX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-g++ -o "STM32_Display.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\omgwu\Documents\School\Senior Design\STM32_GitHub\STM32_Display\STM32F429ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="STM32_Display.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
