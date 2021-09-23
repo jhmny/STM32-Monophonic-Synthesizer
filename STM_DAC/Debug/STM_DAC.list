@@ -39,11 +39,11 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING, OCTETS
  17 .debug_line   000143b2  00000000  00000000  0006b52e  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_str    001028ad  00000000  00000000  0007f8e0  2**0
+ 18 .debug_str    001028a0  00000000  00000000  0007f8e0  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .comment      00000053  00000000  00000000  0018218d  2**0
+ 19 .comment      00000053  00000000  00000000  00182180  2**0
                   CONTENTS, READONLY
- 20 .debug_frame  00004618  00000000  00000000  001821e0  2**2
+ 20 .debug_frame  00004618  00000000  00000000  001821d4  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -837,7 +837,7 @@ int main(void)
  80008b2:	b082      	sub	sp, #8
  80008b4:	af00      	add	r7, sp, #0
   /* USER CODE BEGIN 1 */
-	synth.pitch = 220.0f;
+	synth.pitch = 110.0f;
  80008b6:	4b15      	ldr	r3, [pc, #84]	; (800090c <main+0x5c>)
  80008b8:	4a15      	ldr	r2, [pc, #84]	; (8000910 <main+0x60>)
  80008ba:	611a      	str	r2, [r3, #16]
@@ -911,7 +911,7 @@ int main(void)
  8000908:	bd80      	pop	{r7, pc}
  800090a:	bf00      	nop
  800090c:	2000064c 	.word	0x2000064c
- 8000910:	435c0000 	.word	0x435c0000
+ 8000910:	42dc0000 	.word	0x42dc0000
  8000914:	20000648 	.word	0x20000648
  8000918:	20000660 	.word	0x20000660
  800091c:	20000120 	.word	0x20000120

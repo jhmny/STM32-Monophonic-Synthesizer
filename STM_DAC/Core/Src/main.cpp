@@ -102,7 +102,7 @@ void HAL_I2S_TxCpltCallback(I2S_HandleTypeDef *hi2s2){
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-	synth.pitch = 220.0f;
+	synth.pitch = 110.0f;
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
