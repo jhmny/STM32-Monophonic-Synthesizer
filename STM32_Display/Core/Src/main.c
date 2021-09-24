@@ -110,7 +110,7 @@ int main(void)
 
    	  	  	HAL_Delay (2000);							//2 second delay
 
-   	  	  	SSD1306_Stopscroll(); 						//Stop Scrolling, it will go on forever otherwise
+   	  	  	//SSD1306_Stopscroll(); 						//Stop Scrolling, it will go on forever otherwise
    	  	  	SSD1306_Clear();
 
 
@@ -125,13 +125,13 @@ int main(void)
    	  	  	SSD1306_ScrollRight(0x00, 0x0f); 			//Scroll entire screen right
    	  	  	HAL_Delay (2000);							//2 second delay
 
-   	  	  	SSD1306_Scrolldiagright(0x00, 0x0f); 		//Scroll entire screen diagonally right
-   	  	  	HAL_Delay (2000); 							//2 second delay
+   	  	  	//SSD1306_Scrolldiagright(0x00, 0x0f); 		//Scroll entire screen diagonally right
+   	  	  //HAL_Delay (2000); 							//2 second delay
 
-   	  	  	SSD1306_Scrolldiagleft(0x00, 0x0f); 		//Scroll entire screen diagonally left
-   	  	  	HAL_Delay (2000);							//2 second delay
+   	  	  	//SSD1306_Scrolldiagleft(0x00, 0x0f); 		//Scroll entire screen diagonally left
+   	  	  	//HAL_Delay (2000);							//2 second delay
 
-   	  		SSD1306_Stopscroll();						//stop scrolling
+   	  		//SSD1306_Stopscroll();						//stop scrolling
 
 
    	  		//SSD1306_InvertDisplay(1); 					//Invert the display
