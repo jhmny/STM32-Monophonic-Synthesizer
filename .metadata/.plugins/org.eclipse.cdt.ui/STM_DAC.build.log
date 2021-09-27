@@ -1,5 +1,6 @@
-21:36:39 **** Incremental Build of configuration Debug for project STM_DAC ****
+04:47:30 **** Incremental Build of configuration Debug for project STM_DAC ****
 make -j16 all 
+arm-none-eabi-g++ "../Core/Src/Synth.cpp" -mcpu=cortex-m7 -std=gnu++14 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F767xx -c -I../Core/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F7xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -fno-exceptions -fno-rtti -fno-use-cxa-atexit -Wall -fstack-usage -MMD -MP -MF"Core/Src/Synth.d" -MT"Core/Src/Synth.o" --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -o "Core/Src/Synth.o"
 arm-none-eabi-g++ "../Core/Src/main.cpp" -mcpu=cortex-m7 -std=gnu++14 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F767xx -c -I../Core/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F7xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -fno-exceptions -fno-rtti -fno-use-cxa-atexit -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
 arm-none-eabi-g++ -o "STM_DAC.elf" @"objects.list"   -mcpu=cortex-m7 -T"C:\Users\Joshua\Documents\GitHub\STM32_GitHub\STM_DAC\STM32F767ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="STM_DAC.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
 Finished building target: STM_DAC.elf
@@ -16,5 +17,5 @@ Finished building: STM_DAC.bin
 Finished building: STM_DAC.list
  
 
-21:36:40 Build Finished. 0 errors, 0 warnings. (took 736ms)
+04:47:31 Build Finished. 0 errors, 0 warnings. (took 745ms)
 

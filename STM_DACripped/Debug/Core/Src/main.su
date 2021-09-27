@@ -1,0 +1,16 @@
+main.cpp:80:6:void makeSound(uint16_t)	24	static
+main.cpp:88:6:void HAL_I2S_TxHalfCpltCallback(I2S_HandleTypeDef*)	16	static
+main.cpp:92:6:void HAL_I2S_TxCpltCallback(I2S_HandleTypeDef*)	16	static
+main.cpp:102:5:int main()	16	static
+main.cpp:156:6:void SystemClock_Config()	232	static
+main.cpp:217:13:void MX_ETH_Init()	8	static
+main.cpp:264:13:void MX_I2C1_Init()	8	static
+main.cpp:310:13:void MX_I2S3_Init()	8	static
+main.cpp:343:13:void MX_USART3_UART_Init()	8	static
+main.cpp:378:13:void MX_USB_OTG_FS_PCD_Init()	8	static
+main.cpp:411:13:void MX_DMA_Init()	16	static
+main.cpp:429:13:void MX_GPIO_Init()	56	static
+main.cpp:493:6:void Error_Handler()	4	static,ignoring_inline_asm
+main.cpp:502:1:void __static_initialization_and_destruction_0(int, int)	16	static
+main.cpp:502:1:cpp)	8	static
+main.cpp:502:1:cpp)	8	static

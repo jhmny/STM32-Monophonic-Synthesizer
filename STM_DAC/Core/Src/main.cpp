@@ -85,11 +85,11 @@ void makeSound(uint16_t start_index){
 	}
 }
 
-void HAL_I2S_TxHalfCpltCallback(I2S_HandleTypeDef *hi2s2){
+void HAL_I2S_TxHalfCpltCallback(I2S_HandleTypeDef *hi2s3){
 	makeSound(0);
 }
 
-void HAL_I2S_TxCpltCallback(I2S_HandleTypeDef *hi2s2){
+void HAL_I2S_TxCpltCallback(I2S_HandleTypeDef *hi2s3){
 	makeSound(BUFF_LEN_HALF);
 
 }
@@ -102,7 +102,7 @@ void HAL_I2S_TxCpltCallback(I2S_HandleTypeDef *hi2s2){
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-	synth.pitch = 110.0f;
+	synth.pitch = 440.0f;
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
