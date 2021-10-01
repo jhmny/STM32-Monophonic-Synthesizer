@@ -1,35 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
-		<item key="selection" value="hi2"/>
+		<item key="selection" value="WHILE"/>
 		<item key="wrap" value="true"/>
 		<item key="casesensitive" value="false"/>
-		<item key="wholeword" value="false"/>
+		<item key="wholeword" value="true"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
-			<item value="hi2"/>
-			<item value="hi2c1"/>
-			<item value="hi2s2"/>
-			<item value="hi2s3"/>
-			<item value="i2c"/>
-			<item value="i2s"/>
-			<item value="sd"/>
-			<item value="AUDIO"/>
-			<item value="AUDIO\"/>
-			<item value="AUDIO_"/>
-			<item value="AUDIO_I2C_ADDR"/>
-			<item value="CODEC_RESET_PIN"/>
-			<item value="DMA"/>
-			<item value="DNA"/>
-			<item value="hdma_spi2_tx"/>
+			<item value="while"/>
+			<item value="m"/>
+			<item value="my"/>
+			<item value="02"/>
+			<item value="FREE"/>
+			<item value="RTOS"/>
+			<item value=""/>
+			<item value="task"/>
+			<item value="MIDI"/>
+			<item value="UART"/>
+			<item value="recieve"/>
+			<item value="reciev"/>
+			<item value="UART4"/>
+			<item value="uart"/>
+			<item value="begin 4"/>
 		</list>
 		<list key="replacehistory">
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
-		<item key="DIALOG_X_ORIGIN" value="1436"/>
-		<item key="DIALOG_Y_ORIGIN" value="248"/>
+		<item key="DIALOG_X_ORIGIN" value="1244"/>
+		<item key="DIALOG_Y_ORIGIN" value="348"/>
 		<item key="DIALOG_WIDTH" value="284"/>
 		<item key="DIALOG_HEIGHT" value="391"/>
 		<item key="DIALOG_FONT_NAME" value="1|Segoe UI|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI"/>

@@ -1,0 +1,14 @@
+stm32f7xx_ll_rtc.c:213:13:LL_RTC_Init	24	static
+stm32f7xx_ll_rtc.c:252:6:LL_RTC_StructInit	0	static
+stm32f7xx_ll_rtc.c:354:6:LL_RTC_TIME_StructInit	0	static
+stm32f7xx_ll_rtc.c:442:6:LL_RTC_DATE_StructInit	0	static
+stm32f7xx_ll_rtc.c:465:13:LL_RTC_ALMA_Init	24	static
+stm32f7xx_ll_rtc.c:583:13:LL_RTC_ALMB_Init	24	static
+stm32f7xx_ll_rtc.c:693:6:LL_RTC_ALMA_StructInit	0	static
+stm32f7xx_ll_rtc.c:715:6:LL_RTC_ALMB_StructInit	0	static
+stm32f7xx_ll_rtc.c:740:13:LL_RTC_EnterInitMode	16	static
+stm32f7xx_ll_rtc.c:784:13:LL_RTC_ExitInitMode	0	static
+stm32f7xx_ll_rtc.c:811:13:LL_RTC_WaitForSynchro	16	static
+stm32f7xx_ll_rtc.c:149:13:LL_RTC_DeInit	24	static
+stm32f7xx_ll_rtc.c:272:13:LL_RTC_TIME_Init	32	static
+stm32f7xx_ll_rtc.c:375:13:LL_RTC_DATE_Init	32	static

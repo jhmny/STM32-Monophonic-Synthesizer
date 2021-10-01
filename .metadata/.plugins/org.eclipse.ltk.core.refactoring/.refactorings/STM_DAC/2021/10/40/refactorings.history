@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;STM_DAC/Core/Src/CPP_LINK&apos; to &apos;CPP_LINK.cpp&apos;" description="Rename resource &apos;CPP_LINK&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="Core/Src/CPP_LINK" name="CPP_LINK.cpp" stamp="1633062406035" updateReferences="true"/>
+</session>

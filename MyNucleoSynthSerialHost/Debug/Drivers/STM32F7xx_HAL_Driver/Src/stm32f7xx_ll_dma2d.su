@@ -1,0 +1,11 @@
+stm32f7xx_ll_dma2d.c:133:13:LL_DMA2D_DeInit	0	static
+stm32f7xx_ll_dma2d.c:167:13:LL_DMA2D_Init	20	static
+stm32f7xx_ll_dma2d.c:242:6:LL_DMA2D_StructInit	0	static
+stm32f7xx_ll_dma2d.c:272:6:LL_DMA2D_ConfigLayer	12	static
+stm32f7xx_ll_dma2d.c:364:6:LL_DMA2D_LayerCfgStructInit	0	static
+stm32f7xx_ll_dma2d.c:392:6:LL_DMA2D_ConfigOutputColor	4	static
+stm32f7xx_ll_dma2d.c:451:10:LL_DMA2D_GetOutputBlueColor	0	static
+stm32f7xx_ll_dma2d.c:495:10:LL_DMA2D_GetOutputGreenColor	0	static
+stm32f7xx_ll_dma2d.c:539:10:LL_DMA2D_GetOutputRedColor	0	static
+stm32f7xx_ll_dma2d.c:583:10:LL_DMA2D_GetOutputAlphaColor	0	static
+stm32f7xx_ll_dma2d.c:619:6:LL_DMA2D_ConfigSize	0	static
