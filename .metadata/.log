@@ -3106,3 +3106,188 @@ java.io.FileNotFoundException: C:\Users\Joshua\Documents\GitHub\STM32_GitHub\Syn
 	at org.eclipse.debug.internal.ui.DebugUIPlugin.buildAndLaunch(DebugUIPlugin.java:1021)
 	at org.eclipse.debug.internal.ui.DebugUIPlugin$2.run(DebugUIPlugin.java:1224)
 	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+!SESSION 2021-10-06 19:41:17.149 -----------------------------------------------
+eclipse.buildId=Version 1.7.0
+java.version=11.0.10
+java.vendor=AdoptOpenJDK
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Command-line arguments:  -os win32 -ws win32 -arch x86_64
+
+!ENTRY org.eclipse.e4.ui.workbench 4 0 2021-10-06 19:41:20.621
+!MESSAGE Unable to load class 'org.eclipse.e4.ui.workbench.renderers.swt.cocoa.CocoaUIHandler' from bundle '645'
+!STACK 0
+java.lang.ClassNotFoundException: org.eclipse.e4.ui.workbench.renderers.swt.cocoa.CocoaUIHandler cannot be found by org.eclipse.e4.ui.workbench.renderers.swt_0.15.0.v20201125-0918
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:519)
+	at org.eclipse.osgi.internal.loader.ModuleClassLoader.loadClass(ModuleClassLoader.java:171)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:522)
+	at org.eclipse.osgi.internal.framework.EquinoxBundle.loadClass(EquinoxBundle.java:617)
+	at org.eclipse.e4.ui.internal.workbench.ReflectionContributionFactory.createFromBundle(ReflectionContributionFactory.java:89)
+	at org.eclipse.e4.ui.internal.workbench.ReflectionContributionFactory.doCreate(ReflectionContributionFactory.java:60)
+	at org.eclipse.e4.ui.internal.workbench.ReflectionContributionFactory.create(ReflectionContributionFactory.java:37)
+	at org.eclipse.e4.ui.internal.workbench.swt.E4Application.createE4Workbench(E4Application.java:276)
+	at org.eclipse.ui.internal.Workbench.lambda$3(Workbench.java:573)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:338)
+	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:551)
+	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:156)
+	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:152)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:203)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:134)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:104)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:401)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:255)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:653)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:590)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1461)
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 4 4 2021-10-06 19:41:23.583
+!MESSAGE CubeMX plugin appears to be active, Log4j initialization might be too late.
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2021-10-06 19:41:23.641
+!MESSAGE Log4j initialized with config file C:\Users\Joshua\Documents\GitHub\STM32_GitHub\.metadata\.log4j.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2021-10-06 19:41:34.154
+!MESSAGE Started RMI Server, listening on port 41337
+
+!ENTRY org.eclipse.core.resources 4 77 2021-10-06 20:14:45.860
+!MESSAGE Invalid project description.
+!SUBENTRY 1 unknown 0 0 2021-10-06 20:14:45.860
+!MESSAGE OK
+!SUBENTRY 1 org.eclipse.core.resources 4 77 2021-10-06 20:14:45.860
+!MESSAGE C:\Users\Joshua\Documents\GitHub\STM32_GitHub\MyNucleoSynthSerialHost overlaps the location of another project: 'MyNucleoSynthSerialHost'
+
+!ENTRY com.st.stm32cube.common.projectcreation 4 0 2021-10-06 20:14:45.861
+!MESSAGE Project is null
+
+!ENTRY org.eclipse.core.resources 4 77 2021-10-06 20:14:53.218
+!MESSAGE Invalid project description.
+!SUBENTRY 1 unknown 0 0 2021-10-06 20:14:53.218
+!MESSAGE OK
+!SUBENTRY 1 org.eclipse.core.resources 4 77 2021-10-06 20:14:53.218
+!MESSAGE C:\Users\Joshua\Documents\GitHub\STM32_GitHub\MyNucleoSynthSerialHost overlaps the location of another project: 'MyNucleoSynthSerialHost'
+
+!ENTRY com.st.stm32cube.common.projectcreation 4 0 2021-10-06 20:14:53.218
+!MESSAGE Project is null
+
+!ENTRY org.eclipse.core.resources 4 77 2021-10-06 20:14:53.592
+!MESSAGE Invalid project description.
+!SUBENTRY 1 unknown 0 0 2021-10-06 20:14:53.592
+!MESSAGE OK
+!SUBENTRY 1 org.eclipse.core.resources 4 77 2021-10-06 20:14:53.592
+!MESSAGE C:\Users\Joshua\Documents\GitHub\STM32_GitHub\MyNucleoSynthSerialHost overlaps the location of another project: 'MyNucleoSynthSerialHost'
+
+!ENTRY com.st.stm32cube.common.projectcreation 4 0 2021-10-06 20:14:53.592
+!MESSAGE Project is null
+
+!ENTRY org.eclipse.core.resources 4 77 2021-10-06 20:16:48.615
+!MESSAGE Invalid project description.
+!SUBENTRY 1 unknown 0 0 2021-10-06 20:16:48.615
+!MESSAGE OK
+!SUBENTRY 1 org.eclipse.core.resources 4 77 2021-10-06 20:16:48.615
+!MESSAGE C:\Users\Joshua\Documents\GitHub\STM32_GitHub\MyNucleoSynthSerialHost overlaps the location of another project: 'MyNucleoSynthSerialHost'
+
+!ENTRY com.st.stm32cube.common.projectcreation 4 0 2021-10-06 20:16:48.615
+!MESSAGE Project is null
+
+!ENTRY org.eclipse.core.resources 4 77 2021-10-06 20:16:53.236
+!MESSAGE Invalid project description.
+!SUBENTRY 1 unknown 0 0 2021-10-06 20:16:53.236
+!MESSAGE OK
+!SUBENTRY 1 org.eclipse.core.resources 4 77 2021-10-06 20:16:53.236
+!MESSAGE C:\Users\Joshua\Documents\GitHub\STM32_GitHub\MyNucleoSynthSerialHost overlaps the location of another project: 'MyNucleoSynthSerialHost'
+
+!ENTRY com.st.stm32cube.common.projectcreation 4 0 2021-10-06 20:16:53.236
+!MESSAGE Project is null
+
+!ENTRY org.eclipse.core.resources 4 77 2021-10-06 20:16:53.385
+!MESSAGE Invalid project description.
+!SUBENTRY 1 unknown 0 0 2021-10-06 20:16:53.385
+!MESSAGE OK
+!SUBENTRY 1 org.eclipse.core.resources 4 77 2021-10-06 20:16:53.385
+!MESSAGE C:\Users\Joshua\Documents\GitHub\STM32_GitHub\MyNucleoSynthSerialHost overlaps the location of another project: 'MyNucleoSynthSerialHost'
+
+!ENTRY com.st.stm32cube.common.projectcreation 4 0 2021-10-06 20:16:53.385
+!MESSAGE Project is null
+
+!ENTRY org.eclipse.core.resources 4 77 2021-10-06 20:20:28.493
+!MESSAGE Invalid project description.
+!SUBENTRY 1 unknown 0 0 2021-10-06 20:20:28.493
+!MESSAGE OK
+!SUBENTRY 1 org.eclipse.core.resources 4 77 2021-10-06 20:20:28.493
+!MESSAGE C:\Users\Joshua\Documents\GitHub\STM32_GitHub\MyNucleoSynthSerialHost overlaps the location of another project: 'MyNucleoSynthSerialHost'
+
+!ENTRY com.st.stm32cube.common.projectcreation 4 0 2021-10-06 20:20:28.494
+!MESSAGE Project is null
+
+!ENTRY org.eclipse.core.resources 4 77 2021-10-06 20:20:33.805
+!MESSAGE Invalid project description.
+!SUBENTRY 1 unknown 0 0 2021-10-06 20:20:33.805
+!MESSAGE OK
+!SUBENTRY 1 org.eclipse.core.resources 4 77 2021-10-06 20:20:33.805
+!MESSAGE C:\Users\Joshua\Documents\GitHub\STM32_GitHub\MyNucleoSynthSerialHost overlaps the location of another project: 'MyNucleoSynthSerialHost'
+
+!ENTRY com.st.stm32cube.common.projectcreation 4 0 2021-10-06 20:20:33.805
+!MESSAGE Project is null
+
+!ENTRY org.eclipse.core.resources 4 77 2021-10-06 20:20:33.951
+!MESSAGE Invalid project description.
+!SUBENTRY 1 unknown 0 0 2021-10-06 20:20:33.951
+!MESSAGE OK
+!SUBENTRY 1 org.eclipse.core.resources 4 77 2021-10-06 20:20:33.951
+!MESSAGE C:\Users\Joshua\Documents\GitHub\STM32_GitHub\MyNucleoSynthSerialHost overlaps the location of another project: 'MyNucleoSynthSerialHost'
+
+!ENTRY com.st.stm32cube.common.projectcreation 4 0 2021-10-06 20:20:33.951
+!MESSAGE Project is null
+
+!ENTRY org.eclipse.core.resources 4 77 2021-10-06 20:22:12.638
+!MESSAGE Invalid project description.
+!SUBENTRY 1 unknown 0 0 2021-10-06 20:22:12.639
+!MESSAGE OK
+!SUBENTRY 1 org.eclipse.core.resources 4 77 2021-10-06 20:22:12.639
+!MESSAGE C:\Users\Joshua\Documents\GitHub\STM32_GitHub\MyNucleoSynthSerialHost overlaps the location of another project: 'MyNucleoSynthSerialHost'
+
+!ENTRY com.st.stm32cube.common.projectcreation 4 0 2021-10-06 20:22:12.639
+!MESSAGE Project is null
+
+!ENTRY org.eclipse.core.resources 4 77 2021-10-06 20:22:14.787
+!MESSAGE Invalid project description.
+!SUBENTRY 1 unknown 0 0 2021-10-06 20:22:14.787
+!MESSAGE OK
+!SUBENTRY 1 org.eclipse.core.resources 4 77 2021-10-06 20:22:14.787
+!MESSAGE C:\Users\Joshua\Documents\GitHub\STM32_GitHub\MyNucleoSynthSerialHost overlaps the location of another project: 'MyNucleoSynthSerialHost'
+
+!ENTRY com.st.stm32cube.common.projectcreation 4 0 2021-10-06 20:22:14.787
+!MESSAGE Project is null
+
+!ENTRY org.eclipse.core.resources 4 77 2021-10-06 20:22:16.854
+!MESSAGE Invalid project description.
+!SUBENTRY 1 unknown 0 0 2021-10-06 20:22:16.854
+!MESSAGE OK
+!SUBENTRY 1 org.eclipse.core.resources 4 77 2021-10-06 20:22:16.854
+!MESSAGE C:\Users\Joshua\Documents\GitHub\STM32_GitHub\MyNucleoSynthSerialHost overlaps the location of another project: 'MyNucleoSynthSerialHost'
+
+!ENTRY com.st.stm32cube.common.projectcreation 4 0 2021-10-06 20:22:16.855
+!MESSAGE Project is null
+
+!ENTRY org.eclipse.core.resources 4 77 2021-10-06 20:22:21.014
+!MESSAGE Invalid project description.
+!SUBENTRY 1 unknown 0 0 2021-10-06 20:22:21.014
+!MESSAGE OK
+!SUBENTRY 1 org.eclipse.core.resources 4 77 2021-10-06 20:22:21.014
+!MESSAGE C:\Users\Joshua\Documents\GitHub\STM32_GitHub\MyNucleoSynthSerialHost overlaps the location of another project: 'MyNucleoSynthSerialHost'
+
+!ENTRY com.st.stm32cube.common.projectcreation 4 0 2021-10-06 20:22:21.014
+!MESSAGE Project is null
+
+!ENTRY org.eclipse.core.resources 4 77 2021-10-06 20:22:21.148
+!MESSAGE Invalid project description.
+!SUBENTRY 1 unknown 0 0 2021-10-06 20:22:21.148
+!MESSAGE OK
+!SUBENTRY 1 org.eclipse.core.resources 4 77 2021-10-06 20:22:21.148
+!MESSAGE C:\Users\Joshua\Documents\GitHub\STM32_GitHub\MyNucleoSynthSerialHost overlaps the location of another project: 'MyNucleoSynthSerialHost'
+
+!ENTRY com.st.stm32cube.common.projectcreation 4 0 2021-10-06 20:22:21.149
+!MESSAGE Project is null

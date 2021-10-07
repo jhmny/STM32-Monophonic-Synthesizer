@@ -95,9 +95,10 @@ void HAL_UART_MspInit(UART_HandleTypeDef* huart)
     __HAL_RCC_UART4_CLK_ENABLE();
 
     __HAL_RCC_GPIOA_CLK_ENABLE();
+    __HAL_RCC_GPIOC_CLK_ENABLE();
     /**UART4 GPIO Configuration
     PA0/WKUP     ------> UART4_TX
-    PA11     ------> UART4_RX
+    PC11     ------> UART4_RX
     */
     GPIO_InitStruct.Pin = GPIO_PIN_0;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
@@ -110,8 +111,8 @@ void HAL_UART_MspInit(UART_HandleTypeDef* huart)
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
-    GPIO_InitStruct.Alternate = GPIO_AF6_UART4;
-    HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+    GPIO_InitStruct.Alternate = GPIO_AF8_UART4;
+    HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
     /* UART4 interrupt Init */
     HAL_NVIC_SetPriority(UART4_IRQn, 0, 0);
@@ -141,9 +142,11 @@ void HAL_UART_MspDeInit(UART_HandleTypeDef* huart)
 
     /**UART4 GPIO Configuration
     PA0/WKUP     ------> UART4_TX
-    PA11     ------> UART4_RX
+    PC11     ------> UART4_RX
     */
-    HAL_GPIO_DeInit(GPIOA, GPIO_PIN_0|GPIO_PIN_11);
+    HAL_GPIO_DeInit(GPIOA, GPIO_PIN_0);
+
+    HAL_GPIO_DeInit(GPIOC, GPIO_PIN_11);
 
     /* UART4 interrupt DeInit */
     HAL_NVIC_DisableIRQ(UART4_IRQn);

@@ -97,7 +97,6 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	  USARTx_CharReception_Callback();
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -198,6 +197,7 @@ static void MX_GPIO_Init(void)
   /* GPIO Ports Clock Enable */
   __HAL_RCC_GPIOH_CLK_ENABLE();
   __HAL_RCC_GPIOA_CLK_ENABLE();
+  __HAL_RCC_GPIOC_CLK_ENABLE();
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
@@ -216,7 +216,6 @@ static void MX_GPIO_Init(void)
 
 void USARTx_CharReception_Callback(void)
 {
- HAL_Delay(5);
  HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
 /* Read Received character. RXNE flag is cleared by reading of RDR register */
 }
