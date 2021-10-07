@@ -7,5 +7,3 @@ stm32f7xx_hal_msp.c:263:6:HAL_I2S_MspInit	56	static
 stm32f7xx_hal_msp.c:336:6:HAL_I2S_MspDeInit	16	static
 stm32f7xx_hal_msp.c:373:6:HAL_UART_MspInit	56	static
 stm32f7xx_hal_msp.c:441:6:HAL_UART_MspDeInit	16	static
-stm32f7xx_hal_msp.c:490:6:HAL_PCD_MspInit	48	static
-stm32f7xx_hal_msp.c:534:6:HAL_PCD_MspDeInit	16	static

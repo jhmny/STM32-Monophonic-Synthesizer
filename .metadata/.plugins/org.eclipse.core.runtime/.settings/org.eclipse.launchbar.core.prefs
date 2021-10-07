@@ -1,7 +1,7 @@
 LaunchTargetManager/org.eclipse.launchbar.core.launchTargetType.local,Local/arch=x86_64
 LaunchTargetManager/org.eclipse.launchbar.core.launchTargetType.local,Local/name=Local
 LaunchTargetManager/org.eclipse.launchbar.core.launchTargetType.local,Local/os=macosx
-configDescList=org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:STM_Led_Blink,org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:STM32_dax Debug,org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:STM_DAC,org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:MyNucleoSynthSerialHost Debug,org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:SynthC
+configDescList=org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:STM_Led_Blink,org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:SynthC,org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:MyNucleoSynthSerialHost Debug,org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:STM_DAC,org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:STM32_dax Debug
 eclipse.preferences.version=1
 org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:MyNucleoSynthSerialHost\ Debug/activeLaunchMode=run
 org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:MyNucleoSynthSerialHost\ Debug/activeLaunchTarget=null\:---
@@ -9,7 +9,7 @@ org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:STM32_TEST\ Debug/activeLaunchM
 org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:STM32_TEST\ Debug/activeLaunchTarget=null\:---
 org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:STM32_dax\ Debug/activeLaunchMode=run
 org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:STM32_dax\ Debug/activeLaunchTarget=null\:---
-org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:STM_DAC/activeLaunchMode=run
+org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:STM_DAC/activeLaunchMode=debug
 org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:STM_DAC/activeLaunchTarget=null\:---
 org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:STM_Led_Blink/activeLaunchMode=run
 org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:STM_Led_Blink/activeLaunchTarget=null\:---

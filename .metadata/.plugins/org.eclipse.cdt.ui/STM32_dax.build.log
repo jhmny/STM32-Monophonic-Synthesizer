@@ -1,0 +1,31 @@
+00:46:25 **** Incremental Build of configuration Debug for project STM32_dax ****
+make -j16 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m7 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F767xx -c -I../Core/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F7xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:305:29: warning: passing argument 2 of 'HAL_I2S_Transmit' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+  305 |    HAL_I2S_Transmit(&hi2s1, triangle_wave, sizeof(triangle_wave)/sizeof(triangle_wave[0]), 10000);
+      |                             ^~~~~~~~~~~~~
+In file included from ../Core/Inc/stm32f7xx_hal_conf.h:354,
+                 from ../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/main.c:21:
+../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_i2s.h:436:71: note: expected 'uint16_t *' {aka 'short unsigned int *'} but argument is of type 'const uint16_t *' {aka 'const short unsigned int *'}
+  436 | HAL_StatusTypeDef HAL_I2S_Transmit(I2S_HandleTypeDef *hi2s, uint16_t *pData, uint16_t Size, uint32_t Timeout);
+      |                                                             ~~~~~~~~~~^~~~~
+arm-none-eabi-gcc -o "STM32_dax.elf" @"objects.list"   -mcpu=cortex-m7 -T"C:\Users\Joshua\Documents\GitHub\STM32_GitHub\STM32_dax\STM32F767ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="STM32_dax.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: STM32_dax.elf
+ 
+arm-none-eabi-size   STM32_dax.elf 
+arm-none-eabi-objdump -h -S  STM32_dax.elf  > "STM32_dax.list"
+arm-none-eabi-objcopy  -O binary  STM32_dax.elf  "STM32_dax.bin"
+   text	   data	    bss	    dec	    hex	filename
+   9672	     20	   1636	  11328	   2c40	STM32_dax.elf
+Finished building: default.size.stdout
+ 
+Finished building: STM32_dax.bin
+ 
+Finished building: STM32_dax.list
+ 
+
+00:46:26 Build Finished. 0 errors, 1 warnings. (took 599ms)
+

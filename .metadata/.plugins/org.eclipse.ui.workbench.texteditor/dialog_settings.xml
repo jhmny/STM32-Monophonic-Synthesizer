@@ -1,13 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
-		<item key="selection" value="pData"/>
+		<item key="selection" value="hi2s2"/>
 		<item key="wrap" value="true"/>
 		<item key="casesensitive" value="false"/>
 		<item key="wholeword" value="true"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
+			<item value="hi2s2"/>
+			<item value="hi2s3"/>
+			<item value="i2s"/>
+			<item value="i2sd"/>
+			<item value="user code"/>
+			<item value="usercode"/>
+			<item value="  uint8_t status = codec.init();"/>
 			<item value="pdata8bits"/>
 			<item value="pData"/>
 			<item value="while"/>
@@ -16,13 +23,6 @@
 			<item value="uart4"/>
 			<item value="uart"/>
 			<item value="irq"/>
-			<item value="HAL_UART_IRQHandler"/>
-			<item value="interrupt"/>
-			<item value="interrup"/>
-			<item value="IRQ"/>
-			<item value="callback"/>
-			<item value="begin 4"/>
-			<item value="HAL"/>
 		</list>
 		<list key="replacehistory">
 		</list>

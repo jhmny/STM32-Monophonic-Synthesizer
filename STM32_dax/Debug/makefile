@@ -61,8 +61,8 @@ all: main-build
 main-build: STM32_dax.elf secondary-outputs
 
 # Tool invocations
-STM32_dax.elf: $(OBJS) $(USER_OBJS) C:\Users\omgwu\Documents\School\Senior\ Design\STM32_dax\STM32F767ZITX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "STM32_dax.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m7 -T"C:\Users\omgwu\Documents\School\Senior Design\STM32_dax\STM32F767ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="STM32_dax.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+STM32_dax.elf: $(OBJS) $(USER_OBJS) C:\Users\Joshua\Documents\GitHub\STM32_GitHub\STM32_dax\STM32F767ZITX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "STM32_dax.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m7 -T"C:\Users\Joshua\Documents\GitHub\STM32_GitHub\STM32_dax\STM32F767ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="STM32_dax.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
