@@ -330,12 +330,12 @@ int main(void)
   /* USER CODE BEGIN 2 */
   //HAL_I2S_Transmit_DMA(&hi2s1, sendBuff, 8);
   HAL_UART_Receive_DMA(&huart4, UART4_rxBuffer, 8);
-  /* USER CODE END 2 */
+  /* USER CODE END 2 */Z
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1){
-	  //HAL_I2S_Transmit(&hi2s1, triangle_wave, sizeof(triangle_wave)/sizeof(triangle_wave[0]), 10);
+	  HAL_I2S_Transmit(&hi2s1, triangle_wave, sizeof(triangle_wave)/sizeof(triangle_wave[0]), 10);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
