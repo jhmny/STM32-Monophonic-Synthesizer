@@ -330,7 +330,7 @@ int main(void)
   /* USER CODE BEGIN 2 */
   //HAL_I2S_Transmit_DMA(&hi2s1, sendBuff, 8);
   HAL_UART_Receive_DMA(&huart4, UART4_rxBuffer, 8);
-  /* USER CODE END 2 */Z
+  /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */

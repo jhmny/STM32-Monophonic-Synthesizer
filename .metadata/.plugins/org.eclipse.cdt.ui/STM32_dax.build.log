@@ -1,4 +1,4 @@
-03:09:26 **** Build of configuration Debug for project STM32_dax ****
+03:11:56 **** Incremental Build of configuration Debug for project STM32_dax ****
 make -j16 all 
 arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m7 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F767xx -c -I../Core/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F7xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
 ../Core/Src/main.c: In function 'main':
@@ -60,9 +60,9 @@ arm-none-eabi-objcopy  -O binary  STM32_dax.elf  "STM32_dax.bin"
 Finished building: default.size.stdout
  
 Finished building: STM32_dax.bin
+ 
 Finished building: STM32_dax.list
  
- 
 
-03:09:27 Build Finished. 0 errors, 9 warnings. (took 1s.177ms)
+03:11:57 Build Finished. 0 errors, 9 warnings. (took 806ms)
 
