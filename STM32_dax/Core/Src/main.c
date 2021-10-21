@@ -49,6 +49,27 @@ UART_HandleTypeDef huart4;
 DMA_HandleTypeDef hdma_uart4_rx;
 
 /* USER CODE BEGIN PV */
+uint8_t paramvalue[32];
+uint8_t vhbtn = 0;
+int8_t transpose, scale;
+
+uint16_t counter[12], output, output1, output2, pwval, pwmval, modval;
+
+uint16_t lfo1rate, lfo1 = 63, lfo1cnt = 1, lfo1pol = 1;
+uint16_t lfo2rate, lfo2 = 63, lfo2cnt = 1, lfo2pol = 1;
+uint16_t lfo3rate, lfo3 = 63, lfo3cnt = 1, lfo3pol = 1;
+uint16_t lfo4rate, lfo4 = 63, lfo4cnt = 1, lfo4pol = 1;
+
+float vcfkflvl, envkflvl, oscmix, vcfreleaselvl = 0.000001f, vcareleaselvl = 0.000001f, resonance;
+float vcfattackrate[6], vcfdecayrate[6], vcfsustainlvl[6], vcfreleaserate[6];
+float vcfvellvl[6], vcavellvl[6], vcfenvlvl;
+float vcfattack, vcfdecay, vcfsustain, vcfrelease;
+float vcaattackrate[6], vcadecayrate[6], vcasustainlvl[6], vcareleaserate[6];
+float vcaattack, vcadecay, vcasustain, vcarelease;
+
+void play_note(uint8_t, uint8_t);
+void stop_note(uint8_t);
+void LocalMidiHandler(uint8_t, uint8_t);
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -268,6 +289,8 @@ const float_t triangle[] = {
 	-0.03113f, -0.02720f, -0.02329f, -0.01939f, -0.01550f, -0.01161f, -0.00774f, -0.00387f};
 
 uint8_t UART4_rxBuffer[8] = {0};
+uint8_t msgnum, midimsg, received_char, key, velocity, ctrl, data;
+uint8_t wavesel, velsel, pwm, pwm2, mod, vcf, tun, det, sus, notepos, bend, param, patch;
 
 
 
@@ -312,7 +335,7 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1){
-	  HAL_I2S_Transmit(&hi2s1, triangle_wave, sizeof(triangle_wave)/sizeof(triangle_wave[0]), 10);
+	  //HAL_I2S_Transmit(&hi2s1, triangle_wave, sizeof(triangle_wave)/sizeof(triangle_wave[0]), 10);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -471,10 +494,22 @@ static void MX_DMA_Init(void)
   */
 static void MX_GPIO_Init(void)
 {
+  GPIO_InitTypeDef GPIO_InitStruct = {0};
 
   /* GPIO Ports Clock Enable */
   __HAL_RCC_GPIOA_CLK_ENABLE();
   __HAL_RCC_GPIOC_CLK_ENABLE();
+  __HAL_RCC_GPIOB_CLK_ENABLE();
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin : LD2_Pin */
+  GPIO_InitStruct.Pin = LD2_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(LD2_GPIO_Port, &GPIO_InitStruct);
 
 }
 
@@ -484,10 +519,249 @@ void HAL_I2SEx_TxRxHalfCpltCallback(I2S_HandleTypeDef * hi2s1){
 
 }
 
+//buffer is full here, do something when full
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
-    HAL_UART_Transmit(&huart4, UART4_rxBuffer, 8, 100);
+    HAL_UART_Transmit(&huart4, UART4_rxBuffer, 8, 1000);
     HAL_UART_Receive_DMA(&huart4, UART4_rxBuffer, 8);
+
+    __IO uint32_t received_char;
+
+    received_char = UART4_rxBuffer[msgnum];
+
+    if(received_char == 0xF & msgnum)
+      {
+    	  vhbtn = 1;
+    	  return;
+      }
+
+    if(!vhbtn)
+      {
+    	  if((received_char == 0xF7)  & msgnum == 0)
+    	  {
+    		  return;
+    	  }
+
+
+    	  //no note message
+    	  if(received_char < 0x80 & msgnum == 0)
+    		  return;
+
+    	  if(msgnum == 0)
+    	  {
+    		  midimsg = received_char;
+    	  }
+    	  if(msgnum == 1)
+    	  {
+    		  key = received_char;
+    		  ctrl = received_char;
+    	  }
+    	  if(msgnum == 2)
+    	  {
+
+    		  velocity = received_char;
+    		  data = received_char;
+    	  }
+
+    	  msgnum++;
+
+    	  if(msgnum == 3)
+    	  {
+    		  msgnum = 0;
+    		  ProcessReceivedMidiDatas();
+    	  }
+      }
+
+    if(vhbtn)
+        {
+      	  if((received_char == 0xF7)  & msgnum == 0)
+      	  {
+      		  return;
+      	  }
+
+      	  if(received_char < 0x80 & msgnum == 0)return;
+
+      	  if(msgnum == 0)
+      	  {
+      		  midimsg = received_char;
+      	  }
+      	  if(msgnum == 1)
+      	  {
+      		  key = received_char;
+      		  ctrl = received_char;
+      	  }
+      	  if(msgnum == 2)
+      	  {
+      		  velocity = received_char;
+      		  data = received_char;
+      	  }
+
+      	  msgnum++;
+
+      	  if(msgnum == 3)
+      	  {
+      		  msgnum = 0;
+      		  param = key - 0x24;
+      		  vhbtn = 0;
+      	  }
+        }
+
+}
+
+void ProcessReceivedMidiDatas(void)
+{
+			uint8_t chan = midimsg & 0xf;
+			uint8_t msgtype = midimsg & 0xf0;
+			//HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
+			// Not a drum machine, so ignore channel ten
+			if(chan == 9)return;
+
+			// Handle MIDI messages
+			switch(msgtype)
+			{
+				case (0x80): // Note Off
+					notepos = key + transpose;
+					stop_note(notepos);
+					break;
+				case (0x90): // Note On
+					notepos = key + transpose;
+					if(!velocity)
+					{
+						stop_note(notepos);
+					}
+					else
+					{
+
+						play_note(notepos, velocity);
+					}
+					break;
+				case (0xA0): // Poly Aftertouch
+					break;
+				case (0xB0): // Control Change
+        			break;
+				case (0xC0): // Program Change
+					break;
+				case (0xD0): // Mono Aftertouch
+					break;
+				case (0xE0): // Pitch Bend
+					LocalMidiHandler(param, data);
+					break;
+				case (0xF0): // Parameter Change
+					break;
+	}
+}
+
+// TO DO: RARELY GETS TO 0X90 MESSAGE, CHECK HOW WE EMPTY THE BUFFER
+void play_note(uint8_t note, uint8_t velocity){
+	HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
+	HAL_I2S_Transmit(&hi2s1, triangle_wave, sizeof(triangle_wave)/sizeof(triangle_wave[0]), 10);
+}
+
+void stop_note(uint8_t note){
+
+}
+
+void LocalMidiHandler(uint8_t m_param, uint8_t m_data)
+{
+	switch(m_param)
+	{
+		case (0):  // Pitch Wheel
+			bend = m_data;
+			break;
+		case (1): // Modulation Wheel
+			if(m_data >= 64)
+			{
+				mod = (m_data - 64) >> 1;
+			}
+			break;
+		case (2): // Tuning
+			tun = m_data;
+			break;
+		case (3): // Wave Select
+			wavesel = m_data >> 5;
+			break;
+		case (4): // OSC Mix
+			oscmix = (((float)(m_data)) * 0.007874f);
+			break;
+		case (5): // De-Tune
+			det = m_data >> 4;
+			break;
+		case (6): // Scale
+			scale = (m_data - 64) >> 2;
+			break;
+		case (7): // Resonance
+			resonance = (((float)(m_data)) * 0.007874f * 4.0f);
+			break;
+		case (8): // Pulse Width Value
+			pwval = m_data;
+			break;
+		case (9): // VCF Attack
+			vcfattack = (((float)(m_data)) * 10.0f);
+			break;
+		case (10): // VCF Decay
+			vcfdecay = (((float)(m_data)) * 10.0f);
+			break;
+		case (11): // VCF Sustain
+			vcfsustain = (((float)(m_data)) * 0.007874f);
+			break;
+		case (12): // VCF Release
+			vcfrelease = (((float)(m_data)) * 10.0f);
+			break;
+		case (13): // VCA Attack
+			vcaattack = (((float)(m_data)) * 10.0f);
+			break;
+		case (14): // VCA Decay
+			vcadecay = (((float)(m_data)) * 10.0f);
+			break;
+		case (15): // VCA Sustain
+			vcasustain = (((float)(m_data)) * 0.007874f);
+			break;
+		case (16): // VCA Release
+			vcarelease = (((float)(m_data)) * 10.0f);
+			break;
+		case (17): // VCF Follow Level
+			vcfkflvl = (((float)(m_data)) * 0.007874f);
+			break;
+		case (18): // ENV Follow Level
+			envkflvl = (((float)(m_data)) * 0.007874f);
+			break;
+		case (19): // Velocity Select
+			velsel = m_data >> 5;
+			break;
+		case (20): // VCF Envelope Level
+			vcfenvlvl = (((float)(m_data)) * 0.007874f);
+			break;
+		case (21): // Mod LFO rate
+			lfo1rate = (128 - m_data) << 2;
+			break;
+		case (22): // Pwm LFO rate
+			lfo2rate = (128 - m_data) << 2;
+			break;
+		case (23): // Pwm2 LFO rate
+			lfo4rate = (128 - m_data) << 2;
+			break;
+		case (24): // Vcf LFO rate
+			lfo3rate = (128 - m_data) << 2;
+			break;
+		case (25): // VCF LFO Mod level
+			vcf = m_data;
+			break;
+		case (26): // PWM Level
+			pwm = m_data;
+			break;
+		case (27): // PWM2 Level
+			pwm2 = m_data;
+			break;
+		case (28): // Un-assigned
+			break;
+		case (29): // Un-assigned
+			break;
+		case (30): // Un-assigned
+			break;
+		case (31): // Un-assigned
+			break;
+	}
+	paramvalue[m_param] = m_data;
 }
 
 /* USER CODE END 4 */
