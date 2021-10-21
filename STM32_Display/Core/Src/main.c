@@ -28,6 +28,7 @@
 #include "fonts.h"
 #include "test.h"
 #include "bitmap.h"
+#include "sine_animation.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -108,35 +109,139 @@ int main(void)
    	  	  	SSD1306_Puts ("Paris Villarrial", &Font_7x10, 1);
    	  	  	SSD1306_UpdateScreen(); 					// update screen [DISPLAY]
 
-   	  	  	HAL_Delay (2000);							//2 second delay
+   	  	  	HAL_Delay (1000);							//2 second delay
 
-   	  	  	//SSD1306_Stopscroll(); 						//Stop Scrolling, it will go on forever otherwise
-   	  	  	SSD1306_Clear();
-
-
-///////Upload Custom Image by using a drawn bitmap
-   	  	  	SSD1306_DrawBitmap(30,0,FSULogo,128,64,1); //custom bitmap for a custom image
-   	  	  	SSD1306_UpdateScreen();
-   	  	  	HAL_Delay (2000);							//2 second delay
-
-   	  	  	SSD1306_ScrollLeft(0x00, 0x0f); 			//Scroll entire screen left
-   	  	  	HAL_Delay (2000); 							//2 second delay
-
-   	  	  	SSD1306_ScrollRight(0x00, 0x0f); 			//Scroll entire screen right
-   	  	  	HAL_Delay (2000);							//2 second delay
-
-   	  	  	//SSD1306_Scrolldiagright(0x00, 0x0f); 		//Scroll entire screen diagonally right
-   	  	  //HAL_Delay (2000); 							//2 second delay
-
-   	  	  	//SSD1306_Scrolldiagleft(0x00, 0x0f); 		//Scroll entire screen diagonally left
-   	  	  	//HAL_Delay (2000);							//2 second delay
-
-   	  		//SSD1306_Stopscroll();						//stop scrolling
+//   	  	  	SSD1306_Stopscroll(); 						//Stop Scrolling, it will go on forever otherwise
+//  	  	  	SSD1306_Clear();
 
 
+///////Upload Custom Image by using a drawn bitmap//////////////
+//   	  	  	SSD1306_DrawBitmap(30,0,FSULogo,128,64,1); //custom bitmap for a custom image
+// 	  	  	  	SSD1306_Clear();
+//    	  	  	SSD1306_DrawBitmap(0,0,wave1,128,64,1);
+//    	  	  	SSD1306_InvertDisplay(1);
+//    	  	  	SSD1306_UpdateScreen();
+
+//   	  	  	HAL_Delay (2000);							//2 second delay
+
+ // 	  	  	SSD1306_ScrollLeft(0x00, 0x0f); 			//Scroll entire screen left
+ // 	  	  	HAL_Delay (2000); 							//2 second delay
+
+//  	  	  	SSD1306_ScrollRight(0x00, 0x0f); 			//Scroll entire screen right
+//  	  	  	HAL_Delay (2000);							//2 second delay
+
+//   	  	  	SSD1306_Scrolldiagright(0x00, 0x0f); 		//Scroll entire screen diagonally right
+//	  	  	HAL_Delay (2000); 							//2 second delay
+
+//   	  	  	SSD1306_Scrolldiagleft(0x00, 0x0f); 		//Scroll entire screen diagonally left
+//  	  	  	HAL_Delay (2000);							//2 second delay
+
+  //	  		SSD1306_Stopscroll();						//stop scrolling
+
+///////////////////////////////INVERT FUNCTIONS//////////////////////////////////////////////////////////////
    	  		//SSD1306_InvertDisplay(1); 					//Invert the display
    	  		//HAL_Delay (2000);							//2 second delay
    	  		//SSD1306_InvertDisplay(0); 					//normalize display
+
+////////////////////////////////TESTING FUCNTIONS/////////////////////////////////////////////////////////////////
+
+   	  	  	//TestLines(1);
+   	  	  	//HAL_Delay(1000);
+   	  	  	//TestTriangles(1);
+   	  	  	//HAL_Delay(1000);
+   	  	  	//TestRectangles(1);
+   	  	  	//HAL_Delay(1000);
+   	  	  	//TestFilledRectangles(1);
+   	  	  	//HAL_Delay(1000);
+   	  	  	//TestCircles(6,1);
+   	  	  	//HAL_Delay(1000);
+   	  	  	//TestFilledCircles(6,1);
+   	  	  	//HAL_Delay(1000);
+
+///////////////////////////////////////////////////////////////////////////////////////////
+
+
+/*
+   		  //////////////////////////////////////////////////CUSTOM ANIMATION//////////////////////////////////////
+   		  	  	  	  	SSD1306_Clear();
+   		     	  	  	SSD1306_DrawBitmap(0,0,wave1,128,64,1);
+   		     	  	  	SSD1306_InvertDisplay(1);
+   		     	  	  	SSD1306_UpdateScreen();
+
+   		     	  	  	SSD1306_Clear();
+   		     	  	  	SSD1306_DrawBitmap(0,0,wave2,128,64,1);
+   		     	  	  	SSD1306_InvertDisplay(1);
+   		     	  	  	SSD1306_UpdateScreen();
+
+   		     	  	  	SSD1306_Clear();
+   		     	  	  	SSD1306_DrawBitmap(0,0,wave3,128,64,1);
+   		     	  	  	SSD1306_InvertDisplay(1);
+   		     	  	  	SSD1306_UpdateScreen();
+
+   		     	  	  	SSD1306_Clear();
+   		     	  	  	SSD1306_DrawBitmap(0,0,wave4,128,64,1);
+   		     	  	  	SSD1306_InvertDisplay(1);
+   		     	  	  	SSD1306_UpdateScreen();
+
+   		     	  	  	SSD1306_Clear();
+   		     	  	  	SSD1306_DrawBitmap(0,0,wave5,128,64,1);
+   		     	  	  	SSD1306_InvertDisplay(1);
+   		     	  	  	SSD1306_UpdateScreen();
+
+   		     	  	  	SSD1306_Clear();
+   		     	  	  	SSD1306_DrawBitmap(0,0,wave6,128,64,1);
+   		     	  	  	SSD1306_InvertDisplay(1);
+   		     	  	  	SSD1306_UpdateScreen();
+
+   		     	  	  	SSD1306_Clear();
+   		     	  	  	SSD1306_DrawBitmap(0,0,wave7,128,64,1);
+   		     	  	  	SSD1306_InvertDisplay(1);
+   		     	  	  	SSD1306_UpdateScreen();
+
+   		     	  	  	SSD1306_Clear();
+   		     	  	  	SSD1306_DrawBitmap(0,0,wave8,128,64,1);
+   		     	  	  	SSD1306_InvertDisplay(1);
+   		     	  	  	SSD1306_UpdateScreen();
+
+   		     	  	  	SSD1306_Clear();
+   		     	  	  	SSD1306_DrawBitmap(0,0,wave9,128,64,1);
+   		     	  	  	SSD1306_InvertDisplay(1);
+   		     	  	  	SSD1306_UpdateScreen();
+
+   		     	  	  	SSD1306_Clear();
+   		     	  	  	SSD1306_DrawBitmap(0,0,wave10,128,64,1);
+   		     	  	  	SSD1306_InvertDisplay(1);
+   		     	  	  	SSD1306_UpdateScreen();
+
+   		     	  	  	SSD1306_Clear();
+   		     	  	  	SSD1306_DrawBitmap(0,0,wave11,128,64,1);
+   		     	  	  	SSD1306_InvertDisplay(1);
+   		     	  	  	SSD1306_UpdateScreen();
+
+   		     	  	  	SSD1306_Clear();
+   		     	  	  	SSD1306_DrawBitmap(0,0,wave12,128,64,1);
+   		     	  	  	SSD1306_InvertDisplay(1);
+   		     	  	  	SSD1306_UpdateScreen();
+
+   		     	  	  	SSD1306_Clear();
+   		     	  	  	SSD1306_DrawBitmap(0,0,wave13,128,64,1);
+   		     	  	  	SSD1306_InvertDisplay(1);
+   		     	  	  	SSD1306_UpdateScreen();
+
+   		     	  	  	SSD1306_Clear();
+   		     	  	  	SSD1306_DrawBitmap(0,0,wave14,128,64,1);
+   		     	  	  	SSD1306_InvertDisplay(1);
+   		     	  	  	SSD1306_UpdateScreen();
+
+   		     	  	  	SSD1306_Clear();
+   		     	  	  	SSD1306_DrawBitmap(0,0,wave15,128,64,1);
+   		     	  	  	SSD1306_InvertDisplay(1);
+   		     	  	  	SSD1306_UpdateScreen();
+//////////////////////////////////////////////////////////////////////////////////
+ */
+
+
+
    /* USER CODE END 2 */
 
 
@@ -145,6 +250,8 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
+
+
 
     /* USER CODE BEGIN 3 */
   }
