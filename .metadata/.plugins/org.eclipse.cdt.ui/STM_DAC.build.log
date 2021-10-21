@@ -1,20 +1,10 @@
-23:34:58 **** Incremental Build of configuration Debug for project STM_DAC ****
+23:59:40 **** Incremental Build of configuration Debug for project STM_DAC ****
 make -j16 all 
-arm-none-eabi-g++ "../Core/Src/main.cpp" -mcpu=cortex-m7 -std=gnu++14 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F767xx -c -I../Core/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F7xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -fno-exceptions -fno-rtti -fno-use-cxa-atexit -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
-arm-none-eabi-g++ -o "STM_DAC.elf" @"objects.list"   -mcpu=cortex-m7 -T"C:\Users\Joshua\Documents\GitHub\STM32_GitHub\STM_DAC\STM32F767ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="STM_DAC.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
-Finished building target: STM_DAC.elf
- 
 arm-none-eabi-size   STM_DAC.elf 
-arm-none-eabi-objdump -h -S  STM_DAC.elf  > "STM_DAC.list"
-arm-none-eabi-objcopy  -O binary  STM_DAC.elf  "STM_DAC.bin"
    text	   data	    bss	    dec	    hex	filename
   25408	    128	  18576	  44112	   ac50	STM_DAC.elf
 Finished building: default.size.stdout
  
-Finished building: STM_DAC.bin
- 
-Finished building: STM_DAC.list
- 
 
-23:34:59 Build Finished. 0 errors, 0 warnings. (took 718ms)
+23:59:40 Build Finished. 0 errors, 0 warnings. (took 227ms)
 
