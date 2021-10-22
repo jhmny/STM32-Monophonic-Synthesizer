@@ -34,6 +34,8 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
+#define MIDI_BUFFER_LENGTH		8
+#define AUDIO_BUFFER_LENGTH		4
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -49,6 +51,8 @@ UART_HandleTypeDef huart4;
 DMA_HandleTypeDef hdma_uart4_rx;
 
 /* USER CODE BEGIN PV */
+
+
 uint8_t paramvalue[32];
 uint8_t vhbtn = 0;
 int8_t transpose, scale;
@@ -288,7 +292,9 @@ const float_t triangle[] = {
 	-0.06307f, -0.05903f, -0.05500f, -0.05098f, -0.04698f, -0.04299f, -0.03902f, -0.03507f,
 	-0.03113f, -0.02720f, -0.02329f, -0.01939f, -0.01550f, -0.01161f, -0.00774f, -0.00387f};
 
-uint8_t UART4_rxBuffer[8] = {0};
+uint16_t sendBuff[AUDIO_BUFFER_LENGTH] = {0};
+
+uint8_t UART4_rxBuffer[MIDI_BUFFER_LENGTH] = {0};
 uint8_t msgnum, midimsg, received_char, key, velocity, ctrl, data;
 uint8_t wavesel, velsel, pwm, pwm2, mod, vcf, tun, det, sus, notepos, bend, param, patch;
 
@@ -328,8 +334,8 @@ int main(void)
   MX_DMA_Init();
   MX_UART4_Init();
   /* USER CODE BEGIN 2 */
-  //HAL_I2S_Transmit_DMA(&hi2s1, sendBuff, 8);
-  HAL_UART_Receive_DMA(&huart4, UART4_rxBuffer, 8);
+  HAL_I2S_Transmit_DMA(&hi2s1, sendBuff, AUDIO_BUFFER_LENGTH);
+  HAL_UART_Receive_DMA(&huart4, UART4_rxBuffer,MIDI_BUFFER_LENGTH);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -353,12 +359,6 @@ void SystemClock_Config(void)
   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
   RCC_PeriphCLKInitTypeDef PeriphClkInitStruct = {0};
 
-  /** Macro to configure the PLL multiplication factor
-  */
-  __HAL_RCC_PLL_PLLM_CONFIG(16);
-  /** Macro to configure the PLL clock source
-  */
-  __HAL_RCC_PLL_PLLSOURCE_CONFIG(RCC_PLLSOURCE_HSI);
   /** Configure the main internal regulator output voltage
   */
   __HAL_RCC_PWR_CLK_ENABLE();
@@ -369,10 +369,20 @@ void SystemClock_Config(void)
   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
   RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
-  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
+  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI;
-  RCC_OscInitStruct.PLL.PLLM = 16;
+  RCC_OscInitStruct.PLL.PLLM = 8;
+  RCC_OscInitStruct.PLL.PLLN = 96;
+  RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
+  RCC_OscInitStruct.PLL.PLLQ = 2;
+  RCC_OscInitStruct.PLL.PLLR = 2;
   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /** Activate the Over-Drive mode
+  */
+  if (HAL_PWREx_EnableOverDrive() != HAL_OK)
   {
     Error_Handler();
   }
@@ -380,17 +390,17 @@ void SystemClock_Config(void)
   */
   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
-  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_HSI;
+  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
-  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
-  RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
+  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
+  RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV2;
 
-  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_0) != HAL_OK)
+  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_3) != HAL_OK)
   {
     Error_Handler();
   }
   PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_UART4|RCC_PERIPHCLK_I2S;
-  PeriphClkInitStruct.PLLI2S.PLLI2SN = 192;
+  PeriphClkInitStruct.PLLI2S.PLLI2SN = 96;
   PeriphClkInitStruct.PLLI2S.PLLI2SP = RCC_PLLP_DIV2;
   PeriphClkInitStruct.PLLI2S.PLLI2SR = 2;
   PeriphClkInitStruct.PLLI2S.PLLI2SQ = 2;
@@ -515,97 +525,348 @@ static void MX_GPIO_Init(void)
 
 /* USER CODE BEGIN 4 */
 
-void HAL_I2SEx_TxRxHalfCpltCallback(I2S_HandleTypeDef * hi2s1){
+void HAL_I2S_TxCpltCallback( I2S_HandleTypeDef *hi2s1){
+		HAL_I2S_Receive(&hi2s1, sendBuff, 8, 100);
+		//HAL_I2S_(hi2s1, sendBuff, 16, 100);
+		HAL_I2S_Transmit_DMA(&hi2s1, sendBuff, 8);
+}
+
+
+//void HAL_I2SEx_TxRxHalfCpltCallback(I2S_HandleTypeDef * hi2s1){
+	//HAL_I2S_Receive(&hi2s1, sendBuff, AUDIO_BUFFER_LENGTH, 100);
+	//HAL_I2S_(hi2s1, sendBuff, 16, 100);
+	//HAL_I2S_Transmit_DMA(&hi2s1, sendBuff, AUDIO_BUFFER_LENGTH);
+
+//}
+
+void processBuffer(){
+	__IO uint32_t received_char;
+
+	int i = 0;
+	int state = 0;
+
+	while(i < MIDI_BUFFER_LENGTH )
+	{
+		received_char = UART4_rxBuffer[i];
+	switch (state)
+			{
+
+				// State 0 = Starting point for a new MIDI message
+
+				case 0 :
+				{
+					switch (received_char & 0xF0)
+					{
+
+						case 0x90 :														// Note ON message
+						{
+							state = 10;													// Next state is 10
+
+							// printf ("note ON event\n");
+
+							if (i == (MIDI_BUFFER_LENGTH-1)) i = 0;				// Move to next MIDI byte
+							else i ++;
+
+							break;
+						}
+
+
+						case 0x80 :														// Note OFF message
+						{
+							state = 20;	// Next state is 20
+
+							// printf ("note OFF event\n");
+							stop_note(midimsg);
+
+							if (i == (MIDI_BUFFER_LENGTH-1)) i = 0;				// Move to next MIDI byte
+							else i ++;
+
+							break;
+						}
+
+						case 0xB0 :														// CC message
+						{
+							state = 30;													// Next state is 30
+
+							// printf ("CC event\n");
+
+							if (i == (MIDI_BUFFER_LENGTH-1)) i = 0;				// Move to next MIDI byte
+							else i ++;
+
+							break;
+						}
+
+						case 0xE0 :														// Pitch Bend message
+						{
+							state = 40;													// Next state is 40
+
+							// printf ("PB event\n");
+
+							if (i == (MIDI_BUFFER_LENGTH-1)) i = 0;				// Move to next MIDI byte
+							else i ++;
+
+							break;
+						}
+
+
+						default :														// Other type of message, move to next byte but stays in state 0
+						{
+							if (i == (MIDI_BUFFER_LENGTH-1)) i = 0;				// Move to next MIDI byte
+							else i ++;
+
+							break;
+						}
+					}
+
+					break;
+				}
+
+
+				// State 10 & 11 : Note ON command
+
+				case 10 :
+				{
+					if (received_char>0x7F)												// If the following byte is not a note number
+					{
+						state = 0;													// Return to state 0 without moving to next byte
+					}
+
+					else
+					{	// Save MIDI note
+						ctrl = key = received_char;
+
+						if (i == (MIDI_BUFFER_LENGTH-1)) i = 0;				// Move to next MIDI byte
+						else i ++;
+
+						state = 11;													// Next state is 11
+					}
+
+					break;
+				}
+
+				case 11 :
+				{
+					data=velocity = received_char;										// Save MIDI velocity
+
+
+					if (i == (MIDI_BUFFER_LENGTH-1)) i = 0;					// Move to next MIDI byte
+					else i ++;
+
+					state = 10;											// Next state is 10
+
+					if (velocity > 0)
+					{
+						printf ("Note ON : %d %d\n", midimsg, velocity);
+						play_note(midimsg,velocity);
+					}
+					else
+					{
+						printf ("Note OFF : %d %d\n", midimsg, velocity);
+					}
+
+
+					break;
+				}
+
+				// State 20 & 21 : Note OFF command
+
+				case 20 :
+				{
+					if (received_char>0x7F)												// If the following byte is not a note number
+					{
+						state = 0;													// Return to state 0 without moving to next byte
+					}
+
+					else
+					{
+						ctrl= key = received_char;										// Save MIDI note
+
+						if (i == (MIDI_BUFFER_LENGTH-1)) i = 0;				// Move to next MIDI byte
+						else i ++;
+
+						state = 21;													// Next state is 21
+					}
+
+					break;
+				}
+
+				case 21 :
+				{
+					velocity =data = received_char;										// Save MIDI velocity
+
+					if (i == (MIDI_BUFFER_LENGTH-1)) i = 0;					// Move to next MIDI byte
+					else i ++;
+
+					state = 20;														// Next state is 20
+
+					printf ("Note OFF : %d %d\n", midimsg, velocity);
+
+					break;
+				}
+
+
+				// State 30 & 31 : CC command
+
+				case 30 :
+				{
+					if (received_char>0x7F)												// If the following byte is not a CC number
+					{
+						state = 0;													// Return to state 0 without moving to next byte
+					}
+
+					else
+					{
+						param = received_char;									// Save MIDI CC number
+
+						if (i == (MIDI_BUFFER_LENGTH-1)) i = 0;				// Move to next MIDI byte
+						else i ++;
+
+						state = 31;													// Next state is 31
+					}
+
+					break;
+				}
+
+				case 31 :
+				{
+					param = received_char;										// Save MIDI velocity
+
+					if (i == (MIDI_BUFFER_LENGTH-1)) i = 0;					// Move to next MIDI byte
+					else i ++;
+
+					state = 30;														// Next state is 30
+
+					break;
+				}
+
+
+
+				// State 40 & 41 : Pitch Bend message
+
+				case 40 :
+				{
+					if (received_char > 0x7F)												// If following byte is note a PB value
+					{
+						state = 0;													// Return to state 0
+					}
+
+					else
+					{
+						param = received_char;									// Save MIDI CC number
+
+						if (i == (MIDI_BUFFER_LENGTH-1)) i = 0;				// Move to next MIDI byte
+						else i ++;
+
+						state = 41;													// Next state is 41
+					}
+
+					break;
+				}
+
+				case 41 :
+				{
+					param = received_char;										// Save MIDI velocity
+
+					if (i == (MIDI_BUFFER_LENGTH-1)) i = 0;					// Move to next MIDI byte
+					else i ++;
+
+					state = 40;														// Next state is 00
+
+					break;
+				}
+			}
+	}
+}
+
+/*
+	received_char = UART4_rxBuffer[msgnum];
+
+			if(UART4_rxBuffer[msgnum] == 0xF0 & msgnum)
+			  {
+				  vhbtn = 1;
+				  return;
+			  }
+			if(!vhbtn)
+			  {
+				  if((received_char == 0xF7)  & msgnum == 0)
+				  {
+					  return;
+				  }
+
+
+				  //no note message
+				  if(received_char < 0x80 & msgnum == 0)
+					  return;
+
+				  if(msgnum == 0)
+				  {
+					  midimsg = received_char;
+				  }
+				  if(msgnum == 1)
+				  {
+					  key = received_char;
+					  ctrl = received_char;
+				  }
+				  if(msgnum == 2)
+				  {
+
+					  velocity = received_char;
+					  data = received_char;
+				  }
+
+				  msgnum++;
+
+				  if(msgnum == 3)
+				  {
+					  msgnum = 0;
+					  ProcessReceivedMidiDatas();
+				  }
+			  }
+
+			if(vhbtn)
+				{
+				  if((received_char == 0xF7)  & msgnum == 0)
+				  {
+					  return;
+				  }
+
+				  if(received_char < 0x80 & msgnum == 0)return;
+
+				  if(msgnum == 0)
+				  {
+					  midimsg = received_char;
+				  }
+				  if(msgnum == 1)
+				  {
+					  key = received_char;
+					  ctrl = received_char;
+				  }
+				  if(msgnum == 2)
+				  {
+					  velocity = received_char;
+					  data = received_char;
+				  }
+
+				  msgnum++;
+
+				  if(msgnum == 3)
+				  {
+					  msgnum = 0;
+					  param = key - 0x24;
+					  vhbtn = 0;
+				  }
+				}
 
 }
+*/
 
 //buffer is full here, do something when full
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
-    HAL_UART_Transmit(&huart4, UART4_rxBuffer, 8, 1000);
-    HAL_UART_Receive_DMA(&huart4, UART4_rxBuffer, 8);
+    HAL_UART_Transmit(&huart4, UART4_rxBuffer, MIDI_BUFFER_LENGTH, 100);
+    HAL_UART_Receive_DMA(&huart4, UART4_rxBuffer, MIDI_BUFFER_LENGTH);
 
-    __IO uint32_t received_char;
-
-    received_char = UART4_rxBuffer[msgnum];
-
-    if(received_char == 0xF & msgnum)
-      {
-    	  vhbtn = 1;
-    	  return;
-      }
-
-    if(!vhbtn)
-      {
-    	  if((received_char == 0xF7)  & msgnum == 0)
-    	  {
-    		  return;
-    	  }
-
-
-    	  //no note message
-    	  if(received_char < 0x80 & msgnum == 0)
-    		  return;
-
-    	  if(msgnum == 0)
-    	  {
-    		  midimsg = received_char;
-    	  }
-    	  if(msgnum == 1)
-    	  {
-    		  key = received_char;
-    		  ctrl = received_char;
-    	  }
-    	  if(msgnum == 2)
-    	  {
-
-    		  velocity = received_char;
-    		  data = received_char;
-    	  }
-
-    	  msgnum++;
-
-    	  if(msgnum == 3)
-    	  {
-    		  msgnum = 0;
-    		  ProcessReceivedMidiDatas();
-    	  }
-      }
-
-    if(vhbtn)
-        {
-      	  if((received_char == 0xF7)  & msgnum == 0)
-      	  {
-      		  return;
-      	  }
-
-      	  if(received_char < 0x80 & msgnum == 0)return;
-
-      	  if(msgnum == 0)
-      	  {
-      		  midimsg = received_char;
-      	  }
-      	  if(msgnum == 1)
-      	  {
-      		  key = received_char;
-      		  ctrl = received_char;
-      	  }
-      	  if(msgnum == 2)
-      	  {
-      		  velocity = received_char;
-      		  data = received_char;
-      	  }
-
-      	  msgnum++;
-
-      	  if(msgnum == 3)
-      	  {
-      		  msgnum = 0;
-      		  param = key - 0x24;
-      		  vhbtn = 0;
-      	  }
-        }
-
+    processBuffer();
 }
 
 void ProcessReceivedMidiDatas(void)
@@ -653,12 +914,13 @@ void ProcessReceivedMidiDatas(void)
 
 // TO DO: RARELY GETS TO 0X90 MESSAGE, CHECK HOW WE EMPTY THE BUFFER
 void play_note(uint8_t note, uint8_t velocity){
-	HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
-	HAL_I2S_Transmit(&hi2s1, triangle_wave, sizeof(triangle_wave)/sizeof(triangle_wave[0]), 10);
+	//HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
+	HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin,GPIO_PIN_SET);
+	memcpy(sendBuff, triangle_wave, AUDIO_BUFFER_LENGTH*2);
 }
 
 void stop_note(uint8_t note){
-
+	HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin,GPIO_PIN_RESET);
 }
 
 void LocalMidiHandler(uint8_t m_param, uint8_t m_data)
