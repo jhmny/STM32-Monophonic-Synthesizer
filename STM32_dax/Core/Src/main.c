@@ -24,7 +24,19 @@
 /* USER CODE BEGIN Includes */
 #include <float.h>
 #include <math.h>
+#include <string.h>
 #include <stdio.h>
+#include "sine_animation.h"
+#include "stdlib.h"
+#include "ssd1306.h"
+#include "fonts.h"
+#include "test.h"
+#include "bitmap.h"
+
+
+
+
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -45,13 +57,19 @@
 
 /* Private variables ---------------------------------------------------------*/
 
+I2C_HandleTypeDef hi2c2;
+
 I2S_HandleTypeDef hi2s1;
+
+SAI_HandleTypeDef hsai_BlockA1;
 
 UART_HandleTypeDef huart4;
 DMA_HandleTypeDef hdma_uart4_rx;
 
 /* USER CODE BEGIN PV */
-
+//var for new bytes
+uint8_t	nb_MIDI_bytes;
+int playNoteB;
 
 uint8_t paramvalue[32];
 uint8_t vhbtn = 0;
@@ -74,6 +92,7 @@ float vcaattack, vcadecay, vcasustain, vcarelease;
 void play_note(uint8_t, uint8_t);
 void stop_note(uint8_t);
 void LocalMidiHandler(uint8_t, uint8_t);
+uint8_t MIDI_GetNbNewBytes();
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -82,6 +101,8 @@ static void MX_GPIO_Init(void);
 static void MX_I2S1_Init(void);
 static void MX_DMA_Init(void);
 static void MX_UART4_Init(void);
+static void MX_I2C2_Init(void);
+static void MX_SAI1_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -126,171 +147,6 @@ const uint16_t sin_wave[]  = {
 		0x4f,0x51,0x54,0x57,0x5a,0x5d,0x60,0x63,0x67,0x6a,0x6d,0x70,0x73,0x76,0x79,0x7c
 };
 
-const uint16_t sin_wave2[]  = {
-		0x8324, 0x8647, 0x896A, 0x8C8B, 0x8FAB, 0x92C7, 0x95E1, 0x98F8,
-		        0x9C0B, 0x9F19, 0xA223, 0xA527, 0xA826, 0xAB1F, 0xAE10, 0xB0FB,
-		        0xB3DE, 0xB6B9, 0xB98C, 0xBC56, 0xBF17, 0xC1CD, 0xC47A, 0xC71C,
-		        0xC9B3, 0xCC3F, 0xCEBF, 0xD133, 0xD39A, 0xD5F5, 0xD842, 0xDA82,
-		        0xDCB3, 0xDED7, 0xE0EB, 0xE2F1, 0xE4E8, 0xE6CF, 0xE8A6, 0xEA6D,
-		        0xEC23, 0xEDC9, 0xEF5E, 0xF0E2, 0xF254, 0xF3B5, 0xF504, 0xF641,
-		        0xF76B, 0xF884, 0xF989, 0xFA7C, 0xFB5C, 0xFC29, 0xFCE3, 0xFD89,
-		        0xFE1D, 0xFE9C, 0xFF09, 0xFF61, 0xFFA6, 0xFFD8, 0xFFF5, 0xFFFF,
-		        0xFFF5, 0xFFD8, 0xFFA6, 0xFF61, 0xFF09, 0xFE9C, 0xFE1D, 0xFD89,
-		        0xFCE3, 0xFC29, 0xFB5C, 0xFA7C, 0xF989, 0xF884, 0xF76B, 0xF641,
-		        0xF504, 0xF3B5, 0xF254, 0xF0E2, 0xEF5E, 0xEDC9, 0xEC23, 0xEA6D,
-		        0xE8A6, 0xE6CF, 0xE4E8, 0xE2F1, 0xE0EB, 0xDED7, 0xDCB3, 0xDA82,
-		        0xD842, 0xD5F5, 0xD39A, 0xD133, 0xCEBF, 0xCC3F, 0xC9B3, 0xC71C,
-		        0xC47A, 0xC1CD, 0xBF17, 0xBC56, 0xB98C, 0xB6B9, 0xB3DE, 0xB0FB,
-		        0xAE10, 0xAB1F, 0xA826, 0xA527, 0xA223, 0x9F19, 0x9C0B, 0x98F8,
-		        0x95E1, 0x92C7, 0x8FAB, 0x8C8B, 0x896A, 0x8647, 0x8324, 0x8000,
-		        0x7CDB, 0x79B8, 0x7695, 0x7374, 0x7054, 0x6D38, 0x6A1E, 0x6707,
-		        0x63F4, 0x60E6, 0x5DDC, 0x5AD8, 0x57D9, 0x54E0, 0x51EF, 0x4F04,
-		        0x4C21, 0x4946, 0x4673, 0x43A9, 0x40E8, 0x3E32, 0x3B85, 0x38E3,
-		        0x364C, 0x33C0, 0x3140, 0x2ECC, 0x2C65, 0x2A0A, 0x27BD, 0x257D,
-		        0x234C, 0x2128, 0x1F14, 0x1D0E, 0x1B17, 0x1930, 0x1759, 0x1592,
-		        0x13DC, 0x1236, 0x10A1, 0x0F1D, 0x0DAB, 0x0C4A, 0x0AFB, 0x09BE,
-		        0x0894, 0x077B, 0x0676, 0x0583, 0x04A3, 0x03D6, 0x031C, 0x0276,
-		        0x01E2, 0x0163, 0x00F6, 0x009E, 0x0059, 0x0027, 0x000A, 0x0000,
-		        0x000A, 0x0027, 0x0059, 0x009E, 0x00F6, 0x0163, 0x01E2, 0x0276,
-		        0x031C, 0x03D6, 0x04A3, 0x0583, 0x0676, 0x077B, 0x0894, 0x09BE,
-		        0x0AFB, 0x0C4A, 0x0DAB, 0x0F1D, 0x10A1, 0x1236, 0x13DC, 0x1592,
-		        0x1759, 0x1930, 0x1B17, 0x1D0E, 0x1F14, 0x2128, 0x234C, 0x257D,
-		        0x27BD, 0x2A0A, 0x2C65, 0x2ECC, 0x3140, 0x33C0, 0x364C, 0x38E3,
-		        0x3B85, 0x3E32, 0x40E8, 0x43A9, 0x4673, 0x4946, 0x4C21, 0x4F04,
-		        0x51EF, 0x54E0, 0x57D9, 0x5AD8, 0x5DDC, 0x60E6, 0x63F4, 0x6707,
-		        0x6A1E, 0x6D38, 0x7054, 0x7374, 0x7695, 0x79B8, 0x7CDB, 0x7FFF
-};
-
-const float_t triangle[] = {
-
-	0.00000f, 0.00387f, 0.00774f, 0.01161f, 0.01550f, 0.01939f, 0.02329f, 0.02720f,
-	0.03113f, 0.03507f, 0.03902f, 0.04299f, 0.04698f, 0.05098f, 0.05500f, 0.05903f,
-	0.06307f, 0.06712f, 0.07119f, 0.07526f, 0.07933f, 0.08341f, 0.08749f, 0.09157f,
-	0.09564f, 0.09971f, 0.10377f, 0.10782f, 0.11186f, 0.11588f, 0.11990f, 0.12389f,
-	0.12787f, 0.13184f, 0.13578f, 0.13972f, 0.14364f, 0.14754f, 0.15144f, 0.15532f,
-	0.15920f, 0.16307f, 0.16694f, 0.17080f, 0.17467f, 0.17853f, 0.18241f, 0.18629f,
-	0.19018f, 0.19408f, 0.19800f, 0.20193f, 0.20587f, 0.20983f, 0.21381f, 0.21781f,
-	0.22182f, 0.22584f, 0.22988f, 0.23393f, 0.23800f, 0.24207f, 0.24615f, 0.25023f,
-	0.25432f, 0.25840f, 0.26249f, 0.26657f, 0.27064f, 0.27470f, 0.27875f, 0.28279f,
-	0.28682f, 0.29082f, 0.29481f, 0.29879f, 0.30274f, 0.30668f, 0.31061f, 0.31452f,
-	0.31841f, 0.32229f, 0.32616f, 0.33002f, 0.33388f, 0.33773f, 0.34158f, 0.34544f,
-	0.34930f, 0.35316f, 0.35704f, 0.36092f, 0.36482f, 0.36874f, 0.37267f, 0.37662f,
-	0.38059f, 0.38457f, 0.38858f, 0.39260f, 0.39664f, 0.40069f, 0.40476f, 0.40884f,
-	0.41294f, 0.41704f, 0.42114f, 0.42524f, 0.42935f, 0.43345f, 0.43754f, 0.44163f,
-	0.44570f, 0.44976f, 0.45380f, 0.45783f, 0.46183f, 0.46582f, 0.46978f, 0.47373f,
-	0.47765f, 0.48156f, 0.48544f, 0.48931f, 0.49317f, 0.49701f, 0.50085f, 0.50468f,
-	0.50850f, 0.51233f, 0.51616f, 0.51999f, 0.52384f, 0.52769f, 0.53157f, 0.53546f,
-	0.53937f, 0.54330f, 0.54725f, 0.55123f, 0.55523f, 0.55925f, 0.56330f, 0.56736f,
-	0.57145f, 0.57556f, 0.57967f, 0.58380f, 0.58794f, 0.59209f, 0.59623f, 0.60037f,
-	0.60451f, 0.60864f, 0.61275f, 0.61685f, 0.62092f, 0.62498f, 0.62901f, 0.63301f,
-	0.63698f, 0.64093f, 0.64485f, 0.64874f, 0.65261f, 0.65645f, 0.66028f, 0.66408f,
-	0.66786f, 0.67164f, 0.67541f, 0.67917f, 0.68294f, 0.68671f, 0.69050f, 0.69430f,
-	0.69811f, 0.70195f, 0.70582f, 0.70972f, 0.71365f, 0.71761f, 0.72161f, 0.72565f,
-	0.72971f, 0.73382f, 0.73795f, 0.74211f, 0.74630f, 0.75051f, 0.75473f, 0.75897f,
-	0.76321f, 0.76745f, 0.77169f, 0.77591f, 0.78012f, 0.78430f, 0.78845f, 0.79257f,
-	0.79665f, 0.80069f, 0.80468f, 0.80862f, 0.81252f, 0.81637f, 0.82017f, 0.82392f,
-	0.82764f, 0.83131f, 0.83495f, 0.83857f, 0.84217f, 0.84575f, 0.84934f, 0.85292f,
-	0.85653f, 0.86016f, 0.86382f, 0.86752f, 0.87128f, 0.87510f, 0.87898f, 0.88293f,
-	0.88696f, 0.89106f, 0.89525f, 0.89952f, 0.90387f, 0.90830f, 0.91279f, 0.91734f,
-	0.92195f, 0.92660f, 0.93128f, 0.93596f, 0.94064f, 0.94530f, 0.94991f, 0.95445f,
-	0.95890f, 0.96325f, 0.96745f, 0.97150f, 0.97536f, 0.97902f, 0.98245f, 0.98562f,
-	0.98853f, 0.99114f, 0.99344f, 0.99541f, 0.99705f, 0.99833f, 0.99926f, 0.99981f,
-	1.00000f, 0.99981f, 0.99926f, 0.99833f, 0.99705f, 0.99541f, 0.99344f, 0.99114f,
-	0.98853f, 0.98562f, 0.98245f, 0.97902f, 0.97536f, 0.97150f, 0.96745f, 0.96325f,
-	0.95890f, 0.95445f, 0.94991f, 0.94530f, 0.94064f, 0.93596f, 0.93128f, 0.92660f,
-	0.92195f, 0.91734f, 0.91279f, 0.90830f, 0.90387f, 0.89952f, 0.89525f, 0.89106f,
-	0.88696f, 0.88293f, 0.87898f, 0.87510f, 0.87128f, 0.86752f, 0.86382f, 0.86016f,
-	0.85653f, 0.85292f, 0.84934f, 0.84575f, 0.84217f, 0.83857f, 0.83495f, 0.83131f,
-	0.82764f, 0.82392f, 0.82017f, 0.81637f, 0.81252f, 0.80862f, 0.80468f, 0.80069f,
-	0.79665f, 0.79257f, 0.78845f, 0.78430f, 0.78012f, 0.77591f, 0.77169f, 0.76745f,
-	0.76321f, 0.75897f, 0.75473f, 0.75051f, 0.74630f, 0.74211f, 0.73795f, 0.73382f,
-	0.72971f, 0.72565f, 0.72161f, 0.71761f, 0.71365f, 0.70972f, 0.70582f, 0.70195f,
-	0.69811f, 0.69430f, 0.69050f, 0.68671f, 0.68294f, 0.67917f, 0.67541f, 0.67164f,
-	0.66786f, 0.66408f, 0.66028f, 0.65645f, 0.65261f, 0.64874f, 0.64485f, 0.64093f,
-	0.63698f, 0.63301f, 0.62901f, 0.62498f, 0.62092f, 0.61685f, 0.61275f, 0.60864f,
-	0.60451f, 0.60037f, 0.59623f, 0.59209f, 0.58794f, 0.58380f, 0.57967f, 0.57556f,
-	0.57145f, 0.56736f, 0.56330f, 0.55925f, 0.55523f, 0.55123f, 0.54725f, 0.54330f,
-	0.53937f, 0.53546f, 0.53157f, 0.52769f, 0.52384f, 0.51999f, 0.51616f, 0.51233f,
-	0.50850f, 0.50468f, 0.50085f, 0.49701f, 0.49317f, 0.48931f, 0.48544f, 0.48156f,
-	0.47765f, 0.47373f, 0.46978f, 0.46582f, 0.46183f, 0.45783f, 0.45380f, 0.44976f,
-	0.44570f, 0.44163f, 0.43754f, 0.43345f, 0.42935f, 0.42524f, 0.42114f, 0.41704f,
-	0.41294f, 0.40884f, 0.40476f, 0.40069f, 0.39664f, 0.39260f, 0.38858f, 0.38457f,
-	0.38059f, 0.37662f, 0.37267f, 0.36874f, 0.36482f, 0.36092f, 0.35704f, 0.35316f,
-	0.34930f, 0.34544f, 0.34158f, 0.33773f, 0.33388f, 0.33002f, 0.32616f, 0.32229f,
-	0.31841f, 0.31452f, 0.31061f, 0.30668f, 0.30274f, 0.29879f, 0.29481f, 0.29082f,
-	0.28682f, 0.28279f, 0.27875f, 0.27470f, 0.27064f, 0.26657f, 0.26249f, 0.25840f,
-	0.25432f, 0.25023f, 0.24615f, 0.24207f, 0.23800f, 0.23393f, 0.22988f, 0.22584f,
-	0.22182f, 0.21781f, 0.21381f, 0.20983f, 0.20587f, 0.20193f, 0.19800f, 0.19408f,
-	0.19018f, 0.18629f, 0.18241f, 0.17853f, 0.17467f, 0.17080f, 0.16694f, 0.16307f,
-	0.15920f, 0.15532f, 0.15144f, 0.14754f, 0.14364f, 0.13972f, 0.13578f, 0.13184f,
-	0.12787f, 0.12389f, 0.11990f, 0.11588f, 0.11186f, 0.10782f, 0.10377f, 0.09971f,
-	0.09564f, 0.09157f, 0.08749f, 0.08341f, 0.07933f, 0.07526f, 0.07119f, 0.06712f,
-	0.06307f, 0.05903f, 0.05500f, 0.05098f, 0.04698f, 0.04299f, 0.03902f, 0.03507f,
-	0.03113f, 0.02720f, 0.02329f, 0.01939f, 0.01550f, 0.01161f, 0.00774f, 0.00387f,
-	-0.00000f, -0.00387f, -0.00774f, -0.01161f, -0.01550f, -0.01939f, -0.02329f, -0.02720f,
-	-0.03113f, -0.03507f, -0.03902f, -0.04299f, -0.04698f, -0.05098f, -0.05500f, -0.05903f,
-	-0.06307f, -0.06712f, -0.07119f, -0.07526f, -0.07933f, -0.08341f, -0.08749f, -0.09157f,
-	-0.09564f, -0.09971f, -0.10377f, -0.10782f, -0.11186f, -0.11588f, -0.11990f, -0.12389f,
-	-0.12787f, -0.13184f, -0.13578f, -0.13972f, -0.14364f, -0.14754f, -0.15144f, -0.15532f,
-	-0.15920f, -0.16307f, -0.16694f, -0.17080f, -0.17467f, -0.17853f, -0.18241f, -0.18629f,
-	-0.19018f, -0.19408f, -0.19800f, -0.20193f, -0.20587f, -0.20983f, -0.21381f, -0.21781f,
-	-0.22182f, -0.22584f, -0.22988f, -0.23393f, -0.23800f, -0.24207f, -0.24615f, -0.25023f,
-	-0.25432f, -0.25840f, -0.26249f, -0.26657f, -0.27064f, -0.27470f, -0.27875f, -0.28279f,
-	-0.28682f, -0.29082f, -0.29481f, -0.29879f, -0.30274f, -0.30668f, -0.31061f, -0.31452f,
-	-0.31841f, -0.32229f, -0.32616f, -0.33002f, -0.33388f, -0.33773f, -0.34158f, -0.34544f,
-	-0.34930f, -0.35316f, -0.35704f, -0.36092f, -0.36482f, -0.36874f, -0.37267f, -0.37662f,
-	-0.38059f, -0.38457f, -0.38858f, -0.39260f, -0.39664f, -0.40069f, -0.40476f, -0.40884f,
-	-0.41294f, -0.41704f, -0.42114f, -0.42524f, -0.42935f, -0.43345f, -0.43754f, -0.44163f,
-	-0.44570f, -0.44976f, -0.45380f, -0.45783f, -0.46183f, -0.46582f, -0.46978f, -0.47373f,
-	-0.47765f, -0.48156f, -0.48544f, -0.48931f, -0.49317f, -0.49701f, -0.50085f, -0.50468f,
-	-0.50850f, -0.51233f, -0.51616f, -0.51999f, -0.52384f, -0.52769f, -0.53157f, -0.53546f,
-	-0.53937f, -0.54330f, -0.54725f, -0.55123f, -0.55523f, -0.55925f, -0.56330f, -0.56736f,
-	-0.57145f, -0.57556f, -0.57967f, -0.58380f, -0.58794f, -0.59209f, -0.59623f, -0.60037f,
-	-0.60451f, -0.60864f, -0.61275f, -0.61685f, -0.62092f, -0.62498f, -0.62901f, -0.63301f,
-	-0.63698f, -0.64093f, -0.64485f, -0.64874f, -0.65261f, -0.65645f, -0.66028f, -0.66408f,
-	-0.66786f, -0.67164f, -0.67541f, -0.67917f, -0.68294f, -0.68671f, -0.69050f, -0.69430f,
-	-0.69811f, -0.70195f, -0.70582f, -0.70972f, -0.71365f, -0.71761f, -0.72161f, -0.72565f,
-	-0.72971f, -0.73382f, -0.73795f, -0.74211f, -0.74630f, -0.75051f, -0.75473f, -0.75897f,
-	-0.76321f, -0.76745f, -0.77169f, -0.77591f, -0.78012f, -0.78430f, -0.78845f, -0.79257f,
-	-0.79665f, -0.80069f, -0.80468f, -0.80862f, -0.81252f, -0.81637f, -0.82017f, -0.82392f,
-	-0.82764f, -0.83131f, -0.83495f, -0.83857f, -0.84217f, -0.84575f, -0.84934f, -0.85292f,
-	-0.85653f, -0.86016f, -0.86382f, -0.86752f, -0.87128f, -0.87510f, -0.87898f, -0.88293f,
-	-0.88696f, -0.89106f, -0.89525f, -0.89952f, -0.90387f, -0.90830f, -0.91279f, -0.91734f,
-	-0.92195f, -0.92660f, -0.93128f, -0.93596f, -0.94064f, -0.94530f, -0.94991f, -0.95445f,
-	-0.95890f, -0.96325f, -0.96745f, -0.97150f, -0.97536f, -0.97902f, -0.98245f, -0.98562f,
-	-0.98853f, -0.99114f, -0.99344f, -0.99541f, -0.99705f, -0.99833f, -0.99926f, -0.99981f,
-	-1.00000f, -0.99981f, -0.99926f, -0.99833f, -0.99705f, -0.99541f, -0.99344f, -0.99114f,
-	-0.98853f, -0.98562f, -0.98245f, -0.97902f, -0.97536f, -0.97150f, -0.96745f, -0.96325f,
-	-0.95890f, -0.95445f, -0.94991f, -0.94530f, -0.94064f, -0.93596f, -0.93128f, -0.92660f,
-	-0.92195f, -0.91734f, -0.91279f, -0.90830f, -0.90387f, -0.89952f, -0.89525f, -0.89106f,
-	-0.88696f, -0.88293f, -0.87898f, -0.87510f, -0.87128f, -0.86752f, -0.86382f, -0.86016f,
-	-0.85653f, -0.85292f, -0.84934f, -0.84575f, -0.84217f, -0.83857f, -0.83495f, -0.83131f,
-	-0.82764f, -0.82392f, -0.82017f, -0.81637f, -0.81252f, -0.80862f, -0.80468f, -0.80069f,
-	-0.79665f, -0.79257f, -0.78845f, -0.78430f, -0.78012f, -0.77591f, -0.77169f, -0.76745f,
-	-0.76321f, -0.75897f, -0.75473f, -0.75051f, -0.74630f, -0.74211f, -0.73795f, -0.73382f,
-	-0.72971f, -0.72565f, -0.72161f, -0.71761f, -0.71365f, -0.70972f, -0.70582f, -0.70195f,
-	-0.69811f, -0.69430f, -0.69050f, -0.68671f, -0.68294f, -0.67917f, -0.67541f, -0.67164f,
-	-0.66786f, -0.66408f, -0.66028f, -0.65645f, -0.65261f, -0.64874f, -0.64485f, -0.64093f,
-	-0.63698f, -0.63301f, -0.62901f, -0.62498f, -0.62092f, -0.61685f, -0.61275f, -0.60864f,
-	-0.60451f, -0.60037f, -0.59623f, -0.59209f, -0.58794f, -0.58380f, -0.57967f, -0.57556f,
-	-0.57145f, -0.56736f, -0.56330f, -0.55925f, -0.55523f, -0.55123f, -0.54725f, -0.54330f,
-	-0.53937f, -0.53546f, -0.53157f, -0.52769f, -0.52384f, -0.51999f, -0.51616f, -0.51233f,
-	-0.50850f, -0.50468f, -0.50085f, -0.49701f, -0.49317f, -0.48931f, -0.48544f, -0.48156f,
-	-0.47765f, -0.47373f, -0.46978f, -0.46582f, -0.46183f, -0.45783f, -0.45380f, -0.44976f,
-	-0.44570f, -0.44163f, -0.43754f, -0.43345f, -0.42935f, -0.42524f, -0.42114f, -0.41704f,
-	-0.41294f, -0.40884f, -0.40476f, -0.40069f, -0.39664f, -0.39260f, -0.38858f, -0.38457f,
-	-0.38059f, -0.37662f, -0.37267f, -0.36874f, -0.36482f, -0.36092f, -0.35704f, -0.35316f,
-	-0.34930f, -0.34544f, -0.34158f, -0.33773f, -0.33388f, -0.33002f, -0.32616f, -0.32229f,
-	-0.31841f, -0.31452f, -0.31061f, -0.30668f, -0.30274f, -0.29879f, -0.29481f, -0.29082f,
-	-0.28682f, -0.28279f, -0.27875f, -0.27470f, -0.27064f, -0.26657f, -0.26249f, -0.25840f,
-	-0.25432f, -0.25023f, -0.24615f, -0.24207f, -0.23800f, -0.23393f, -0.22988f, -0.22584f,
-	-0.22182f, -0.21781f, -0.21381f, -0.20983f, -0.20587f, -0.20193f, -0.19800f, -0.19408f,
-	-0.19018f, -0.18629f, -0.18241f, -0.17853f, -0.17467f, -0.17080f, -0.16694f, -0.16307f,
-	-0.15920f, -0.15532f, -0.15144f, -0.14754f, -0.14364f, -0.13972f, -0.13578f, -0.13184f,
-	-0.12787f, -0.12389f, -0.11990f, -0.11588f, -0.11186f, -0.10782f, -0.10377f, -0.09971f,
-	-0.09564f, -0.09157f, -0.08749f, -0.08341f, -0.07933f, -0.07526f, -0.07119f, -0.06712f,
-	-0.06307f, -0.05903f, -0.05500f, -0.05098f, -0.04698f, -0.04299f, -0.03902f, -0.03507f,
-	-0.03113f, -0.02720f, -0.02329f, -0.01939f, -0.01550f, -0.01161f, -0.00774f, -0.00387f};
 
 uint16_t sendBuff[AUDIO_BUFFER_LENGTH] = {0};
 
@@ -309,7 +165,7 @@ uint8_t wavesel, velsel, pwm, pwm2, mod, vcf, tun, det, sus, notepos, bend, para
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-
+	int screenOn;
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -333,15 +189,31 @@ int main(void)
   MX_I2S1_Init();
   MX_DMA_Init();
   MX_UART4_Init();
+  MX_I2C2_Init();
+  MX_SAI1_Init();
   /* USER CODE BEGIN 2 */
   HAL_I2S_Transmit_DMA(&hi2s1, sendBuff, AUDIO_BUFFER_LENGTH);
   HAL_UART_Receive_DMA(&huart4, UART4_rxBuffer,MIDI_BUFFER_LENGTH);
+  SSD1306_Init (); // initialize the LCD screen display
+  SSD1306_Menu();
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1){
-	  HAL_I2S_Transmit(&hi2s1, triangle_wave, sizeof(triangle_wave)/sizeof(triangle_wave[0]), 10);
+	 // HAL_I2S_Transmit(&hi2s1, triangle_wave, sizeof(triangle_wave)/sizeof(triangle_wave[0]), 10);
+	  //nb_MIDI_bytes = MIDI_GetNbNewBytes();
+	  if(playNoteB == 1){
+		  HAL_SAI_Transmit(&hsai_BlockA1, triangle_wave, sizeof(triangle_wave)/sizeof(triangle_wave[0]), 10);
+		  if (screenOn == 0 ){
+			  SSD1306_Note0();
+			  screenOn = 1;
+		  }
+	  }
+	  else {
+		  screenOn = 0;
+		  //SSD1306_Clear();
+	   }
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -399,18 +271,73 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
-  PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_UART4|RCC_PERIPHCLK_I2S;
+  PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_UART4|RCC_PERIPHCLK_SAI1
+                              |RCC_PERIPHCLK_I2C2|RCC_PERIPHCLK_I2S;
   PeriphClkInitStruct.PLLI2S.PLLI2SN = 96;
   PeriphClkInitStruct.PLLI2S.PLLI2SP = RCC_PLLP_DIV2;
   PeriphClkInitStruct.PLLI2S.PLLI2SR = 2;
   PeriphClkInitStruct.PLLI2S.PLLI2SQ = 2;
+  PeriphClkInitStruct.PLLSAI.PLLSAIN = 192;
+  PeriphClkInitStruct.PLLSAI.PLLSAIR = 2;
+  PeriphClkInitStruct.PLLSAI.PLLSAIQ = 6;
+  PeriphClkInitStruct.PLLSAI.PLLSAIP = RCC_PLLSAIP_DIV2;
   PeriphClkInitStruct.PLLI2SDivQ = 1;
+  PeriphClkInitStruct.PLLSAIDivQ = 1;
+  PeriphClkInitStruct.PLLSAIDivR = RCC_PLLSAIDIVR_2;
   PeriphClkInitStruct.I2sClockSelection = RCC_I2SCLKSOURCE_PLLI2S;
+  PeriphClkInitStruct.Sai1ClockSelection = RCC_SAI1CLKSOURCE_PLLSAI;
   PeriphClkInitStruct.Uart4ClockSelection = RCC_UART4CLKSOURCE_PCLK1;
+  PeriphClkInitStruct.I2c2ClockSelection = RCC_I2C2CLKSOURCE_PCLK1;
   if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInitStruct) != HAL_OK)
   {
     Error_Handler();
   }
+}
+
+/**
+  * @brief I2C2 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_I2C2_Init(void)
+{
+
+  /* USER CODE BEGIN I2C2_Init 0 */
+
+  /* USER CODE END I2C2_Init 0 */
+
+  /* USER CODE BEGIN I2C2_Init 1 */
+
+  /* USER CODE END I2C2_Init 1 */
+  hi2c2.Instance = I2C2;
+  hi2c2.Init.Timing = 0x0090194B;
+  hi2c2.Init.OwnAddress1 = 0;
+  hi2c2.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
+  hi2c2.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
+  hi2c2.Init.OwnAddress2 = 0;
+  hi2c2.Init.OwnAddress2Masks = I2C_OA2_NOMASK;
+  hi2c2.Init.GeneralCallMode = I2C_GENERALCALL_DISABLE;
+  hi2c2.Init.NoStretchMode = I2C_NOSTRETCH_DISABLE;
+  if (HAL_I2C_Init(&hi2c2) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /** Configure Analogue filter
+  */
+  if (HAL_I2CEx_ConfigAnalogFilter(&hi2c2, I2C_ANALOGFILTER_ENABLE) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /** Configure Digital filter
+  */
+  if (HAL_I2CEx_ConfigDigitalFilter(&hi2c2, 0) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN I2C2_Init 2 */
+
+  /* USER CODE END I2C2_Init 2 */
+
 }
 
 /**
@@ -443,6 +370,42 @@ static void MX_I2S1_Init(void)
   /* USER CODE BEGIN I2S1_Init 2 */
 
   /* USER CODE END I2S1_Init 2 */
+
+}
+
+/**
+  * @brief SAI1 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_SAI1_Init(void)
+{
+
+  /* USER CODE BEGIN SAI1_Init 0 */
+
+  /* USER CODE END SAI1_Init 0 */
+
+  /* USER CODE BEGIN SAI1_Init 1 */
+
+  /* USER CODE END SAI1_Init 1 */
+  hsai_BlockA1.Instance = SAI1_Block_A;
+  hsai_BlockA1.Init.AudioMode = SAI_MODEMASTER_TX;
+  hsai_BlockA1.Init.Synchro = SAI_ASYNCHRONOUS;
+  hsai_BlockA1.Init.OutputDrive = SAI_OUTPUTDRIVE_DISABLE;
+  hsai_BlockA1.Init.NoDivider = SAI_MASTERDIVIDER_ENABLE;
+  hsai_BlockA1.Init.FIFOThreshold = SAI_FIFOTHRESHOLD_EMPTY;
+  hsai_BlockA1.Init.AudioFrequency = SAI_AUDIO_FREQUENCY_44K;
+  hsai_BlockA1.Init.SynchroExt = SAI_SYNCEXT_DISABLE;
+  hsai_BlockA1.Init.MonoStereoMode = SAI_STEREOMODE;
+  hsai_BlockA1.Init.CompandingMode = SAI_NOCOMPANDING;
+  hsai_BlockA1.Init.TriState = SAI_OUTPUT_NOTRELEASED;
+  if (HAL_SAI_InitProtocol(&hsai_BlockA1, SAI_I2S_STANDARD, SAI_PROTOCOL_DATASIZE_16BIT, 2) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN SAI1_Init 2 */
+
+  /* USER CODE END SAI1_Init 2 */
 
 }
 
@@ -507,6 +470,8 @@ static void MX_GPIO_Init(void)
   GPIO_InitTypeDef GPIO_InitStruct = {0};
 
   /* GPIO Ports Clock Enable */
+  __HAL_RCC_GPIOE_CLK_ENABLE();
+  __HAL_RCC_GPIOF_CLK_ENABLE();
   __HAL_RCC_GPIOA_CLK_ENABLE();
   __HAL_RCC_GPIOC_CLK_ENABLE();
   __HAL_RCC_GPIOB_CLK_ENABLE();
@@ -539,6 +504,35 @@ void HAL_I2S_TxCpltCallback( I2S_HandleTypeDef *hi2s1){
 
 //}
 
+uint8_t MIDI_GetNbNewBytes()
+{
+	static uint16_t 	dma_cpt_prev=MIDI_BUFFER_LENGTH;
+	uint16_t			dma_cpt, n=0;
+
+	// Get current DMA counter
+
+	//dma_cpt = HAL_DMA_PollForTransfer(hdma, CompleteLevel, Timeout)(DMA1,LL_DMA_chan);
+
+	// If DMA counter has changed, compute the number of received MIDI bytes
+
+	if (dma_cpt != dma_cpt_prev)
+	{
+		if (dma_cpt < dma_cpt_prev)
+		{
+			n = dma_cpt_prev - dma_cpt;
+		}
+		else
+		{
+			n = dma_cpt_prev - (dma_cpt - MIDI_BUFFER_LENGTH);
+		}
+
+		// Store the new DMA counter
+
+		dma_cpt_prev = dma_cpt;
+	}
+	return(n);
+}
+
 void processBuffer(){
 	__IO uint32_t received_char;
 
@@ -558,41 +552,37 @@ void processBuffer(){
 						case 0x90 :														// Note ON message
 						{
 							state = 10;													// Next state is 10
-							// printf ("note ON event\n");
-							if (i == (MIDI_BUFFER_LENGTH-1)) i = 0;				// Move to next MIDI byte
-							else i ++;
+							//if (i == (MIDI_BUFFER_LENGTH-1)) i = 0;				// Move to next MIDI byte
+							i ++;
 							break;
 						}
 						case 0x80 :														// Note OFF message
 						{
 							state = 20;	// Next state is 20
-							// printf ("note OFF event\n");
 							stop_note(midimsg);
-							if (i == (MIDI_BUFFER_LENGTH-1)) i = 0;				// Move to next MIDI byte
-							else i ++;
+							//if (i == (MIDI_BUFFER_LENGTH-1)) i = 0;				// Move to next MIDI byte
+							i++;
 							break;
 						}
 						case 0xB0 :														// CC message
 						{
 							state = 30;													// Next state is 30
-							// printf ("CC event\n");
-							if (i == (MIDI_BUFFER_LENGTH-1)) i = 0;				// Move to next MIDI byte
-							else i ++;
+							//if (i == (MIDI_BUFFER_LENGTH-1)) i = 0;				// Move to next MIDI byte
+							i++;
 							break;
 						}
 
 						case 0xE0 :														// Pitch Bend message
 						{
 							state = 40;													// Next state is 40
-							// printf ("PB event\n");
-							if (i == (MIDI_BUFFER_LENGTH-1)) i = 0;				// Move to next MIDI byte
-							else i ++;
+							//if (i == (MIDI_BUFFER_LENGTH-1)) i = 0;				// Move to next MIDI byte
+							i++;
 							break;
 						}
 						default :														// Other type of message, move to next byte but stays in state 0
 						{
-							if (i == (MIDI_BUFFER_LENGTH-1)) i = 0;				// Move to next MIDI byte
-							else i ++;
+							//if (i == (MIDI_BUFFER_LENGTH-1)) i = 0;				// Move to next MIDI byte
+							i++;
 							break;
 						}
 					}
@@ -609,8 +599,8 @@ void processBuffer(){
 					{	// Save MIDI note
 						ctrl = key = received_char;
 
-						if (i == (MIDI_BUFFER_LENGTH-1)) i = 0;				// Move to next MIDI byte
-						else i ++;
+						//if (i == (MIDI_BUFFER_LENGTH-1)) i = 0;				// Move to next MIDI byte
+						i++;
 						state = 11;													// Next state is 11
 					}
 					break;
@@ -619,19 +609,17 @@ void processBuffer(){
 				{
 					data=velocity = received_char;										// Save MIDI velocity
 
-					if (i == (MIDI_BUFFER_LENGTH-1)) i = 0;					// Move to next MIDI byte
-					else i ++;
+					//if (i == (MIDI_BUFFER_LENGTH-1)) i = 0;					// Move to next MIDI byte
+					i++;
 
 					state = 10;											// Next state is 10
 
 					if (velocity > 0)
 					{
-						printf ("Note ON : %d %d\n", midimsg, velocity);
 						play_note(midimsg,velocity);
 					}
 					else
 					{
-						printf ("Note OFF : %d %d\n", midimsg, velocity);
 					}
 					break;
 				}
@@ -647,8 +635,8 @@ void processBuffer(){
 					{
 						ctrl= key = received_char;										// Save MIDI note
 
-						if (i == (MIDI_BUFFER_LENGTH-1)) i = 0;				// Move to next MIDI byte
-						else i ++;
+						//if (i == (MIDI_BUFFER_LENGTH-1)) i = 0;				// Move to next MIDI byte
+						i++;
 
 						state = 21;													// Next state is 21
 					}
@@ -657,13 +645,10 @@ void processBuffer(){
 				case 21 :
 				{
 					velocity =data = received_char;										// Save MIDI velocity
-
-					if (i == (MIDI_BUFFER_LENGTH-1)) i = 0;					// Move to next MIDI byte
-					else i ++;
+					//if (i == (MIDI_BUFFER_LENGTH-1)) i = 0;					// Move to next MIDI byte
+					i++;
 
 					state = 20;														// Next state is 20
-					printf ("Note OFF : %d %d\n", midimsg, velocity);
-
 					break;
 				}
 				// State 30 & 31 : CC command
@@ -677,9 +662,8 @@ void processBuffer(){
 					{
 						param = received_char;									// Save MIDI CC number
 
-						if (i == (MIDI_BUFFER_LENGTH-1)) i = 0;				// Move to next MIDI byte
-						else i ++;
-
+						//if (i == (MIDI_BUFFER_LENGTH-1)) i = 0;				// Move to next MIDI byte
+						i++;
 						state = 31;													// Next state is 31
 					}
 					break;
@@ -687,45 +671,33 @@ void processBuffer(){
 				case 31 :
 				{
 					param = received_char;										// Save MIDI velocity
-
-					if (i == (MIDI_BUFFER_LENGTH-1)) i = 0;					// Move to next MIDI byte
-					else i ++;
-
+					//if (i == (MIDI_BUFFER_LENGTH-1)) i = 0;					// Move to next MIDI byte
+					i++;
 					state = 30;														// Next state is 30
-
 					break;
 				}
 				// State 40 & 41 : Pitch Bend message
-
 				case 40 :
 				{
 					if (received_char > 0x7F)												// If following byte is note a PB value
 					{
 						state = 0;													// Return to state 0
 					}
-
 					else
 					{
 						param = received_char;									// Save MIDI CC number
-
-						if (i == (MIDI_BUFFER_LENGTH-1)) i = 0;				// Move to next MIDI byte
-						else i ++;
-
+						//if (i == (MIDI_BUFFER_LENGTH-1)) i = 0;				// Move to next MIDI byte
+						i++;
 						state = 41;													// Next state is 41
 					}
-
 					break;
 				}
-
 				case 41 :
 				{
 					param = received_char;										// Save MIDI velocity
-
-					if (i == (MIDI_BUFFER_LENGTH-1)) i = 0;					// Move to next MIDI byte
-					else i ++;
-
+					//if (i == (MIDI_BUFFER_LENGTH-1)) i = 0;					// Move to next MIDI byte
+					i++;
 					state = 40;														// Next state is 00
-
 					break;
 				}
 			}
@@ -813,6 +785,14 @@ void processBuffer(){
 }
 */
 
+void HAL_UART_RxHalfCpltCallback(UART_HandleTypeDef *huart){
+	HAL_UART_Transmit(&huart4, UART4_rxBuffer, MIDI_BUFFER_LENGTH, 100);
+	HAL_UART_Receive_DMA(&huart4, UART4_rxBuffer, MIDI_BUFFER_LENGTH);
+
+	//once MIDI buffer is full we send to the process buffer function
+	processBuffer();
+}
+
 //buffer is full here, do something when full
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
@@ -866,15 +846,16 @@ void ProcessReceivedMidiDatas(void)
 	}
 }
 
-// TO DO: RARELY GETS TO 0X90 MESSAGE, CHECK HOW WE EMPTY THE BUFFER
 void play_note(uint8_t note, uint8_t velocity){
-	//HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
 	HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin,GPIO_PIN_SET);
-	memcpy(sendBuff, triangle_wave, AUDIO_BUFFER_LENGTH*2);
+	playNoteB = 1;
+
 }
 
 void stop_note(uint8_t note){
 	HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin,GPIO_PIN_RESET);
+	playNoteB = 0;
+
 }
 
 void LocalMidiHandler(uint8_t m_param, uint8_t m_data)

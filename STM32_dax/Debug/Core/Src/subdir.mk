@@ -5,28 +5,37 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
+../Core/Src/fonts.c \
 ../Core/Src/main.c \
+../Core/Src/ssd1306.c \
 ../Core/Src/stm32f7xx_hal_msp.c \
 ../Core/Src/stm32f7xx_it.c \
 ../Core/Src/syscalls.c \
 ../Core/Src/sysmem.c \
-../Core/Src/system_stm32f7xx.c 
+../Core/Src/system_stm32f7xx.c \
+../Core/Src/test.c 
 
 OBJS += \
+./Core/Src/fonts.o \
 ./Core/Src/main.o \
+./Core/Src/ssd1306.o \
 ./Core/Src/stm32f7xx_hal_msp.o \
 ./Core/Src/stm32f7xx_it.o \
 ./Core/Src/syscalls.o \
 ./Core/Src/sysmem.o \
-./Core/Src/system_stm32f7xx.o 
+./Core/Src/system_stm32f7xx.o \
+./Core/Src/test.o 
 
 C_DEPS += \
+./Core/Src/fonts.d \
 ./Core/Src/main.d \
+./Core/Src/ssd1306.d \
 ./Core/Src/stm32f7xx_hal_msp.d \
 ./Core/Src/stm32f7xx_it.d \
 ./Core/Src/syscalls.d \
 ./Core/Src/sysmem.d \
-./Core/Src/system_stm32f7xx.d 
+./Core/Src/system_stm32f7xx.d \
+./Core/Src/test.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes

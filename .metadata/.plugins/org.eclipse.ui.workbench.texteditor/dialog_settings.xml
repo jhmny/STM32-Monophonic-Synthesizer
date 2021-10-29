@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
-		<item key="selection" value="note"/>
+		<item key="selection" value=""/>
 		<item key="wrap" value="true"/>
 		<item key="casesensitive" value="false"/>
 		<item key="wholeword" value="true"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
+			<item value="play"/>
+			<item value="PLAY"/>
+			<item value="stm32f1xx"/>
+			<item value="hi2c1"/>
+			<item value="i2c"/>
+			<item value="i2cd"/>
 			<item value="note&apos;"/>
 			<item value="note"/>
 			<item value="sendNote"/>
@@ -15,16 +21,12 @@
 			<item value="sendBuff"/>
 			<item value="play_note"/>
 			<item value="0x80"/>
-			<item value="play"/>
 			<item value="nb_MIDI_bytes"/>
 			<item value="MIDI_velocity"/>
-			<item value="MIDI_note"/>
-			<item value="index"/>
-			<item value="MIDI_byte"/>
-			<item value="8"/>
-			<item value="define"/>
 		</list>
 		<list key="replacehistory">
+			<item value="stm32f7xx"/>
+			<item value="hi2c2"/>
 			<item value="velocity"/>
 			<item value="midimsg"/>
 			<item value="i"/>

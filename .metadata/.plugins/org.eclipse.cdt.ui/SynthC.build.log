@@ -1,44 +1,10 @@
-22:27:00 **** Incremental Build of configuration Debug for project SynthC ****
+19:54:46 **** Incremental Build of configuration Debug for project SynthC ****
 make -j16 all 
-arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m7 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F767xx -c -I../Core/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F7xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
-../Core/Src/main.c: In function 'main':
-../Core/Src/main.c:104:4: warning: implicit declaration of function 'MIDI_parser' [-Wimplicit-function-declaration]
-  104 |    MIDI_parser(MIDI_buffer);
-      |    ^~~~~~~~~~~
-../Core/Src/main.c: At top level:
-../Core/Src/main.c:224:6: warning: conflicting types for 'MIDI_parser'
-  224 | void MIDI_parser(uint8_t* MIDI_buffer){
-      |      ^~~~~~~~~~~
-../Core/Src/main.c:104:4: note: previous implicit declaration of 'MIDI_parser' was here
-  104 |    MIDI_parser(MIDI_buffer);
-      |    ^~~~~~~~~~~
-../Core/Src/main.c: In function 'MIDI_parser':
-../Core/Src/main.c:230:34: warning: variable 'MIDI_CC_value' set but not used [-Wunused-but-set-variable]
-  230 |  static uint8_t  MIDI_CC_number, MIDI_CC_value;
-      |                                  ^~~~~~~~~~~~~
-../Core/Src/main.c:230:18: warning: variable 'MIDI_CC_number' set but not used [-Wunused-but-set-variable]
-  230 |  static uint8_t  MIDI_CC_number, MIDI_CC_value;
-      |                  ^~~~~~~~~~~~~~
-../Core/Src/main.c:229:28: warning: variable 'MIDI_velocity' set but not used [-Wunused-but-set-variable]
-  229 |  static uint8_t MIDI_note, MIDI_velocity;
-      |                            ^~~~~~~~~~~~~
-../Core/Src/main.c:229:17: warning: variable 'MIDI_note' set but not used [-Wunused-but-set-variable]
-  229 |  static uint8_t MIDI_note, MIDI_velocity;
-      |                 ^~~~~~~~~
-arm-none-eabi-gcc -o "SynthC.elf" @"objects.list"   -mcpu=cortex-m7 -T"C:\Users\Joshua\Documents\GitHub\STM32_GitHub\SynthC\STM32F767ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="SynthC.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
-Finished building target: SynthC.elf
- 
 arm-none-eabi-size   SynthC.elf 
-arm-none-eabi-objdump -h -S  SynthC.elf  > "SynthC.list"
-arm-none-eabi-objcopy  -O binary  SynthC.elf  "SynthC.bin"
    text	   data	    bss	    dec	    hex	filename
-  12012	     20	   1788	  13820	   35fc	SynthC.elf
+  11116	     20	   1780	  12916	   3274	SynthC.elf
 Finished building: default.size.stdout
  
-Finished building: SynthC.bin
- 
-Finished building: SynthC.list
- 
 
-22:27:01 Build Finished. 0 errors, 6 warnings. (took 598ms)
+19:54:46 Build Finished. 0 errors, 0 warnings. (took 162ms)
 

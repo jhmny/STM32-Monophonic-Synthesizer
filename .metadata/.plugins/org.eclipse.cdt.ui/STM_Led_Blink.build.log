@@ -1,47 +1,13 @@
-22:19:31 **** Incremental Build of configuration Debug for project STM_Led_Blink ****
+19:54:45 **** Incremental Build of configuration Debug for project STM_Led_Blink ****
 make -j16 all 
 arm-none-eabi-gcc "../Core/Src/stm32f4xx_it.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F429xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/stm32f4xx_it.d" -MT"Core/Src/stm32f4xx_it.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/stm32f4xx_it.o"
-In file included from ../Core/Src/main.cpp:25,
-                 from ../Core/Src/stm32f4xx_it.c:23:
-../Core/Inc/Codec.h:11:1: error: unknown type name 'class'
-   11 | class Codec {
-      | ^~~~~
-../Core/Inc/Codec.h:11:13: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
-   11 | class Codec {
-      |             ^
-In file included from ../Core/Src/main.cpp:26,
-                 from ../Core/Src/stm32f4xx_it.c:23:
-../Core/Inc/Synth.h:18:1: error: unknown type name 'class'
-   18 | class Synth {
-      | ^~~~~
-../Core/Inc/Synth.h:18:13: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
-   18 | class Synth {
-      |             ^
 In file included from ../Core/Src/stm32f4xx_it.c:23:
-../Core/Src/main.cpp:65:1: error: unknown type name 'Codec'
-   65 | Codec codec;
-      | ^~~~~
-../Core/Src/main.cpp:66:1: error: unknown type name 'Synth'
-   66 | Synth synth;
-      | ^~~~~
-../Core/Src/main.cpp: In function 'makeSound':
-../Core/Src/main.cpp:72:23: error: request for member 'calculateOscilator' in something not a structure or union
-   72 |   float signal = synth.calculateOscilator();
-      |                       ^
-../Core/Src/main.cpp: In function 'HAL_I2S_TxHalfCpltCallback':
-../Core/Src/main.cpp:79:2: warning: implicit declaration of function 'make_sound'; did you mean 'makeSound'? [-Wimplicit-function-declaration]
-   79 |  make_sound(0);
-      |  ^~~~~~~~~~
-      |  makeSound
-../Core/Src/main.cpp: In function 'main':
-../Core/Src/main.cpp:95:7: error: request for member 'pitch' in something not a structure or union
-   95 |  synth.pitch = 220.0f;
-      |       ^
-../Core/Src/main.cpp:120:25: error: request for member 'init' in something not a structure or union
-  120 |   uint8_t status = codec.init();
-      |                         ^
+../Core/Src/main.cpp:25:10: fatal error: Codec.h: No such file or directory
+   25 | #include "Codec.h"
+      |          ^~~~~~~~~
+compilation terminated.
 make: *** [Core/Src/subdir.mk:31: Core/Src/stm32f4xx_it.o] Error 1
 "make -j16 all" terminated with exit code 2. Build might be incomplete.
 
-22:19:32 Build Failed. 10 errors, 1 warnings. (took 299ms)
+19:54:46 Build Failed. 2 errors, 0 warnings. (took 227ms)
 
