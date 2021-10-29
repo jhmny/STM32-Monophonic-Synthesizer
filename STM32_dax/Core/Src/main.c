@@ -550,104 +550,74 @@ void processBuffer(){
 		received_char = UART4_rxBuffer[i];
 	switch (state)
 			{
-
 				// State 0 = Starting point for a new MIDI message
-
 				case 0 :
 				{
 					switch (received_char & 0xF0)
 					{
-
 						case 0x90 :														// Note ON message
 						{
 							state = 10;													// Next state is 10
-
 							// printf ("note ON event\n");
-
 							if (i == (MIDI_BUFFER_LENGTH-1)) i = 0;				// Move to next MIDI byte
 							else i ++;
-
 							break;
 						}
-
-
 						case 0x80 :														// Note OFF message
 						{
 							state = 20;	// Next state is 20
-
 							// printf ("note OFF event\n");
 							stop_note(midimsg);
-
 							if (i == (MIDI_BUFFER_LENGTH-1)) i = 0;				// Move to next MIDI byte
 							else i ++;
-
 							break;
 						}
-
 						case 0xB0 :														// CC message
 						{
 							state = 30;													// Next state is 30
-
 							// printf ("CC event\n");
-
 							if (i == (MIDI_BUFFER_LENGTH-1)) i = 0;				// Move to next MIDI byte
 							else i ++;
-
 							break;
 						}
 
 						case 0xE0 :														// Pitch Bend message
 						{
 							state = 40;													// Next state is 40
-
 							// printf ("PB event\n");
-
 							if (i == (MIDI_BUFFER_LENGTH-1)) i = 0;				// Move to next MIDI byte
 							else i ++;
-
 							break;
 						}
-
-
 						default :														// Other type of message, move to next byte but stays in state 0
 						{
 							if (i == (MIDI_BUFFER_LENGTH-1)) i = 0;				// Move to next MIDI byte
 							else i ++;
-
 							break;
 						}
 					}
-
 					break;
 				}
-
-
 				// State 10 & 11 : Note ON command
-
 				case 10 :
 				{
 					if (received_char>0x7F)												// If the following byte is not a note number
 					{
 						state = 0;													// Return to state 0 without moving to next byte
 					}
-
 					else
 					{	// Save MIDI note
 						ctrl = key = received_char;
 
 						if (i == (MIDI_BUFFER_LENGTH-1)) i = 0;				// Move to next MIDI byte
 						else i ++;
-
 						state = 11;													// Next state is 11
 					}
-
 					break;
 				}
-
 				case 11 :
 				{
 					data=velocity = received_char;										// Save MIDI velocity
-
 
 					if (i == (MIDI_BUFFER_LENGTH-1)) i = 0;					// Move to next MIDI byte
 					else i ++;
@@ -663,13 +633,9 @@ void processBuffer(){
 					{
 						printf ("Note OFF : %d %d\n", midimsg, velocity);
 					}
-
-
 					break;
 				}
-
 				// State 20 & 21 : Note OFF command
-
 				case 20 :
 				{
 					if (received_char>0x7F)												// If the following byte is not a note number
@@ -686,10 +652,8 @@ void processBuffer(){
 
 						state = 21;													// Next state is 21
 					}
-
 					break;
 				}
-
 				case 21 :
 				{
 					velocity =data = received_char;										// Save MIDI velocity
@@ -698,22 +662,17 @@ void processBuffer(){
 					else i ++;
 
 					state = 20;														// Next state is 20
-
 					printf ("Note OFF : %d %d\n", midimsg, velocity);
 
 					break;
 				}
-
-
 				// State 30 & 31 : CC command
-
 				case 30 :
 				{
 					if (received_char>0x7F)												// If the following byte is not a CC number
 					{
 						state = 0;													// Return to state 0 without moving to next byte
 					}
-
 					else
 					{
 						param = received_char;									// Save MIDI CC number
@@ -723,10 +682,8 @@ void processBuffer(){
 
 						state = 31;													// Next state is 31
 					}
-
 					break;
 				}
-
 				case 31 :
 				{
 					param = received_char;										// Save MIDI velocity
@@ -738,9 +695,6 @@ void processBuffer(){
 
 					break;
 				}
-
-
-
 				// State 40 & 41 : Pitch Bend message
 
 				case 40 :
@@ -777,7 +731,6 @@ void processBuffer(){
 			}
 	}
 }
-
 /*
 	received_char = UART4_rxBuffer[msgnum];
 
@@ -866,6 +819,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
     HAL_UART_Transmit(&huart4, UART4_rxBuffer, MIDI_BUFFER_LENGTH, 100);
     HAL_UART_Receive_DMA(&huart4, UART4_rxBuffer, MIDI_BUFFER_LENGTH);
 
+    //once MIDI buffer is full we send to the process buffer function
     processBuffer();
 }
 

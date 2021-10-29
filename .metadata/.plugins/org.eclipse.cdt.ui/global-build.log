@@ -166,3 +166,10 @@ arm-none-eabi-size   STM32_dax.elf
   22188	    120	   2328	  24636	   603c	STM32_dax.elf
 Finished building: default.size.stdout
  
+19:41:58 **** Incremental Build of configuration Debug for project STM32_dax ****
+make -j16 all 
+arm-none-eabi-size   STM32_dax.elf 
+   text	   data	    bss	    dec	    hex	filename
+  22188	    120	   2328	  24636	   603c	STM32_dax.elf
+Finished building: default.size.stdout
+ 
