@@ -8,6 +8,7 @@
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
+			<item value="lfo1rate"/>
 			<item value="play"/>
 			<item value="PLAY"/>
 			<item value="stm32f1xx"/>
@@ -22,7 +23,6 @@
 			<item value="play_note"/>
 			<item value="0x80"/>
 			<item value="nb_MIDI_bytes"/>
-			<item value="MIDI_velocity"/>
 		</list>
 		<list key="replacehistory">
 			<item value="stm32f7xx"/>
