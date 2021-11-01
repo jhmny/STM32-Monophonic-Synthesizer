@@ -721,9 +721,9 @@ void SSD1306_Menu()
 //when changing the X and Y coordinates for text, make sure the font size is
 //taken into account to keep all the proper spacing between rows and columns
 
-
+////////////////////
 ////////////////////[OCTAVE -1]///////////////////////////
-
+////////////////////
 
 void SSD1306_Note0(){
 	SSD1306_Init (); 								// initialize the OLED screen
@@ -737,9 +737,141 @@ void SSD1306_Note0(){
 	SSD1306_UpdateScreen();							// update screen with new input information
 }
 
+void SSD1306_Note1(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: C#", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: -1", &Font_11x18, 1);  	// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
 
+void SSD1306_Note2(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: D", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: -1", &Font_11x18, 1);  	// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note3(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: D#", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: -1", &Font_11x18, 1);  	// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note4(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: E", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: -1", &Font_11x18, 1);  	// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note5(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: F", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: -1", &Font_11x18, 1);  	// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note6(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: F#", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: -1", &Font_11x18, 1);  	// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note7(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: G", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: -1", &Font_11x18, 1);  	// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note8(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: G#", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: -1", &Font_11x18, 1);  	// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note9(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: A", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: -1", &Font_11x18, 1);  	// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note10(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: A#", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: -1", &Font_11x18, 1);  	// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note11(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: B", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 0", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+////////////////////
 ////////////////////[OCTAVE 0]///////////////////////////
-
+///////////////////
 
 void SSD1306_Note12(){
 	SSD1306_Init (); 								// initialize the OLED screen
@@ -752,7 +884,6 @@ void SSD1306_Note12(){
 	SSD1306_Puts ("Octv: 0", &Font_11x18, 1);  		// display current octave
 	SSD1306_UpdateScreen();							// update screen with new input information
 }
-
 
 void SSD1306_Note13(){
 	SSD1306_Init (); 								// initialize the OLED screen
@@ -883,5 +1014,1302 @@ void SSD1306_Note23(){
 	SSD1306_Puts ("Note: B", &Font_11x18, 1); 		// display current note
 	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
 	SSD1306_Puts ("Octv: 0", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+/////////////////////
+////////////////////[OCTAVE 1]///////////////////////////
+////////////////////
+
+void SSD1306_Note24(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: C", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 1", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+
+void SSD1306_Note25(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: C#", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 1", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note26(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: D", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 1", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note27(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: D#", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 1", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note28(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: E", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 1", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note29(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: F", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 1", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note30(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: F#", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 1", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note31(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: G", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 1", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note32(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: G#", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 1", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note33(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: A", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 1", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note34(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: A#", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 1", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note35(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: B", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 1", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+/////////////////////
+////////////////////[OCTAVE 2]///////////////////////////
+////////////////////
+
+void SSD1306_Note36(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: C", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 2", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+
+void SSD1306_Note37(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: C#", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 2", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note38(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: D", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 2", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note39(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: D#", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 2", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note40(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: E", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 2", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note41(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: F", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 2", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note42(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: F#", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 2", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note43(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: G", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 2", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note44(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: G#", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 2", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note45(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: A", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 2", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note46(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: A#", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 2", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note47(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: B", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 2", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+/////////////////////
+////////////////////[OCTAVE 3]///////////////////////////
+////////////////////
+
+void SSD1306_Note48(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: C", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 3", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+
+void SSD1306_Note49(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: C#", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 3", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note50(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: D", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 3", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note51(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: D#", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 3", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note52(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: E", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 3", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note53(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: F", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 3", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note54(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: F#", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 3", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note55(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: G", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 3", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note56(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: G#", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 3", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note57(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: A", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 3", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note58(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: A#", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 3", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note59(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: B", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 3", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+/////////////////////
+////////////////////[OCTAVE 4]///////////////////////////
+////////////////////
+
+void SSD1306_Note60(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: C", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 4", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+
+void SSD1306_Note61(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: C#", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 4", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note62(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: D", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 4", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note63(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: D#", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 4", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note64(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: E", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 4", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note65(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: F", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 4", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note66(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: F#", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 4", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note67(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: G", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 4", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note68(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: G#", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 4", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note69(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: A", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 4", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note70(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: A#", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 4", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note71(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: B", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 4", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+
+/////////////////////
+////////////////////[OCTAVE 5]///////////////////////////
+////////////////////
+
+void SSD1306_Note72(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: C", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 5", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+
+void SSD1306_Note73(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: C#", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 5", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note74(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: D", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 5", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note75(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: D#", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 5", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note76(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: E", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 5", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note77(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: F", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 5", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note78(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: F#", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 5", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note79(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: G", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 5", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note80(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: G#", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 5", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note81(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: A", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 5", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note82(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: A#", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 5", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note83(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: B", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 5", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+/////////////////////
+////////////////////[OCTAVE 6]///////////////////////////
+////////////////////
+
+void SSD1306_Note84(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: C", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 6", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+
+void SSD1306_Note85(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: C#", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 6", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note86(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: D", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 6", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note87(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: D#", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 6", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note88(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: E", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 6", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note89(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: F", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 6", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note90(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: F#", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 6", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note91(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: G", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 6", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note92(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: G#", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 6", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note93(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: A", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 6", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note94(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: A#", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 6", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note95(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: B", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 6", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+
+/////////////////////
+////////////////////[OCTAVE 7]///////////////////////////
+////////////////////
+
+void SSD1306_Note96(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: C", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 7", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+
+void SSD1306_Note97(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: C#", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 7", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note98(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: D", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 7", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note99(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: D#", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 7", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note100(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: E", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 7", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note101(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: F", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 7", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note102(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: F#", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 7", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note103(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: G", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 7", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note104(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: G#", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 7", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note105(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: A", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 7", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note106(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: A#", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 7", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note107(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: B", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 7", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+
+/////////////////////
+////////////////////[OCTAVE 8]///////////////////////////
+////////////////////
+
+void SSD1306_Note108(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: C", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 8", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+
+void SSD1306_Note109(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: C#", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 8", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note110(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: D", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 8", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note111(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: D#", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 8", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note112(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: E", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 8", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note113(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: F", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 8", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note114(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: F#", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 8", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note115(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: G", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 8", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note116(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: G#", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 8", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note117(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: A", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 8", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note118(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: A#", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 8", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note119(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: B", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 8", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+
+/////////////////////
+////////////////////[OCTAVE 9]///////////////////////////
+////////////////////
+
+void SSD1306_Note120(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: C", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 9", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+
+void SSD1306_Note121(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: C#", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 9", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note122(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: D", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 9", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note123(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: D#", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 9", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note124(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: E", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 9", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note125(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: F", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 9", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note126(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: F#", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 9", &Font_11x18, 1);  		// display current octave
+	SSD1306_UpdateScreen();							// update screen with new input information
+}
+
+void SSD1306_Note127(){
+	SSD1306_Init (); 								// initialize the OLED screen
+	SSD1306_Clear();								// clear screen of any previous input information
+	SSD1306_GotoXY (0, 0); 							// go to 0, 0 (top left corner of the screen)
+	SSD1306_Puts ("Wave: Sine", &Font_11x18, 1);	// display current wave
+	SSD1306_GotoXY (0,20); 							// go to 0, 20 (dropping to a new row below)
+	SSD1306_Puts ("Note: G", &Font_11x18, 1); 		// display current note
+	SSD1306_GotoXY (0, 40); 						// go to 0, 40 (dropping to a new row below)
+	SSD1306_Puts ("Octv: 9", &Font_11x18, 1);  		// display current octave
 	SSD1306_UpdateScreen();							// update screen with new input information
 }
