@@ -26,12 +26,15 @@
 #include <math.h>
 #include <string.h>
 #include <stdio.h>
+#include <stdbool.h> // for bool
 #include "sine_animation.h"
 #include "stdlib.h"
 #include "ssd1306.h"
 #include "fonts.h"
 #include "test.h"
 #include "bitmap.h"
+#include "llist.h" // linked list for note storage as well as note struct
+#include "wavetable16bit.h" // 16 bit wavetables
 
 /* USER CODE END Includes */
 
@@ -42,7 +45,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define MIDI_BUFFER_LENGTH 8
+#define MIDI_BUFFER_LENGTH 6
 #define AUDIO_BUFFER_LENGTH 4
 /* USER CODE END PD */
 
@@ -66,6 +69,12 @@ DMA_HandleTypeDef hdma_uart4_rx;
 //var for new bytes
 uint8_t nb_MIDI_bytes;
 int playNoteB;
+bool trig;
+
+
+//linked list of notes
+llist	note_list = NULL;
+
 
 uint8_t paramvalue[32];
 
@@ -73,6 +82,7 @@ void play_note(uint8_t, uint8_t);
 void stop_note(uint8_t);
 void LocalMidiHandler(uint8_t, uint8_t);
 uint8_t MIDI_GetNbNewBytes();
+void processBuffer(uint8_t* MIDI_buffer, uint8_t nb_MIDI_bytes);
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -252,49 +262,92 @@ uint8_t wavesel, velsel, pwm, pwm2, mod, vcf, tun, det, sus, notepos, bend, para
   */
 int main(void)
 {
-	/* USER CODE BEGIN 1 */
+  /* USER CODE BEGIN 1 */
 	int screenOn;
-	/* USER CODE END 1 */
 
-	/* MCU Configuration--------------------------------------------------------*/
+	note* play_note;
+	//for dma counting
+	uint8_t	nb_MIDI_bytes;
+  /* USER CODE END 1 */
 
-	/* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-	HAL_Init();
+  /* MCU Configuration--------------------------------------------------------*/
 
-	/* USER CODE BEGIN Init */
+  /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
+  HAL_Init();
 
-	/* USER CODE END Init */
+  /* USER CODE BEGIN Init */
 
-	/* Configure the system clock */
-	SystemClock_Config();
+  /* USER CODE END Init */
 
-	/* USER CODE BEGIN SysInit */
+  /* Configure the system clock */
+  SystemClock_Config();
 
-	/* USER CODE END SysInit */
+  /* USER CODE BEGIN SysInit */
 
-	/* Initialize all configured peripherals */
-	MX_GPIO_Init();
-	MX_I2S1_Init();
-	MX_DMA_Init();
-	MX_UART4_Init();
-	MX_I2C2_Init();
-	MX_SAI1_Init();
-	/* USER CODE BEGIN 2 */
+  /* USER CODE END SysInit */
+
+  /* Initialize all configured peripherals */
+  MX_GPIO_Init();
+  MX_I2S1_Init();
+  MX_DMA_Init();
+  MX_UART4_Init();
+  MX_I2C2_Init();
+  MX_SAI1_Init();
+  /* USER CODE BEGIN 2 */
 	HAL_I2S_Transmit_DMA(&hi2s1, sendBuff, AUDIO_BUFFER_LENGTH);
 	HAL_UART_Receive_DMA(&huart4, UART4_rxBuffer, MIDI_BUFFER_LENGTH);
 	SSD1306_Init(); // initialize the LCD screen display
 	SSD1306_Menu();
-	/* USER CODE END 2 */
+  /* USER CODE END 2 */
 
-	/* Infinite loop */
-	/* USER CODE BEGIN WHILE */
+  /* Infinite loop */
+  /* USER CODE BEGIN WHILE */
 	while (1)
 	{
 		// HAL_I2S_Transmit(&hi2s1, triangle_wave, sizeof(triangle_wave)/sizeof(triangle_wave[0]), 10);
-		//nb_MIDI_bytes = MIDI_GetNbNewBytes();
-		if (playNoteB == 1)
+		nb_MIDI_bytes = MIDI_GetNbNewBytes();
+
+		if(nb_MIDI_bytes){
+			processBuffer(UART4_rxBuffer,nb_MIDI_bytes);
+		}
+
+		play_note = get_last_note(note_list);
+
+		if (play_note == NULL){ //no notes in the list
+			HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
+			trig = 0;
+			playNoteB = 0;
+		}
+		else {
+			//set the pitch and trigger the notes
+			HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET);
+			trig = 1;
+			playNoteB = 1;
+		}
+
+		//test code
+		if ( trig == 1)
 		{
-			HAL_SAI_Transmit(&hsai_BlockA1, triangle_wave, sizeof(triangle_wave) / sizeof(triangle_wave[0]), 10);
+			if (key == 60 ){
+				HAL_SAI_Transmit(&hsai_BlockA1, tone_c, sizeof(tone_c) / sizeof(tone_c[0]), 1000);
+			}
+			else if (key == 61 ){
+				HAL_SAI_Transmit(&hsai_BlockA1, tone_c_sharp, sizeof(tone_c_sharp) / sizeof(tone_c_sharp[0]), 1000);
+			}
+			else if (key == 62 ){
+				HAL_SAI_Transmit(&hsai_BlockA1, tone_d, sizeof(tone_d) / sizeof(tone_d[0]), 1000);
+			}
+			else if (key == 63 ){
+				HAL_SAI_Transmit(&hsai_BlockA1, tone_d_sharp, sizeof(tone_d_sharp) / sizeof(tone_d_sharp[0]), 1000);
+			}
+			else if (key == 64 ){
+				HAL_SAI_Transmit(&hsai_BlockA1, tone_e, sizeof(tone_e) / sizeof(tone_e[0]), 1000);
+			}
+			//HAL_SAI_Transmit(&hsai_BlockA1, tone_c, sizeof(tone_c) / sizeof(tone_c[0]), 1000);
+			else {
+			HAL_SAI_Transmit(&hsai_BlockA1, triangle_wave, sizeof(triangle_wave) / sizeof(triangle_wave[0]), 1000);
+			}
+
 			if (screenOn == 0)
 			{
 				SSD1306_Note0();
@@ -306,11 +359,11 @@ int main(void)
 			screenOn = 0;
 			//SSD1306_Clear();
 		}
-		/* USER CODE END WHILE */
+    /* USER CODE END WHILE */
 
-		/* USER CODE BEGIN 3 */
+    /* USER CODE BEGIN 3 */
 	}
-	/* USER CODE END 3 */
+  /* USER CODE END 3 */
 }
 
 /**
@@ -319,69 +372,71 @@ int main(void)
   */
 void SystemClock_Config(void)
 {
-	RCC_OscInitTypeDef RCC_OscInitStruct = {0};
-	RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
-	RCC_PeriphCLKInitTypeDef PeriphClkInitStruct = {0};
+  RCC_OscInitTypeDef RCC_OscInitStruct = {0};
+  RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
+  RCC_PeriphCLKInitTypeDef PeriphClkInitStruct = {0};
 
-	/** Configure the main internal regulator output voltage
+  /** Configure the main internal regulator output voltage
   */
-	__HAL_RCC_PWR_CLK_ENABLE();
-	__HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE3);
-	/** Initializes the RCC Oscillators according to the specified parameters
+  __HAL_RCC_PWR_CLK_ENABLE();
+  __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE3);
+  /** Initializes the RCC Oscillators according to the specified parameters
   * in the RCC_OscInitTypeDef structure.
   */
-	RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
-	RCC_OscInitStruct.HSIState = RCC_HSI_ON;
-	RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
-	RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
-	RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI;
-	RCC_OscInitStruct.PLL.PLLM = 8;
-	RCC_OscInitStruct.PLL.PLLN = 96;
-	RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
-	RCC_OscInitStruct.PLL.PLLQ = 2;
-	RCC_OscInitStruct.PLL.PLLR = 2;
-	if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
-	{
-		Error_Handler();
-	}
-	/** Activate the Over-Drive mode
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
+  RCC_OscInitStruct.HSIState = RCC_HSI_ON;
+  RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
+  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
+  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI;
+  RCC_OscInitStruct.PLL.PLLM = 8;
+  RCC_OscInitStruct.PLL.PLLN = 96;
+  RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
+  RCC_OscInitStruct.PLL.PLLQ = 2;
+  RCC_OscInitStruct.PLL.PLLR = 2;
+  if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /** Activate the Over-Drive mode
   */
-	if (HAL_PWREx_EnableOverDrive() != HAL_OK)
-	{
-		Error_Handler();
-	}
-	/** Initializes the CPU, AHB and APB buses clocks
+  if (HAL_PWREx_EnableOverDrive() != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /** Initializes the CPU, AHB and APB buses clocks
   */
-	RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2;
-	RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
-	RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
-	RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
-	RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV2;
+  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
+                              |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
+  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
+  RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
+  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
+  RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV2;
 
-	if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_3) != HAL_OK)
-	{
-		Error_Handler();
-	}
-	PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_UART4 | RCC_PERIPHCLK_SAI1 | RCC_PERIPHCLK_I2C2 | RCC_PERIPHCLK_I2S;
-	PeriphClkInitStruct.PLLI2S.PLLI2SN = 96;
-	PeriphClkInitStruct.PLLI2S.PLLI2SP = RCC_PLLP_DIV2;
-	PeriphClkInitStruct.PLLI2S.PLLI2SR = 2;
-	PeriphClkInitStruct.PLLI2S.PLLI2SQ = 2;
-	PeriphClkInitStruct.PLLSAI.PLLSAIN = 192;
-	PeriphClkInitStruct.PLLSAI.PLLSAIR = 2;
-	PeriphClkInitStruct.PLLSAI.PLLSAIQ = 6;
-	PeriphClkInitStruct.PLLSAI.PLLSAIP = RCC_PLLSAIP_DIV2;
-	PeriphClkInitStruct.PLLI2SDivQ = 1;
-	PeriphClkInitStruct.PLLSAIDivQ = 1;
-	PeriphClkInitStruct.PLLSAIDivR = RCC_PLLSAIDIVR_2;
-	PeriphClkInitStruct.I2sClockSelection = RCC_I2SCLKSOURCE_PLLI2S;
-	PeriphClkInitStruct.Sai1ClockSelection = RCC_SAI1CLKSOURCE_PLLSAI;
-	PeriphClkInitStruct.Uart4ClockSelection = RCC_UART4CLKSOURCE_PCLK1;
-	PeriphClkInitStruct.I2c2ClockSelection = RCC_I2C2CLKSOURCE_PCLK1;
-	if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInitStruct) != HAL_OK)
-	{
-		Error_Handler();
-	}
+  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_3) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_UART4|RCC_PERIPHCLK_SAI1
+                              |RCC_PERIPHCLK_I2C2|RCC_PERIPHCLK_I2S;
+  PeriphClkInitStruct.PLLI2S.PLLI2SN = 96;
+  PeriphClkInitStruct.PLLI2S.PLLI2SP = RCC_PLLP_DIV2;
+  PeriphClkInitStruct.PLLI2S.PLLI2SR = 2;
+  PeriphClkInitStruct.PLLI2S.PLLI2SQ = 2;
+  PeriphClkInitStruct.PLLSAI.PLLSAIN = 192;
+  PeriphClkInitStruct.PLLSAI.PLLSAIR = 2;
+  PeriphClkInitStruct.PLLSAI.PLLSAIQ = 6;
+  PeriphClkInitStruct.PLLSAI.PLLSAIP = RCC_PLLSAIP_DIV2;
+  PeriphClkInitStruct.PLLI2SDivQ = 1;
+  PeriphClkInitStruct.PLLSAIDivQ = 1;
+  PeriphClkInitStruct.PLLSAIDivR = RCC_PLLSAIDIVR_2;
+  PeriphClkInitStruct.I2sClockSelection = RCC_I2SCLKSOURCE_PLLI2S;
+  PeriphClkInitStruct.Sai1ClockSelection = RCC_SAI1CLKSOURCE_PLLSAI;
+  PeriphClkInitStruct.Uart4ClockSelection = RCC_UART4CLKSOURCE_PCLK1;
+  PeriphClkInitStruct.I2c2ClockSelection = RCC_I2C2CLKSOURCE_PCLK1;
+  if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInitStruct) != HAL_OK)
+  {
+    Error_Handler();
+  }
 }
 
 /**
@@ -392,41 +447,42 @@ void SystemClock_Config(void)
 static void MX_I2C2_Init(void)
 {
 
-	/* USER CODE BEGIN I2C2_Init 0 */
+  /* USER CODE BEGIN I2C2_Init 0 */
 
-	/* USER CODE END I2C2_Init 0 */
+  /* USER CODE END I2C2_Init 0 */
 
-	/* USER CODE BEGIN I2C2_Init 1 */
+  /* USER CODE BEGIN I2C2_Init 1 */
 
-	/* USER CODE END I2C2_Init 1 */
-	hi2c2.Instance = I2C2;
-	hi2c2.Init.Timing = 0x0090194B;
-	hi2c2.Init.OwnAddress1 = 0;
-	hi2c2.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
-	hi2c2.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
-	hi2c2.Init.OwnAddress2 = 0;
-	hi2c2.Init.OwnAddress2Masks = I2C_OA2_NOMASK;
-	hi2c2.Init.GeneralCallMode = I2C_GENERALCALL_DISABLE;
-	hi2c2.Init.NoStretchMode = I2C_NOSTRETCH_DISABLE;
-	if (HAL_I2C_Init(&hi2c2) != HAL_OK)
-	{
-		Error_Handler();
-	}
-	/** Configure Analogue filter
+  /* USER CODE END I2C2_Init 1 */
+  hi2c2.Instance = I2C2;
+  hi2c2.Init.Timing = 0x0090194B;
+  hi2c2.Init.OwnAddress1 = 0;
+  hi2c2.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
+  hi2c2.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
+  hi2c2.Init.OwnAddress2 = 0;
+  hi2c2.Init.OwnAddress2Masks = I2C_OA2_NOMASK;
+  hi2c2.Init.GeneralCallMode = I2C_GENERALCALL_DISABLE;
+  hi2c2.Init.NoStretchMode = I2C_NOSTRETCH_DISABLE;
+  if (HAL_I2C_Init(&hi2c2) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /** Configure Analogue filter
   */
-	if (HAL_I2CEx_ConfigAnalogFilter(&hi2c2, I2C_ANALOGFILTER_ENABLE) != HAL_OK)
-	{
-		Error_Handler();
-	}
-	/** Configure Digital filter
+  if (HAL_I2CEx_ConfigAnalogFilter(&hi2c2, I2C_ANALOGFILTER_ENABLE) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /** Configure Digital filter
   */
-	if (HAL_I2CEx_ConfigDigitalFilter(&hi2c2, 0) != HAL_OK)
-	{
-		Error_Handler();
-	}
-	/* USER CODE BEGIN I2C2_Init 2 */
+  if (HAL_I2CEx_ConfigDigitalFilter(&hi2c2, 0) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN I2C2_Init 2 */
 
-	/* USER CODE END I2C2_Init 2 */
+  /* USER CODE END I2C2_Init 2 */
+
 }
 
 /**
@@ -437,28 +493,29 @@ static void MX_I2C2_Init(void)
 static void MX_I2S1_Init(void)
 {
 
-	/* USER CODE BEGIN I2S1_Init 0 */
+  /* USER CODE BEGIN I2S1_Init 0 */
 
-	/* USER CODE END I2S1_Init 0 */
+  /* USER CODE END I2S1_Init 0 */
 
-	/* USER CODE BEGIN I2S1_Init 1 */
+  /* USER CODE BEGIN I2S1_Init 1 */
 
-	/* USER CODE END I2S1_Init 1 */
-	hi2s1.Instance = SPI1;
-	hi2s1.Init.Mode = I2S_MODE_MASTER_TX;
-	hi2s1.Init.Standard = I2S_STANDARD_PHILIPS;
-	hi2s1.Init.DataFormat = I2S_DATAFORMAT_16B;
-	hi2s1.Init.MCLKOutput = I2S_MCLKOUTPUT_DISABLE;
-	hi2s1.Init.AudioFreq = I2S_AUDIOFREQ_8K;
-	hi2s1.Init.CPOL = I2S_CPOL_LOW;
-	hi2s1.Init.ClockSource = I2S_CLOCK_PLL;
-	if (HAL_I2S_Init(&hi2s1) != HAL_OK)
-	{
-		Error_Handler();
-	}
-	/* USER CODE BEGIN I2S1_Init 2 */
+  /* USER CODE END I2S1_Init 1 */
+  hi2s1.Instance = SPI1;
+  hi2s1.Init.Mode = I2S_MODE_MASTER_TX;
+  hi2s1.Init.Standard = I2S_STANDARD_PHILIPS;
+  hi2s1.Init.DataFormat = I2S_DATAFORMAT_16B;
+  hi2s1.Init.MCLKOutput = I2S_MCLKOUTPUT_DISABLE;
+  hi2s1.Init.AudioFreq = I2S_AUDIOFREQ_8K;
+  hi2s1.Init.CPOL = I2S_CPOL_LOW;
+  hi2s1.Init.ClockSource = I2S_CLOCK_PLL;
+  if (HAL_I2S_Init(&hi2s1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN I2S1_Init 2 */
 
-	/* USER CODE END I2S1_Init 2 */
+  /* USER CODE END I2S1_Init 2 */
+
 }
 
 /**
@@ -469,31 +526,32 @@ static void MX_I2S1_Init(void)
 static void MX_SAI1_Init(void)
 {
 
-	/* USER CODE BEGIN SAI1_Init 0 */
+  /* USER CODE BEGIN SAI1_Init 0 */
 
-	/* USER CODE END SAI1_Init 0 */
+  /* USER CODE END SAI1_Init 0 */
 
-	/* USER CODE BEGIN SAI1_Init 1 */
+  /* USER CODE BEGIN SAI1_Init 1 */
 
-	/* USER CODE END SAI1_Init 1 */
-	hsai_BlockA1.Instance = SAI1_Block_A;
-	hsai_BlockA1.Init.AudioMode = SAI_MODEMASTER_TX;
-	hsai_BlockA1.Init.Synchro = SAI_ASYNCHRONOUS;
-	hsai_BlockA1.Init.OutputDrive = SAI_OUTPUTDRIVE_DISABLE;
-	hsai_BlockA1.Init.NoDivider = SAI_MASTERDIVIDER_ENABLE;
-	hsai_BlockA1.Init.FIFOThreshold = SAI_FIFOTHRESHOLD_EMPTY;
-	hsai_BlockA1.Init.AudioFrequency = SAI_AUDIO_FREQUENCY_44K;
-	hsai_BlockA1.Init.SynchroExt = SAI_SYNCEXT_DISABLE;
-	hsai_BlockA1.Init.MonoStereoMode = SAI_STEREOMODE;
-	hsai_BlockA1.Init.CompandingMode = SAI_NOCOMPANDING;
-	hsai_BlockA1.Init.TriState = SAI_OUTPUT_NOTRELEASED;
-	if (HAL_SAI_InitProtocol(&hsai_BlockA1, SAI_I2S_STANDARD, SAI_PROTOCOL_DATASIZE_16BIT, 2) != HAL_OK)
-	{
-		Error_Handler();
-	}
-	/* USER CODE BEGIN SAI1_Init 2 */
+  /* USER CODE END SAI1_Init 1 */
+  hsai_BlockA1.Instance = SAI1_Block_A;
+  hsai_BlockA1.Init.AudioMode = SAI_MODEMASTER_TX;
+  hsai_BlockA1.Init.Synchro = SAI_ASYNCHRONOUS;
+  hsai_BlockA1.Init.OutputDrive = SAI_OUTPUTDRIVE_DISABLE;
+  hsai_BlockA1.Init.NoDivider = SAI_MASTERDIVIDER_ENABLE;
+  hsai_BlockA1.Init.FIFOThreshold = SAI_FIFOTHRESHOLD_EMPTY;
+  hsai_BlockA1.Init.AudioFrequency = SAI_AUDIO_FREQUENCY_44K;
+  hsai_BlockA1.Init.SynchroExt = SAI_SYNCEXT_DISABLE;
+  hsai_BlockA1.Init.MonoStereoMode = SAI_STEREOMODE;
+  hsai_BlockA1.Init.CompandingMode = SAI_NOCOMPANDING;
+  hsai_BlockA1.Init.TriState = SAI_OUTPUT_NOTRELEASED;
+  if (HAL_SAI_InitProtocol(&hsai_BlockA1, SAI_I2S_STANDARD, SAI_PROTOCOL_DATASIZE_32BIT, 2) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN SAI1_Init 2 */
 
-	/* USER CODE END SAI1_Init 2 */
+  /* USER CODE END SAI1_Init 2 */
+
 }
 
 /**
@@ -504,30 +562,31 @@ static void MX_SAI1_Init(void)
 static void MX_UART4_Init(void)
 {
 
-	/* USER CODE BEGIN UART4_Init 0 */
+  /* USER CODE BEGIN UART4_Init 0 */
 
-	/* USER CODE END UART4_Init 0 */
+  /* USER CODE END UART4_Init 0 */
 
-	/* USER CODE BEGIN UART4_Init 1 */
+  /* USER CODE BEGIN UART4_Init 1 */
 
-	/* USER CODE END UART4_Init 1 */
-	huart4.Instance = UART4;
-	huart4.Init.BaudRate = 31250;
-	huart4.Init.WordLength = UART_WORDLENGTH_8B;
-	huart4.Init.StopBits = UART_STOPBITS_1;
-	huart4.Init.Parity = UART_PARITY_NONE;
-	huart4.Init.Mode = UART_MODE_TX_RX;
-	huart4.Init.HwFlowCtl = UART_HWCONTROL_NONE;
-	huart4.Init.OverSampling = UART_OVERSAMPLING_16;
-	huart4.Init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE;
-	huart4.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
-	if (HAL_UART_Init(&huart4) != HAL_OK)
-	{
-		Error_Handler();
-	}
-	/* USER CODE BEGIN UART4_Init 2 */
+  /* USER CODE END UART4_Init 1 */
+  huart4.Instance = UART4;
+  huart4.Init.BaudRate = 31250;
+  huart4.Init.WordLength = UART_WORDLENGTH_8B;
+  huart4.Init.StopBits = UART_STOPBITS_1;
+  huart4.Init.Parity = UART_PARITY_NONE;
+  huart4.Init.Mode = UART_MODE_TX_RX;
+  huart4.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+  huart4.Init.OverSampling = UART_OVERSAMPLING_16;
+  huart4.Init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE;
+  huart4.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
+  if (HAL_UART_Init(&huart4) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN UART4_Init 2 */
 
-	/* USER CODE END UART4_Init 2 */
+  /* USER CODE END UART4_Init 2 */
+
 }
 
 /**
@@ -536,13 +595,14 @@ static void MX_UART4_Init(void)
 static void MX_DMA_Init(void)
 {
 
-	/* DMA controller clock enable */
-	__HAL_RCC_DMA1_CLK_ENABLE();
+  /* DMA controller clock enable */
+  __HAL_RCC_DMA1_CLK_ENABLE();
 
-	/* DMA interrupt init */
-	/* DMA1_Stream2_IRQn interrupt configuration */
-	HAL_NVIC_SetPriority(DMA1_Stream2_IRQn, 0, 0);
-	HAL_NVIC_EnableIRQ(DMA1_Stream2_IRQn);
+  /* DMA interrupt init */
+  /* DMA1_Stream2_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(DMA1_Stream2_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(DMA1_Stream2_IRQn);
+
 }
 
 /**
@@ -552,24 +612,25 @@ static void MX_DMA_Init(void)
   */
 static void MX_GPIO_Init(void)
 {
-	GPIO_InitTypeDef GPIO_InitStruct = {0};
+  GPIO_InitTypeDef GPIO_InitStruct = {0};
 
-	/* GPIO Ports Clock Enable */
-	__HAL_RCC_GPIOE_CLK_ENABLE();
-	__HAL_RCC_GPIOF_CLK_ENABLE();
-	__HAL_RCC_GPIOA_CLK_ENABLE();
-	__HAL_RCC_GPIOC_CLK_ENABLE();
-	__HAL_RCC_GPIOB_CLK_ENABLE();
+  /* GPIO Ports Clock Enable */
+  __HAL_RCC_GPIOE_CLK_ENABLE();
+  __HAL_RCC_GPIOF_CLK_ENABLE();
+  __HAL_RCC_GPIOA_CLK_ENABLE();
+  __HAL_RCC_GPIOC_CLK_ENABLE();
+  __HAL_RCC_GPIOB_CLK_ENABLE();
 
-	/*Configure GPIO pin Output Level */
-	HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
 
-	/*Configure GPIO pin : LD2_Pin */
-	GPIO_InitStruct.Pin = LD2_Pin;
-	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-	GPIO_InitStruct.Pull = GPIO_NOPULL;
-	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-	HAL_GPIO_Init(LD2_GPIO_Port, &GPIO_InitStruct);
+  /*Configure GPIO pin : LD2_Pin */
+  GPIO_InitStruct.Pin = LD2_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(LD2_GPIO_Port, &GPIO_InitStruct);
+
 }
 
 /* USER CODE BEGIN 4 */
@@ -588,18 +649,25 @@ void HAL_I2S_TxCpltCallback(I2S_HandleTypeDef *hi2s1)
 
 //}
 
+uint16_t DMA_GetCurrDataCounter(DMA_Stream_TypeDef* DMAy_Streamx)
+{
+  /* Check the parameters */
+  assert_param(IS_DMA_ALL_PERIPH(DMAy_Streamx));
+
+  /* Return the number of remaining data units for DMAy Streamx */
+  return ((uint16_t)(DMAy_Streamx->NDTR));
+}
+
+
 //TODO: Need to fix function for HAL not LL
 uint8_t MIDI_GetNbNewBytes()
 {
 	static uint16_t dma_cpt_prev = MIDI_BUFFER_LENGTH;
 	uint16_t dma_cpt, n = 0;
-
 	// Get current DMA counter
-
-	//dma_cpt = HAL_DMA_PollForTransfer(hdma, CompleteLevel, Timeout)(DMA1,LL_DMA_chan);
+	dma_cpt = DMA_GetCurrDataCounter(DMA1_Stream2);
 
 	// If DMA counter has changed, compute the number of received MIDI bytes
-
 	if (dma_cpt != dma_cpt_prev)
 	{
 		if (dma_cpt < dma_cpt_prev)
@@ -610,24 +678,23 @@ uint8_t MIDI_GetNbNewBytes()
 		{
 			n = dma_cpt_prev - (dma_cpt - MIDI_BUFFER_LENGTH);
 		}
-
 		// Store the new DMA counter
-
 		dma_cpt_prev = dma_cpt;
 	}
 	return (n);
 }
 
-//Author: Synthol Project, Adjusted to fit project
-void processBuffer()
+
+void processBuffer(uint8_t* MIDI_buffer, uint8_t nb_MIDI_bytes)
 {
 	__IO uint32_t received_char;
 
-	int i = 0;
-	int state = 0;
+	static uint8_t i = 0;
+	static uint8_t state = 0;
 
-	while (i < MIDI_BUFFER_LENGTH)
+	while (nb_MIDI_bytes != 0)
 	{
+		//reading a byte from the buffer
 		received_char = UART4_rxBuffer[i];
 		switch (state)
 		{
@@ -639,31 +706,51 @@ void processBuffer()
 			case 0x90: // Note ON message
 			{
 				state = 10; // Next state is 10
-				//if (i == (MIDI_BUFFER_LENGTH-1)) i = 0;				// Move to next MIDI byte
-				i++;
+				printf ("note ON event\n");
+				if (i == (MIDI_BUFFER_LENGTH-1)) {
+					i = 0;				// Move to next MIDI byte
+				}
+				else {
+					i++;
+				}
+				nb_MIDI_bytes--;
 				break;
 			}
 			case 0x80: // Note OFF message
 			{
 				state = 20; // Next state is 20
-				stop_note(midimsg);
-				//if (i == (MIDI_BUFFER_LENGTH-1)) i = 0;				// Move to next MIDI byte
-				i++;
+				if (i == (MIDI_BUFFER_LENGTH-1)) {
+					i = 0;				// Move to next MIDI byte
+				}
+				else {
+					i++;
+				}
+				nb_MIDI_bytes--;
 				break;
 			}
 			case 0xB0: // CC message
 			{
 				state = 30; // Next state is 30
-				//if (i == (MIDI_BUFFER_LENGTH-1)) i = 0;				// Move to next MIDI byte
-				i++;
+				if (i == (MIDI_BUFFER_LENGTH-1)) {
+					i = 0;				// Move to next MIDI byte
+				}
+				else {
+					i++;
+				}
+				nb_MIDI_bytes--;
 				break;
 			}
 
 			case 0xE0: // Pitch Bend message
 			{
 				state = 40; // Next state is 40
-				//if (i == (MIDI_BUFFER_LENGTH-1)) i = 0;				// Move to next MIDI byte
-				i++;
+				if (i == (MIDI_BUFFER_LENGTH-1)) {
+					i = 0;				// Move to next MIDI byte
+				}
+				else {
+					i++;
+				}
+				nb_MIDI_bytes--;
 				break;
 			}
 			default: // Other type of message, move to next byte but stays in state 0
@@ -686,27 +773,43 @@ void processBuffer()
 			{ // Save MIDI note
 				ctrl = key = received_char;
 
-				//if (i == (MIDI_BUFFER_LENGTH-1)) i = 0;				// Move to next MIDI byte
-				i++;
+				if (i == (MIDI_BUFFER_LENGTH-1)) {
+					i = 0;				// Move to next MIDI byte
+				}
+				else {
+					i++;
+				}
+				nb_MIDI_bytes--;
 				state = 11; // Next state is 11
 			}
 			break;
 		}
 		case 11:
 		{
-			data = velocity = received_char; // Save MIDI velocity
+			data = velocity = received_char; //will only ever get velocity in this section i think
 
-			//if (i == (MIDI_BUFFER_LENGTH-1)) i = 0;					// Move to next MIDI byte
-			i++;
+			if (i == (MIDI_BUFFER_LENGTH-1)) {
+				i = 0;				// Move to next MIDI byte
+			}
+			else {
+				i++;
+			}
+			nb_MIDI_bytes--;
 
 			state = 10; // Next state is 10
 
 			if (velocity > 0)
 			{
-				play_note(midimsg, velocity);
+
+				note_list = add_note_last(note_list, key, velocity);
+
+
+				//play_note(midimsg, velocity);
 			}
 			else
 			{
+				//find the key and deletes it
+				note_list = delete_note(note_list, key);
 			}
 			break;
 		}
@@ -722,8 +825,13 @@ void processBuffer()
 			{
 				ctrl = key = received_char; // Save MIDI note
 
-				//if (i == (MIDI_BUFFER_LENGTH-1)) i = 0;				// Move to next MIDI byte
-				i++;
+				if (i == (MIDI_BUFFER_LENGTH-1)) {
+					i = 0;				// Move to next MIDI byte
+				}
+				else {
+					i++;
+				}
+				nb_MIDI_bytes--;
 
 				state = 21; // Next state is 21
 			}
@@ -732,10 +840,17 @@ void processBuffer()
 		case 21:
 		{
 			velocity = data = received_char; // Save MIDI velocity
-			//if (i == (MIDI_BUFFER_LENGTH-1)) i = 0;					// Move to next MIDI byte
-			i++;
+			if (i == (MIDI_BUFFER_LENGTH-1)) {
+				i = 0;				// Move to next MIDI byte
+			}
+			else {
+				i++;
+			}
+			nb_MIDI_bytes--;
 
 			state = 20; // Next state is 20
+
+			note_list = delete_note(note_list, key);
 			break;
 		}
 		// State 30 & 31 : CC command
@@ -749,8 +864,13 @@ void processBuffer()
 			{
 				param = received_char; // Save MIDI CC number
 
-				//if (i == (MIDI_BUFFER_LENGTH-1)) i = 0;				// Move to next MIDI byte
-				i++;
+				if (i == (MIDI_BUFFER_LENGTH-1)) {
+					i = 0;				// Move to next MIDI byte
+				}
+				else {
+					i++;
+				}
+				nb_MIDI_bytes--;
 				state = 31; // Next state is 31
 			}
 			break;
@@ -758,8 +878,13 @@ void processBuffer()
 		case 31:
 		{
 			param = received_char; // Save MIDI velocity
-			//if (i == (MIDI_BUFFER_LENGTH-1)) i = 0;					// Move to next MIDI byte
-			i++;
+			if (i == (MIDI_BUFFER_LENGTH-1)) {
+				i = 0;				// Move to next MIDI byte
+			}
+			else {
+				i++;
+			}
+			nb_MIDI_bytes--;
 			state = 30; // Next state is 30
 			break;
 		}
@@ -773,8 +898,13 @@ void processBuffer()
 			else
 			{
 				param = received_char; // Save MIDI CC number
-				//if (i == (MIDI_BUFFER_LENGTH-1)) i = 0;				// Move to next MIDI byte
-				i++;
+				if (i == (MIDI_BUFFER_LENGTH-1)) {
+					i = 0;				// Move to next MIDI byte
+				}
+				else {
+					i++;
+				}
+				nb_MIDI_bytes--;
 				state = 41; // Next state is 41
 			}
 			break;
@@ -782,22 +912,29 @@ void processBuffer()
 		case 41:
 		{
 			param = received_char; // Save MIDI velocity
-			//if (i == (MIDI_BUFFER_LENGTH-1)) i = 0;					// Move to next MIDI byte
-			i++;
+			if (i == (MIDI_BUFFER_LENGTH-1)) {
+				i = 0;				// Move to next MIDI byte
+			}
+			else {
+				i++;
+			}
+			nb_MIDI_bytes--;
 			state = 40; // Next state is 00
 			break;
 		}
-		}
+	}
 	}
 }
+
+//Author: Synthol Project, Adjusted to fit projec
 
 void HAL_UART_RxHalfCpltCallback(UART_HandleTypeDef *huart)
 {
 	HAL_UART_Transmit(&huart4, UART4_rxBuffer, MIDI_BUFFER_LENGTH, 100);
 	HAL_UART_Receive_DMA(&huart4, UART4_rxBuffer, MIDI_BUFFER_LENGTH);
 
-	//once MIDI buffer is full we send to the process buffer function
-	processBuffer();
+	//new version dose not call here
+		//processBuffer();
 }
 
 //buffer is full here, do something when full
@@ -807,7 +944,10 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 	HAL_UART_Receive_DMA(&huart4, UART4_rxBuffer, MIDI_BUFFER_LENGTH);
 
 	//once MIDI buffer is full we send to the process buffer function
-	processBuffer();
+
+
+	//new version dose not call here
+	//processBuffer();
 }
 
 void play_note(uint8_t note, uint8_t velocity)
@@ -830,16 +970,16 @@ void stop_note(uint8_t note)
   */
 void Error_Handler(void)
 {
-	/* USER CODE BEGIN Error_Handler_Debug */
+  /* USER CODE BEGIN Error_Handler_Debug */
 	/* User can add his own implementation to report the HAL error return state */
 	__disable_irq();
 	while (1)
 	{
 	}
-	/* USER CODE END Error_Handler_Debug */
+  /* USER CODE END Error_Handler_Debug */
 }
 
-#ifdef USE_FULL_ASSERT
+#ifdef  USE_FULL_ASSERT
 /**
   * @brief  Reports the name of the source file and the source line number
   *         where the assert_param error has occurred.
@@ -849,10 +989,10 @@ void Error_Handler(void)
   */
 void assert_failed(uint8_t *file, uint32_t line)
 {
-	/* USER CODE BEGIN 6 */
+  /* USER CODE BEGIN 6 */
 	/* User can add his own implementation to report the file name and line number,
      ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
-	/* USER CODE END 6 */
+  /* USER CODE END 6 */
 }
 #endif /* USE_FULL_ASSERT */
 

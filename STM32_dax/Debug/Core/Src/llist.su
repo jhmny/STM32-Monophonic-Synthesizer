@@ -1,0 +1,5 @@
+llist.c:22:7:add_note_first	24	static
+llist.c:46:7:add_note_last	24	static
+llist.c:85:7:delete_note	24	static
+llist.c:115:7:get_last_note	24	static
+llist.c:138:6:print_all_note	24	static

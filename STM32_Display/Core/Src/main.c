@@ -29,6 +29,8 @@
 #include "test.h"
 #include "bitmap.h"
 #include "sine_animation.h"
+
+#include "llist.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
