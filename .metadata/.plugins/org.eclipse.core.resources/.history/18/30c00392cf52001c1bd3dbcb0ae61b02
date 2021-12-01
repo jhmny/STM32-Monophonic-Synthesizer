@@ -263,6 +263,7 @@ int main(void)
 {
   /* USER CODE BEGIN 1 */
 	int screenOn;
+
 	note* play_note;
 	//for dma counting
 	//uint8_t	nb_MIDI_bytes;
@@ -294,7 +295,6 @@ int main(void)
   /* USER CODE BEGIN 2 */
   //Setting up the interupt case/callback
 	//HAL_I2S_Transmit_DMA(&hi2s1, sendBuff, AUDIO_BUFFER_LENGTH);
-  //AUDIO_BUFFER_LENGTH = DATA NEEDED TO TRIGGER INTERUPT
 	HAL_SAI_Receive_DMA(&hsai_BlockA1, sendBuff, AUDIO_BUFFER_LENGTH);
 	HAL_UART_Receive_DMA(&huart4, UART4_rxBuffer, MIDI_BUFFER_LENGTH);
 	SSD1306_Init(); // initialize the LCD screen display
@@ -323,7 +323,7 @@ int main(void)
 			HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET);
 			trig = 1;
 		}
-q
+
 		//test code
 		if ( trig == 1)
 		{

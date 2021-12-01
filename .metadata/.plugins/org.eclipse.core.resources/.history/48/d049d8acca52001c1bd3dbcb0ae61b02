@@ -69,6 +69,7 @@ DMA_HandleTypeDef hdma_uart4_rx;
 /* USER CODE BEGIN PV */
 //var for new bytes
 uint8_t nb_MIDI_bytes;
+int playNoteB;
 bool trig;
 
 
@@ -263,6 +264,7 @@ int main(void)
 {
   /* USER CODE BEGIN 1 */
 	int screenOn;
+
 	note* play_note;
 	//for dma counting
 	//uint8_t	nb_MIDI_bytes;
@@ -293,9 +295,8 @@ int main(void)
   MX_SAI1_Init();
   /* USER CODE BEGIN 2 */
   //Setting up the interupt case/callback
-	//HAL_I2S_Transmit_DMA(&hi2s1, sendBuff, AUDIO_BUFFER_LENGTH);
-  //AUDIO_BUFFER_LENGTH = DATA NEEDED TO TRIGGER INTERUPT
-	HAL_SAI_Receive_DMA(&hsai_BlockA1, sendBuff, AUDIO_BUFFER_LENGTH);
+	HAL_I2S_Transmit_DMA(&hi2s1, sendBuff, AUDIO_BUFFER_LENGTH);
+	//HAL_SAI_Transmit_DMA(&hsai_BlockA1, sendBuff, AUDIO_BUFFER_LENGTH);
 	HAL_UART_Receive_DMA(&huart4, UART4_rxBuffer, MIDI_BUFFER_LENGTH);
 	SSD1306_Init(); // initialize the LCD screen display
 	SSD1306_Menu();
@@ -317,13 +318,15 @@ int main(void)
 		if (play_note == NULL){ //no notes in the list
 			HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
 			trig = 0;
+			playNoteB = 0;
 		}
 		else {
 			//set the pitch and trigger the notes
 			HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET);
 			trig = 1;
+			playNoteB = 1;
 		}
-q
+
 		//test code
 		if ( trig == 1)
 		{
@@ -349,7 +352,7 @@ q
 
 			if (screenOn == 0)
 			{
-				//SSD1306_Note0();
+				SSD1306_Note0();
 				screenOn = 1;
 			}
 		}
@@ -941,9 +944,10 @@ void HAL_UART_RxHalfCpltCallback(UART_HandleTypeDef *huart)
 		//processBuffer();
 }
 
+//buffer is full here, do something when full
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
-	//HAL_UART_Transmit(&huart4, UART4_rxBuffer, MIDI_BUFFER_LENGTH, 100);
+	HAL_UART_Transmit(&huart4, UART4_rxBuffer, MIDI_BUFFER_LENGTH, 100);
 	//HAL_UART_Receive_DMA(&huart4, UART4_rxBuffer, MIDI_BUFFER_LENGTH);
 	//once MIDI buffer is full we send to the process buffer function
 	//new version dose not call here
