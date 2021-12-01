@@ -46,7 +46,7 @@
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
 #define MIDI_BUFFER_LENGTH 6
-#define AUDIO_BUFFER_LENGTH 4
+#define AUDIO_BUFFER_LENGTH 640
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -61,6 +61,7 @@ I2C_HandleTypeDef hi2c2;
 I2S_HandleTypeDef hi2s1;
 
 SAI_HandleTypeDef hsai_BlockA1;
+DMA_HandleTypeDef hdma_sai1_a;
 
 UART_HandleTypeDef huart4;
 DMA_HandleTypeDef hdma_uart4_rx;
@@ -249,7 +250,6 @@ const uint16_t sin_wave[] = {
 	0x4f, 0x51, 0x54, 0x57, 0x5a, 0x5d, 0x60, 0x63, 0x67, 0x6a, 0x6d, 0x70, 0x73, 0x76, 0x79, 0x7c};
 
 uint16_t sendBuff[AUDIO_BUFFER_LENGTH] = {0};
-
 uint8_t UART4_rxBuffer[MIDI_BUFFER_LENGTH] = {0};
 uint8_t msgnum, midimsg, received_char, key, velocity, ctrl, data;
 uint8_t wavesel, velsel, pwm, pwm2, mod, vcf, tun, det, sus, notepos, bend, param, patch;
@@ -267,7 +267,7 @@ int main(void)
 
 	note* play_note;
 	//for dma counting
-	uint8_t	nb_MIDI_bytes;
+	//uint8_t	nb_MIDI_bytes;
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -295,6 +295,7 @@ int main(void)
   MX_SAI1_Init();
   /* USER CODE BEGIN 2 */
 	HAL_I2S_Transmit_DMA(&hi2s1, sendBuff, AUDIO_BUFFER_LENGTH);
+	//HAL_SAI_Transmit_DMA(&hsai_BlockA1, sendBuff, AUDIO_BUFFER_LENGTH);
 	HAL_UART_Receive_DMA(&huart4, UART4_rxBuffer, MIDI_BUFFER_LENGTH);
 	SSD1306_Init(); // initialize the LCD screen display
 	SSD1306_Menu();
@@ -350,7 +351,7 @@ int main(void)
 
 			if (screenOn == 0)
 			{
-				SSD1306_Note0();
+				//SSD1306_Note0();
 				screenOn = 1;
 			}
 		}
@@ -597,11 +598,15 @@ static void MX_DMA_Init(void)
 
   /* DMA controller clock enable */
   __HAL_RCC_DMA1_CLK_ENABLE();
+  __HAL_RCC_DMA2_CLK_ENABLE();
 
   /* DMA interrupt init */
   /* DMA1_Stream2_IRQn interrupt configuration */
   HAL_NVIC_SetPriority(DMA1_Stream2_IRQn, 0, 0);
   HAL_NVIC_EnableIRQ(DMA1_Stream2_IRQn);
+  /* DMA2_Stream1_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(DMA2_Stream1_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(DMA2_Stream1_IRQn);
 
 }
 
@@ -642,6 +647,11 @@ void HAL_I2S_TxCpltCallback(I2S_HandleTypeDef *hi2s1)
 	HAL_I2S_Transmit_DMA(&hi2s1, sendBuff, 8);
 }
 
+void HAL_SAI_TxCpltCallback(SAI_HandleTypeDef *hsai){
+	HAL_SAI_Receive(&hsai_BlockA1, sendBuff, AUDIO_BUFFER_LENGTH, 1000);
+	HAL_SAI_Transmit_DMA(&hsai_BlockA1, sendBuff, AUDIO_BUFFER_LENGTH);
+}
+
 //void HAL_I2SEx_TxRxHalfCpltCallback(I2S_HandleTypeDef * hi2s1){
 //HAL_I2S_Receive(&hi2s1, sendBuff, AUDIO_BUFFER_LENGTH, 100);
 //HAL_I2S_(hi2s1, sendBuff, 16, 100);
@@ -659,7 +669,6 @@ uint16_t DMA_GetCurrDataCounter(DMA_Stream_TypeDef* DMAy_Streamx)
 }
 
 
-//TODO: Need to fix function for HAL not LL
 uint8_t MIDI_GetNbNewBytes()
 {
 	static uint16_t dma_cpt_prev = MIDI_BUFFER_LENGTH;
@@ -684,7 +693,7 @@ uint8_t MIDI_GetNbNewBytes()
 	return (n);
 }
 
-
+//Author: Synthol Project, Adjusted to fit projec
 void processBuffer(uint8_t* MIDI_buffer, uint8_t nb_MIDI_bytes)
 {
 	__IO uint32_t received_char;
@@ -926,8 +935,6 @@ void processBuffer(uint8_t* MIDI_buffer, uint8_t nb_MIDI_bytes)
 	}
 }
 
-//Author: Synthol Project, Adjusted to fit projec
-
 void HAL_UART_RxHalfCpltCallback(UART_HandleTypeDef *huart)
 {
 	HAL_UART_Transmit(&huart4, UART4_rxBuffer, MIDI_BUFFER_LENGTH, 100);
@@ -944,23 +951,10 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 	HAL_UART_Receive_DMA(&huart4, UART4_rxBuffer, MIDI_BUFFER_LENGTH);
 
 	//once MIDI buffer is full we send to the process buffer function
-
-
 	//new version dose not call here
 	//processBuffer();
 }
 
-void play_note(uint8_t note, uint8_t velocity)
-{
-	HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET);
-	playNoteB = 1;
-}
-
-void stop_note(uint8_t note)
-{
-	HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
-	playNoteB = 0;
-}
 
 /* USER CODE END 4 */
 
