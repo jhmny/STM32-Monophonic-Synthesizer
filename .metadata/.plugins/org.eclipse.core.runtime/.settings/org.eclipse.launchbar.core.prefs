@@ -7,7 +7,7 @@ org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:MyNucleoSynthSerialHost\ Debug/
 org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:MyNucleoSynthSerialHost\ Debug/activeLaunchTarget=null\:---
 org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:STM32_TEST\ Debug/activeLaunchMode=run
 org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:STM32_TEST\ Debug/activeLaunchTarget=null\:---
-org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:STM32_dax\ Debug/activeLaunchMode=run
+org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:STM32_dax\ Debug/activeLaunchMode=debug
 org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:STM32_dax\ Debug/activeLaunchTarget=null\:---
 org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:STM_DAC/activeLaunchMode=debug
 org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:STM_DAC/activeLaunchTarget=null\:---

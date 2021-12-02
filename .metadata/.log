@@ -7016,3 +7016,117 @@ java.lang.Exception: Cannot execute this command while the selected thread is ru
 
 !ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-12-01 09:52:57.777
 !MESSAGE Existing sessions are:
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-12-01 15:59:38.423
+!MESSAGE Error - No active DSF-Session. tmpSessionId = 66 (contextManager row 121)
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-12-01 15:59:38.423
+!MESSAGE Existing sessions are:
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-12-01 15:59:38.424
+!MESSAGE Error - No active DSF-Session. tmpSessionId = 66 (contextManager row 121)
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-12-01 15:59:38.424
+!MESSAGE Existing sessions are:
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-12-01 16:02:04.282
+!MESSAGE Error - No active DSF-Session. tmpSessionId = 67 (contextManager row 121)
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-12-01 16:02:04.283
+!MESSAGE Existing sessions are:
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-12-01 16:02:04.283
+!MESSAGE Error - No active DSF-Session. tmpSessionId = 67 (contextManager row 121)
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-12-01 16:02:04.283
+!MESSAGE Existing sessions are:
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-12-01 16:02:46.882
+!MESSAGE Error - No active DSF-Session. tmpSessionId = 68 (contextManager row 121)
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-12-01 16:02:46.882
+!MESSAGE Existing sessions are:
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-12-01 16:02:46.882
+!MESSAGE Error - No active DSF-Session. tmpSessionId = 68 (contextManager row 121)
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-12-01 16:02:46.883
+!MESSAGE Existing sessions are:
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-12-01 16:07:24.229
+!MESSAGE Error - No active DSF-Session. tmpSessionId = 69 (contextManager row 121)
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-12-01 16:07:24.229
+!MESSAGE Existing sessions are:
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-12-01 16:07:24.229
+!MESSAGE Error - No active DSF-Session. tmpSessionId = 69 (contextManager row 121)
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-12-01 16:07:24.230
+!MESSAGE Existing sessions are:
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-12-01 16:40:10.928
+!MESSAGE Error - No active DSF-Session. tmpSessionId = 72 (contextManager row 121)
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-12-01 16:40:10.928
+!MESSAGE Existing sessions are:
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-12-01 16:40:10.928
+!MESSAGE Error - No active DSF-Session. tmpSessionId = 72 (contextManager row 121)
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-12-01 16:40:10.929
+!MESSAGE Existing sessions are:
+
+!ENTRY com.st.stm32cube.ide.mcu.debug.launch 2 0 2021-12-01 16:52:33.080
+!MESSAGE Won't launch debug session since we failed to locate the binary.
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-12-01 16:57:10.356
+!MESSAGE Error - No active DSF-Session. tmpSessionId = 89 (contextManager row 121)
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-12-01 16:57:10.356
+!MESSAGE Existing sessions are:
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-12-01 16:57:10.357
+!MESSAGE Error - No active DSF-Session. tmpSessionId = 89 (contextManager row 121)
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-12-01 16:57:10.357
+!MESSAGE Existing sessions are:
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-12-01 17:01:13.910
+!MESSAGE Error - No active DSF-Session. tmpSessionId = 90 (contextManager row 121)
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-12-01 17:01:13.911
+!MESSAGE Existing sessions are:
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-12-01 17:01:13.911
+!MESSAGE Error - No active DSF-Session. tmpSessionId = 90 (contextManager row 121)
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-12-01 17:01:13.911
+!MESSAGE Existing sessions are:
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-12-01 17:12:01.958
+!MESSAGE Error - No active DSF-Session. tmpSessionId = 91 (contextManager row 121)
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-12-01 17:12:01.959
+!MESSAGE Existing sessions are:
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-12-01 17:12:01.959
+!MESSAGE Error - No active DSF-Session. tmpSessionId = 91 (contextManager row 121)
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-12-01 17:12:01.959
+!MESSAGE Existing sessions are:
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-12-01 17:14:23.370
+!MESSAGE Error - No active DSF-Session. tmpSessionId = 93 (contextManager row 121)
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-12-01 17:14:23.370
+!MESSAGE Existing sessions are:
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-12-01 17:14:23.370
+!MESSAGE Error - No active DSF-Session. tmpSessionId = 93 (contextManager row 121)
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2021-12-01 17:14:23.371
+!MESSAGE Existing sessions are:
+
+!ENTRY org.eclipse.core.jobs 2 2 2021-12-01 17:16:50.558
+!MESSAGE Job found still running after platform shutdown.  Jobs should be canceled by the plugin that scheduled them during shutdown: org.eclipse.cdt.dsf.gdb.internal.ui.console.GdbBasicCliConsole$InputReadJob

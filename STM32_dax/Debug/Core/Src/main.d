@@ -31,7 +31,7 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
  ../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_uart_ex.h \
  ../Core/Inc/sine_animation.h ../Core/Inc/ssd1306.h ../Core/Inc/fonts.h \
  ../Core/Inc/fonts.h ../Core/Inc/test.h ../Core/Inc/bitmap.h \
- ../Core/Src/llist.h ../Core/Inc/wavetable16bit.h
+ ../Core/Inc/llist.h ../Core/Inc/wavetable16bit.h
 
 ../Core/Inc/main.h:
 
@@ -107,6 +107,6 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
 
 ../Core/Inc/bitmap.h:
 
-../Core/Src/llist.h:
+../Core/Inc/llist.h:
 
 ../Core/Inc/wavetable16bit.h:

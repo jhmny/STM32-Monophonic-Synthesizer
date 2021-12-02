@@ -1,10 +1,10 @@
-09:52:36 **** Incremental Build of configuration Debug for project STM32_dax ****
+17:16:36 **** Incremental Build of configuration Debug for project STM32_dax ****
 make -j16 all 
 arm-none-eabi-size   STM32_dax.elf 
    text	   data	    bss	    dec	    hex	filename
-  33332	 480140	   4588	 518060	  7e7ac	STM32_dax.elf
+ 609688	    140	   4588	 614416	  96010	STM32_dax.elf
 Finished building: default.size.stdout
  
 
-09:52:36 Build Finished. 0 errors, 0 warnings. (took 220ms)
+17:16:36 Build Finished. 0 errors, 0 warnings. (took 220ms)
 

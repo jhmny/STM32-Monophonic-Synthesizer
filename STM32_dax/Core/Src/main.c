@@ -34,7 +34,8 @@
 #include "test.h"
 #include "bitmap.h"
 #include "llist.h" // linked list for note storage as well as note struct
-#include "wavetable16bit.h" // 16 bit wavetables
+#include "wavetable16bit.h" //hardcoded wavetable
+//#include "wavetable_24.h" //24 overtone table
 
 /* USER CODE END Includes */
 
@@ -47,6 +48,7 @@
 /* USER CODE BEGIN PD */
 #define MIDI_BUFFER_LENGTH 6
 #define AUDIO_BUFFER_LENGTH 640
+#define WAVETABLE_LENGTH 1024
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -99,136 +101,6 @@ static void MX_SAI1_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-const uint16_t triangle_wave[] = {
-	0x400,
-	0x800,
-	0xc00,
-	0x1000,
-	0x1400,
-	0x1800,
-	0x1c00,
-	0x2000,
-	0x2400,
-	0x2800,
-	0x2c00,
-	0x3000,
-	0x3400,
-	0x3800,
-	0x3c00,
-	0x4000,
-	0x4400,
-	0x4800,
-	0x4c00,
-	0x5000,
-	0x5400,
-	0x5800,
-	0x5c00,
-	0x6000,
-	0x6400,
-	0x6800,
-	0x6c00,
-	0x7000,
-	0x7400,
-	0x7800,
-	0x7c00,
-	0x8000,
-	0x83ff,
-	0x87ff,
-	0x8bff,
-	0x8fff,
-	0x93ff,
-	0x97ff,
-	0x9bff,
-	0x9fff,
-	0xa3ff,
-	0xa7ff,
-	0xabff,
-	0xafff,
-	0xb3ff,
-	0xb7ff,
-	0xbbff,
-	0xbfff,
-	0xc3ff,
-	0xc7ff,
-	0xcbff,
-	0xcfff,
-	0xd3ff,
-	0xd7ff,
-	0xdbff,
-	0xdfff,
-	0xe3ff,
-	0xe7ff,
-	0xebff,
-	0xefff,
-	0xf3ff,
-	0xf7ff,
-	0xfbff,
-	0xffff,
-	0xfbff,
-	0xf7ff,
-	0xf3ff,
-	0xefff,
-	0xebff,
-	0xe7ff,
-	0xe3ff,
-	0xdfff,
-	0xdbff,
-	0xd7ff,
-	0xd3ff,
-	0xcfff,
-	0xcbff,
-	0xc7ff,
-	0xc3ff,
-	0xbfff,
-	0xbbff,
-	0xb7ff,
-	0xb3ff,
-	0xafff,
-	0xabff,
-	0xa7ff,
-	0xa3ff,
-	0x9fff,
-	0x9bff,
-	0x97ff,
-	0x93ff,
-	0x8fff,
-	0x8bff,
-	0x87ff,
-	0x83ff,
-	0x8000,
-	0x7c00,
-	0x7800,
-	0x7400,
-	0x7000,
-	0x6c00,
-	0x6800,
-	0x6400,
-	0x6000,
-	0x5c00,
-	0x5800,
-	0x5400,
-	0x5000,
-	0x4c00,
-	0x4800,
-	0x4400,
-	0x4000,
-	0x3c00,
-	0x3800,
-	0x3400,
-	0x3000,
-	0x2c00,
-	0x2800,
-	0x2400,
-	0x2000,
-	0x1c00,
-	0x1800,
-	0x1400,
-	0x1000,
-	0xc00,
-	0x800,
-	0x400,
-	0x0,
-};
 
 const uint16_t sin_wave[] = {
 	0x80, 0x83, 0x86, 0x89, 0x8c, 0x8f, 0x92, 0x95, 0x98, 0x9c, 0x9f, 0xa2, 0xa5, 0xa8, 0xab, 0xae,
@@ -266,6 +138,15 @@ int main(void)
 	note* play_note;
 	//for dma counting
 	//uint8_t	nb_MIDI_bytes;
+
+	int i = 0;
+	for (i=0; i<AUDIO_BUFFER_LENGTH; i=i+2)
+		{
+			sendBuff[i] = (uint16_t)((int16_t) 0.0f);			// Left Channel value
+			sendBuff[i+1] = (uint16_t)((int16_t) 0.0f);		// Right Channel Value
+		}
+
+
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -341,9 +222,14 @@ int main(void)
 			else if (key == 64 ){
 				HAL_SAI_Transmit(&hsai_BlockA1, tone_e, sizeof(tone_e) / sizeof(tone_e[0]), 1000);
 			}
+			else if (key == 65 ){
+				for(i = 0; i < AUDIO_BUFFER_LENGTH; i++){
+					sendBuff[i] = tone_f[i];
+					}
+			}
 			//HAL_SAI_Transmit(&hsai_BlockA1, tone_c, sizeof(tone_c) / sizeof(tone_c[0]), 1000);
 			else {
-			HAL_SAI_Transmit(&hsai_BlockA1, triangle_wave, sizeof(triangle_wave) / sizeof(triangle_wave[0]), 1000);
+			HAL_SAI_Transmit(&hsai_BlockA1, sin_wave, sizeof(sin_wave) / sizeof(sin_wave[0]), 1000);
 			}
 
 			if (screenOn == 0)
@@ -645,8 +531,7 @@ void HAL_I2S_TxCpltCallback(I2S_HandleTypeDef *hi2s1)
 }
 
 void HAL_SAI_TxCpltCallback(SAI_HandleTypeDef *hsai){
-	HAL_SAI_Receive(&hsai_BlockA1, sendBuff, AUDIO_BUFFER_LENGTH, 1000);
-	HAL_SAI_Transmit_DMA(&hsai_BlockA1, sendBuff, AUDIO_BUFFER_LENGTH);
+	HAL_SAI_Transmit(&hsai_BlockA1, sendBuff, AUDIO_BUFFER_LENGTH,1000);
 }
 
 //void HAL_I2SEx_TxRxHalfCpltCallback(I2S_HandleTypeDef * hi2s1){
@@ -947,6 +832,10 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 	//once MIDI buffer is full we send to the process buffer function
 	//new version dose not call here
 	//processBuffer();
+}
+
+void calcSynth(){
+
 }
 
 
