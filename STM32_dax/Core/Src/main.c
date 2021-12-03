@@ -35,7 +35,8 @@
 #include "bitmap.h"
 #include "llist.h" // linked list for note storage as well as note struct
 #include "wavetable16bit.h" //hardcoded wavetable
-//#include "wavetable_24.h" //24 overtone table
+#include "wavetable_24.h" //24 overtone table
+#include "pitchTable.h" //tables of pitches
 
 /* USER CODE END Includes */
 
@@ -47,8 +48,10 @@
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
 #define MIDI_BUFFER_LENGTH 6
-#define AUDIO_BUFFER_LENGTH 640
+#define AUDIO_BUFFER_LENGTH 8192
+#define AUDIO_BUFFER_LENGTH_DIV2 AUDIO_BUFFER_LENGTH / 2
 #define WAVETABLE_LENGTH 1024
+#define SAMPLE_RATE 44100;
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -73,11 +76,15 @@ DMA_HandleTypeDef hdma_uart4_rx;
 uint8_t nb_MIDI_bytes;
 bool trig;
 
+//synth calc variables
+float osc_wtb_pointer = 0;
+float osc;
+float signal = 0;
+float pitch = 0;
+
 
 //linked list of notes
 llist	note_list = NULL;
-
-
 uint8_t paramvalue[32];
 
 void play_note(uint8_t, uint8_t);
@@ -85,6 +92,7 @@ void stop_note(uint8_t);
 void LocalMidiHandler(uint8_t, uint8_t);
 uint8_t MIDI_GetNbNewBytes();
 void processBuffer(uint8_t* MIDI_buffer, uint8_t nb_MIDI_bytes);
+void setParams();
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -123,7 +131,9 @@ const uint16_t sin_wave[] = {
 uint16_t sendBuff[AUDIO_BUFFER_LENGTH] = {0};
 uint8_t UART4_rxBuffer[MIDI_BUFFER_LENGTH] = {0};
 uint8_t msgnum, midimsg, received_char, key, velocity, ctrl, data;
-uint8_t wavesel, velsel, pwm, pwm2, mod, vcf, tun, det, sus, notepos, bend, param, patch;
+uint8_t wavesel, velsel, pwm, pwm2, mod, vcf, tun, det, sus, notepos, bend,param, paramNum, paramVal, patch;
+
+//
 
 /* USER CODE END 0 */
 
@@ -176,7 +186,7 @@ int main(void)
   //Setting up the interupt case/callback
 	//HAL_I2S_Transmit_DMA(&hi2s1, sendBuff, AUDIO_BUFFER_LENGTH);
   //AUDIO_BUFFER_LENGTH = DATA NEEDED TO TRIGGER INTERUPT
-	HAL_SAI_Receive_DMA(&hsai_BlockA1, sendBuff, AUDIO_BUFFER_LENGTH);
+	HAL_SAI_Transmit_DMA(&hsai_BlockA1,(uint16_t *) sendBuff, AUDIO_BUFFER_LENGTH);
 	HAL_UART_Receive_DMA(&huart4, UART4_rxBuffer, MIDI_BUFFER_LENGTH);
 	SSD1306_Init(); // initialize the LCD screen display
 	SSD1306_Menu();
@@ -187,51 +197,32 @@ int main(void)
 	while (1)
 	{
 		// HAL_I2S_Transmit(&hi2s1, triangle_wave, sizeof(triangle_wave)/sizeof(triangle_wave[0]), 10);
+
 		nb_MIDI_bytes = MIDI_GetNbNewBytes();
 
+
 		if(nb_MIDI_bytes){
+			HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET);
 			processBuffer(UART4_rxBuffer,nb_MIDI_bytes);
+			HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
 		}
 
 		play_note = get_last_note(note_list);
 
 		if (play_note == NULL){ //no notes in the list
-			HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
+
 			trig = 0;
 		}
 		else {
 			//set the pitch and trigger the notes
+			pitch = pitch_table[(play_note->midi_note)-18];
 			HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET);
 			trig = 1;
 		}
 		//test code
 		if ( trig == 1)
 		{
-			if (key == 60 ){
-				HAL_SAI_Transmit(&hsai_BlockA1, tone_c, sizeof(tone_c) / sizeof(tone_c[0]), 1000);
-			}
-			else if (key == 61 ){
-				HAL_SAI_Transmit(&hsai_BlockA1, tone_c_sharp, sizeof(tone_c_sharp) / sizeof(tone_c_sharp[0]), 1000);
-			}
-			else if (key == 62 ){
-				HAL_SAI_Transmit(&hsai_BlockA1, tone_d, sizeof(tone_d) / sizeof(tone_d[0]), 1000);
-			}
-			else if (key == 63 ){
-				HAL_SAI_Transmit(&hsai_BlockA1, tone_d_sharp, sizeof(tone_d_sharp) / sizeof(tone_d_sharp[0]), 1000);
-			}
-			else if (key == 64 ){
-				HAL_SAI_Transmit(&hsai_BlockA1, tone_e, sizeof(tone_e) / sizeof(tone_e[0]), 1000);
-			}
-			else if (key == 65 ){
-				for(i = 0; i < AUDIO_BUFFER_LENGTH; i++){
-					sendBuff[i] = tone_f[i];
-					}
-			}
 			//HAL_SAI_Transmit(&hsai_BlockA1, tone_c, sizeof(tone_c) / sizeof(tone_c[0]), 1000);
-			else {
-			HAL_SAI_Transmit(&hsai_BlockA1, sin_wave, sizeof(sin_wave) / sizeof(sin_wave[0]), 1000);
-			}
-
 			if (screenOn == 0)
 			{
 				//SSD1306_Note0();
@@ -428,7 +419,7 @@ static void MX_SAI1_Init(void)
   hsai_BlockA1.Init.MonoStereoMode = SAI_STEREOMODE;
   hsai_BlockA1.Init.CompandingMode = SAI_NOCOMPANDING;
   hsai_BlockA1.Init.TriState = SAI_OUTPUT_NOTRELEASED;
-  if (HAL_SAI_InitProtocol(&hsai_BlockA1, SAI_I2S_STANDARD, SAI_PROTOCOL_DATASIZE_32BIT, 2) != HAL_OK)
+  if (HAL_SAI_InitProtocol(&hsai_BlockA1, SAI_I2S_STANDARD, SAI_PROTOCOL_DATASIZE_16BIT, 2) != HAL_OK)
   {
     Error_Handler();
   }
@@ -530,8 +521,12 @@ void HAL_I2S_TxCpltCallback(I2S_HandleTypeDef *hi2s1)
 	HAL_I2S_Transmit_DMA(&hi2s1, sendBuff, 8);
 }
 
+void HAL_SAI_TxHalfCpltCallback(SAI_HandleTypeDef *hsai){
+	make_sound(0);
+}
+
 void HAL_SAI_TxCpltCallback(SAI_HandleTypeDef *hsai){
-	HAL_SAI_Transmit(&hsai_BlockA1, sendBuff, AUDIO_BUFFER_LENGTH,1000);
+	make_sound(AUDIO_BUFFER_LENGTH_DIV2);
 }
 
 //void HAL_I2SEx_TxRxHalfCpltCallback(I2S_HandleTypeDef * hi2s1){
@@ -578,6 +573,7 @@ uint8_t MIDI_GetNbNewBytes()
 //Author: Synthol Project, Adjusted to fit projec
 void processBuffer(uint8_t* MIDI_buffer, uint8_t nb_MIDI_bytes)
 {
+
 	__IO uint32_t received_char;
 
 	static uint8_t i = 0;
@@ -597,7 +593,6 @@ void processBuffer(uint8_t* MIDI_buffer, uint8_t nb_MIDI_bytes)
 			case 0x90: // Note ON message
 			{
 				state = 10; // Next state is 10
-				printf ("note ON event\n");
 				if (i == (MIDI_BUFFER_LENGTH-1)) {
 					i = 0;				// Move to next MIDI byte
 				}
@@ -753,7 +748,7 @@ void processBuffer(uint8_t* MIDI_buffer, uint8_t nb_MIDI_bytes)
 			}
 			else
 			{
-				param = received_char; // Save MIDI CC number
+				paramNum = received_char; // Save MIDI CC number
 
 				if (i == (MIDI_BUFFER_LENGTH-1)) {
 					i = 0;				// Move to next MIDI byte
@@ -768,7 +763,7 @@ void processBuffer(uint8_t* MIDI_buffer, uint8_t nb_MIDI_bytes)
 		}
 		case 31:
 		{
-			param = received_char; // Save MIDI velocity
+			paramVal = received_char; // Save MIDI velocity
 			if (i == (MIDI_BUFFER_LENGTH-1)) {
 				i = 0;				// Move to next MIDI byte
 			}
@@ -776,7 +771,10 @@ void processBuffer(uint8_t* MIDI_buffer, uint8_t nb_MIDI_bytes)
 				i++;
 			}
 			nb_MIDI_bytes--;
-			state = 30; // Next state is 30
+			state = 30;
+
+			ChangeParam();
+
 			break;
 		}
 		// State 40 & 41 : Pitch Bend message
@@ -817,6 +815,13 @@ void processBuffer(uint8_t* MIDI_buffer, uint8_t nb_MIDI_bytes)
 	}
 }
 
+//TODO:logic for ADSR as well as DSP
+void setParams(){
+	switch (paramNum){
+
+	}
+}
+
 void HAL_UART_RxHalfCpltCallback(UART_HandleTypeDef *huart)
 {
 	//HAL_UART_Transmit(&huart4, UART4_rxBuffer, MIDI_BUFFER_LENGTH, 100);
@@ -834,8 +839,44 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 	//processBuffer();
 }
 
-void calcSynth(){
+float calcSynth(){
+	uint16_t a,b;
+	float da, db;
 
+	float osc_wtb_incr = WAVETABLE_LENGTH * (pitch) / SAMPLE_RATE;
+	osc_wtb_pointer = osc_wtb_pointer + osc_wtb_incr;
+
+	if(osc_wtb_pointer > WAVETABLE_LENGTH){
+		osc_wtb_pointer = osc_wtb_pointer - WAVETABLE_LENGTH;
+	}
+
+	a = (int)osc_wtb_pointer;
+	da = osc_wtb_pointer -a;
+	b= a+1;
+	db = b - osc_wtb_pointer;
+
+	if (b>= WAVETABLE_LENGTH){
+		b = 0;
+	}
+
+	osc = db * square[a] + da * square[b];
+
+	signal = osc * 32767.0f;
+	if (signal > 32767.0f){
+		signal = 32767.0f;
+	}
+	if (signal < -32767.0f){
+		signal = -32767.0f;
+	}
+	return signal;
+}
+
+void make_sound(uint16_t start_index) {
+	for (uint16_t i = 0; i < AUDIO_BUFFER_LENGTH_DIV2 ;  i=i+2) {
+		float signal = calcSynth();
+		sendBuff[start_index + i] = (int16_t)signal;
+		sendBuff[start_index + i + 1] = (int16_t)signal;
+	}
 }
 
 

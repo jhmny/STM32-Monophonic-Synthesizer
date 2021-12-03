@@ -1,10 +1,73 @@
-17:16:36 **** Incremental Build of configuration Debug for project STM32_dax ****
+13:45:08 **** Incremental Build of configuration Debug for project STM32_dax ****
 make -j16 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m7 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F767xx -c -I../Core/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F7xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:188:37: warning: passing argument 2 of 'HAL_SAI_Transmit_DMA' from incompatible pointer type [-Wincompatible-pointer-types]
+  188 |  HAL_SAI_Transmit_DMA(&hsai_BlockA1,(uint16_t *) sendBuff, AUDIO_BUFFER_LENGTH);
+      |                                     ^~~~~~~~~~~~~~~~~~~~~
+      |                                     |
+      |                                     uint16_t * {aka short unsigned int *}
+In file included from ../Core/Inc/stm32f7xx_hal_conf.h:386,
+                 from ../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/main.c:21:
+../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_sai.h:708:74: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'uint16_t *' {aka 'short unsigned int *'}
+  708 | HAL_StatusTypeDef HAL_SAI_Transmit_DMA(SAI_HandleTypeDef *hsai, uint8_t *pData, uint16_t Size);
+      |                                                                 ~~~~~~~~~^~~~~
+../Core/Src/main.c:191:2: warning: implicit declaration of function 'SSD1306_Menu'; did you mean 'SSD1306_Clear'? [-Wimplicit-function-declaration]
+  191 |  SSD1306_Menu();
+      |  ^~~~~~~~~~~~
+      |  SSD1306_Clear
+../Core/Src/main.c: In function 'HAL_I2S_TxCpltCallback':
+../Core/Src/main.c:518:18: warning: passing argument 1 of 'HAL_I2S_Receive' from incompatible pointer type [-Wincompatible-pointer-types]
+  518 |  HAL_I2S_Receive(&hi2s1, sendBuff, 8, 100);
+      |                  ^~~~~~
+      |                  |
+      |                  I2S_HandleTypeDef ** {aka struct <anonymous> **}
+In file included from ../Core/Inc/stm32f7xx_hal_conf.h:354,
+                 from ../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/main.c:21:
+../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_i2s.h:437:54: note: expected 'I2S_HandleTypeDef *' {aka 'struct <anonymous> *'} but argument is of type 'I2S_HandleTypeDef **' {aka 'struct <anonymous> **'}
+  437 | HAL_StatusTypeDef HAL_I2S_Receive(I2S_HandleTypeDef *hi2s, uint16_t *pData, uint16_t Size, uint32_t Timeout);
+      |                                   ~~~~~~~~~~~~~~~~~~~^~~~
+../Core/Src/main.c:520:23: warning: passing argument 1 of 'HAL_I2S_Transmit_DMA' from incompatible pointer type [-Wincompatible-pointer-types]
+  520 |  HAL_I2S_Transmit_DMA(&hi2s1, sendBuff, 8);
+      |                       ^~~~~~
+      |                       |
+      |                       I2S_HandleTypeDef ** {aka struct <anonymous> **}
+In file included from ../Core/Inc/stm32f7xx_hal_conf.h:354,
+                 from ../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal.h:30,
+                 from ../Core/Inc/main.h:31,
+                 from ../Core/Src/main.c:21:
+../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_i2s.h:445:59: note: expected 'I2S_HandleTypeDef *' {aka 'struct <anonymous> *'} but argument is of type 'I2S_HandleTypeDef **' {aka 'struct <anonymous> **'}
+  445 | HAL_StatusTypeDef HAL_I2S_Transmit_DMA(I2S_HandleTypeDef *hi2s, uint16_t *pData, uint16_t Size);
+      |                                        ~~~~~~~~~~~~~~~~~~~^~~~
+../Core/Src/main.c: In function 'HAL_SAI_TxHalfCpltCallback':
+../Core/Src/main.c:524:2: warning: implicit declaration of function 'make_sound' [-Wimplicit-function-declaration]
+  524 |  make_sound(0);
+      |  ^~~~~~~~~~
+../Core/Src/main.c: At top level:
+../Core/Src/main.c:863:6: warning: conflicting types for 'make_sound'
+  863 | void make_sound(uint16_t start_index) {
+      |      ^~~~~~~~~~
+../Core/Src/main.c:524:2: note: previous implicit declaration of 'make_sound' was here
+  524 |  make_sound(0);
+      |  ^~~~~~~~~~
+arm-none-eabi-gcc -o "STM32_dax.elf" @"objects.list"   -mcpu=cortex-m7 -T"C:\Users\Joshua\Documents\GitHub\STM32_GitHub\STM32_dax\STM32F767ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="STM32_dax.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: STM32_dax.elf
+ 
 arm-none-eabi-size   STM32_dax.elf 
+arm-none-eabi-objdump -h -S  STM32_dax.elf  > "STM32_dax.list"
+arm-none-eabi-objcopy  -O binary  STM32_dax.elf  "STM32_dax.bin"
    text	   data	    bss	    dec	    hex	filename
- 609688	    140	   4588	 614416	  96010	STM32_dax.elf
+  35164	    140	  19708	  55012	   d6e4	STM32_dax.elf
 Finished building: default.size.stdout
  
+Finished building: STM32_dax.bin
+ 
+Finished building: STM32_dax.list
+ 
 
-17:16:36 Build Finished. 0 errors, 0 warnings. (took 220ms)
+13:45:10 Build Finished. 0 errors, 6 warnings. (took 1s.504ms)
 
