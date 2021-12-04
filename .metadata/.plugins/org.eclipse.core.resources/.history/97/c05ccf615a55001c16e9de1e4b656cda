@@ -47,7 +47,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define MIDI_BUFFER_LENGTH 64
+#define MIDI_BUFFER_LENGTH 6
 #define AUDIO_BUFFER_LENGTH 8192
 #define AUDIO_BUFFER_LENGTH_DIV2 AUDIO_BUFFER_LENGTH / 2
 #define WAVETABLE_LENGTH 1024
@@ -961,96 +961,85 @@ float calcSynth(){
 	{
 		case 0 :
 		{
-			osc1 = db*square[a] + da*square[b];					// Linear interpolation (same as weighted average)
+			osc = db*square[a] + da*square[b];					// Linear interpolation (same as weighted average)
 			break;
 		}
 
 		case 1 :
 		{
-			osc1 = db*triangle[a] + da*triangle[b];
+			osc = db*triangle[a] + da*triangle[b];
 			break;
 		}
 
 		case 2 :
 		{
-			osc1 = db*sawtooth[a] + da*sawtooth[b];
+			osc = db*sawtooth[a] + da*sawtooth[b];
 			break;
 		}
 
 		case 3 :
 		{
-			osc1 = db*distosine[a] + da*distosine[b];
+			osc = db*distosine[a] + da*distosine[b];
 			break;
 		}
 		case 4 :
 		{
-			osc1 = db*sinewave[a] + da*sinewave[b];
+			osc = db*sinewave[a] + da*sinewave[b];
 			break;
 		}
 
 		default :
 		{
-			osc1 = db*sinewave[a] + da*sinewave[b];
+			osc = db*sinewave[a] + da*sinewave[b];
 			break;
 		}
 	}
 
-	switch (osc2Waveform)
+	switch (osc1Waveform)
 	{
 		case 0 :
 		{
-			osc2 = db*square[a] + da*square[b];
+			osc = db*square[a] + da*square[b];
 			break;
 		}
 
 		case 1 :
 		{
-			osc2 = db*triangle[a] + da*triangle[b];
+			osc = db*triangle[a] + da*triangle[b];
 			break;
 		}
 
 		case 2 :
 		{
-			osc2 = db*sawtooth[a] + da*sawtooth[b];
+			osc = db*sawtooth[a] + da*sawtooth[b];
 			break;
 		}
 
 		case 3 :
 		{
-			osc2 = db*distosine[a] + da*distosine[b];
+			osc = db*distosine[a] + da*distosine[b];
 			break;
 		}
 		case 4 :
 		{
-			osc2 = db*sinewave[a] + da*sinewave[b];
+			osc = db*sinewave[a] + da*sinewave[b];
 			break;
 		}
 
 		default :
 		{
-			osc2 = db*sinewave[a] + da*sinewave[b];
+			osc = db*sinewave[a] + da*sinewave[b];
 			break;
 		}
 	}
 
-	signal = (osc1mix * osc1) + (osc2mix * osc2);
-	//signal = (osc1mix * osc1);
-
-	signal =  signal * 32767.0f;
-
+	signal = osc * 32767.0f;
 	if (signal > 32767.0f){
 		signal = 32767.0f;
 	}
 	if (signal < -32767.0f){
 		signal = -32767.0f;
 	}
-
-	//VCA
-
-	//signal = adsr1_output * 32767.0f * signal_pf;
-
-
-
 	return signal;
 }
 

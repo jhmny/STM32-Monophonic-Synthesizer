@@ -47,7 +47,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define MIDI_BUFFER_LENGTH 64
+#define MIDI_BUFFER_LENGTH 6
 #define AUDIO_BUFFER_LENGTH 8192
 #define AUDIO_BUFFER_LENGTH_DIV2 AUDIO_BUFFER_LENGTH / 2
 #define WAVETABLE_LENGTH 1024
@@ -995,7 +995,7 @@ float calcSynth(){
 		}
 	}
 
-	switch (osc2Waveform)
+	switch (osc1Waveform)
 	{
 		case 0 :
 		{
@@ -1033,10 +1033,7 @@ float calcSynth(){
 		}
 	}
 
-	signal = (osc1mix * osc1) + (osc2mix * osc2);
-	//signal = (osc1mix * osc1);
-
-	signal =  signal * 32767.0f;
+	signal = (osc1mix * osc1) + (osc2mix * osc_2);
 
 	if (signal > 32767.0f){
 		signal = 32767.0f;
@@ -1044,13 +1041,6 @@ float calcSynth(){
 	if (signal < -32767.0f){
 		signal = -32767.0f;
 	}
-
-	//VCA
-
-	//signal = adsr1_output * 32767.0f * signal_pf;
-
-
-
 	return signal;
 }
 

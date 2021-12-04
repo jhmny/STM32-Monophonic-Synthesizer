@@ -47,7 +47,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define MIDI_BUFFER_LENGTH 64
+#define MIDI_BUFFER_LENGTH 6
 #define AUDIO_BUFFER_LENGTH 8192
 #define AUDIO_BUFFER_LENGTH_DIV2 AUDIO_BUFFER_LENGTH / 2
 #define WAVETABLE_LENGTH 1024
@@ -78,10 +78,8 @@ bool trig;
 bool newNote;
 
 //synth calc variables
-float osc1WavePointer = 0;
-float osc1;
-float osc2WavePointer = 0;
-float osc2;
+float osc_wtb_pointer = 0;
+float osc;
 
 uint8_t	osc1Waveform, osc2Waveform;
 
@@ -92,9 +90,6 @@ float adsrAttack = 0.1f;
 float adsrDecay = 0.1f;
 float adsrSus = 0.1f;
 float adsrRel = 0.1f;
-
-float osc1mix = 0.2f;
-float osc2mix = 0.2f;
 
 
 //linked list of notes
@@ -857,32 +852,8 @@ void setParams(){
 		}
 
 
-	//Waveform Select OSC2
-	case 17:
-			{
-				if (paramVal >= 0 && paramVal < 32)	{
-					osc2Waveform = 0;
-				}
-				else if (paramVal >= 32 && paramVal < 64)	{
-					osc2Waveform = 1;
-				}
-				else if (paramVal >= 64 && paramVal < 96)	{
-					osc2Waveform = 2;
-				}
-				else if (paramVal >= 96 && paramVal < 125){
-					osc2Waveform = 3;
-				}
-				else if (paramVal >= 125 ){
-					osc2Waveform = 4;
-				}
-				else {
-					osc2Waveform = 0;
-				}
-
-				break;
-			}
 	//Waveform Select OSC1
-	case 16:
+	case 17:
 			{
 				if (paramVal >= 0 && paramVal < 32)	{
 					osc1Waveform = 0;
@@ -941,16 +912,16 @@ float calcSynth(){
 	float da, db;
 
 	float osc_wtb_incr = WAVETABLE_LENGTH * (pitch) / SAMPLE_RATE;
-	osc1WavePointer = osc1WavePointer + osc_wtb_incr;
+	osc_wtb_pointer = osc_wtb_pointer + osc_wtb_incr;
 
-	if(osc1WavePointer > WAVETABLE_LENGTH){
-		osc1WavePointer = osc1WavePointer - WAVETABLE_LENGTH;
+	if(osc_wtb_pointer > WAVETABLE_LENGTH){
+		osc_wtb_pointer = osc_wtb_pointer - WAVETABLE_LENGTH;
 	}
 
-	a = (int)osc1WavePointer;
-	da = osc1WavePointer -a;
+	a = (int)osc_wtb_pointer;
+	da = osc_wtb_pointer -a;
 	b= a+1;
-	db = b - osc1WavePointer;
+	db = b - osc_wtb_pointer;
 
 	if (b>= WAVETABLE_LENGTH){
 		b = 0;
@@ -961,96 +932,47 @@ float calcSynth(){
 	{
 		case 0 :
 		{
-			osc1 = db*square[a] + da*square[b];					// Linear interpolation (same as weighted average)
+			osc = db*square[a] + da*square[b];					// Linear interpolation (same as weighted average)
 			break;
 		}
 
 		case 1 :
 		{
-			osc1 = db*triangle[a] + da*triangle[b];
+			osc = db*triangle[a] + da*triangle[b];
 			break;
 		}
 
 		case 2 :
 		{
-			osc1 = db*sawtooth[a] + da*sawtooth[b];
+			osc = db*sawtooth[a] + da*sawtooth[b];
 			break;
 		}
 
 		case 3 :
 		{
-			osc1 = db*distosine[a] + da*distosine[b];
+			osc = db*distosine[a] + da*distosine[b];
 			break;
 		}
 		case 4 :
 		{
-			osc1 = db*sinewave[a] + da*sinewave[b];
+			osc = db*sinewave[a] + da*sinewave[b];
 			break;
 		}
 
 		default :
 		{
-			osc1 = db*sinewave[a] + da*sinewave[b];
+			osc = db*sinewave[a] + da*sinewave[b];
 			break;
 		}
 	}
 
-	switch (osc2Waveform)
-	{
-		case 0 :
-		{
-			osc2 = db*square[a] + da*square[b];
-			break;
-		}
-
-		case 1 :
-		{
-			osc2 = db*triangle[a] + da*triangle[b];
-			break;
-		}
-
-		case 2 :
-		{
-			osc2 = db*sawtooth[a] + da*sawtooth[b];
-			break;
-		}
-
-		case 3 :
-		{
-			osc2 = db*distosine[a] + da*distosine[b];
-			break;
-		}
-		case 4 :
-		{
-			osc2 = db*sinewave[a] + da*sinewave[b];
-			break;
-		}
-
-		default :
-		{
-			osc2 = db*sinewave[a] + da*sinewave[b];
-			break;
-		}
-	}
-
-	signal = (osc1mix * osc1) + (osc2mix * osc2);
-	//signal = (osc1mix * osc1);
-
-	signal =  signal * 32767.0f;
-
+	signal = osc * 32767.0f;
 	if (signal > 32767.0f){
 		signal = 32767.0f;
 	}
 	if (signal < -32767.0f){
 		signal = -32767.0f;
 	}
-
-	//VCA
-
-	//signal = adsr1_output * 32767.0f * signal_pf;
-
-
-
 	return signal;
 }
 
