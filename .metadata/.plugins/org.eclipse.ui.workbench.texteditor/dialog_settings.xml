@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
-		<item key="selection" value="const int"/>
+		<item key="selection" value="case 11"/>
 		<item key="wrap" value="true"/>
 		<item key="casesensitive" value="false"/>
 		<item key="wholeword" value="true"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
+			<item value="case 11"/>
+			<item value="paramVal"/>
+			<item value="paramNum"/>
+			<item value="param"/>
+			<item value="buf"/>
+			<item value="pros"/>
+			<item value="proc"/>
+			<item value="BUFF_LEN"/>
+			<item value="osc_wtb_pointer"/>
+			<item value="osc"/>
+			<item value="signal"/>
+			<item value="pitch"/>
 			<item value="int"/>
 			<item value="sendBuff"/>
 			<item value="send"/>
-			<item value="play_note"/>
-			<item value="playNoteB"/>
-			<item value="AUDIO_BUFFER_LENGTH"/>
-			<item value="UART4_rxBuffer"/>
-			<item value="nb_MIDI_bytes"/>
-			<item value="SAI"/>
-			<item value="HAL_UART_RxHalfCpltCallback"/>
-			<item value="DMA"/>
-			<item value="key"/>
-			<item value="state"/>
-			<item value="Memory0BaseAddr"/>
-			<item value="MIDI_GetNbNewBytes"/>
 		</list>
 		<list key="replacehistory">
 			<item value="const int"/>

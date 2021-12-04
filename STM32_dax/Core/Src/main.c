@@ -75,12 +75,21 @@ DMA_HandleTypeDef hdma_uart4_rx;
 //var for new bytes
 uint8_t nb_MIDI_bytes;
 bool trig;
+bool newNote;
 
 //synth calc variables
 float osc_wtb_pointer = 0;
 float osc;
+
+uint8_t	osc1Waveform, osc2Waveform;
+
 float signal = 0;
 float pitch = 0;
+
+float adsrAttack = 0.1f;
+float adsrDecay = 0.1f;
+float adsrSus = 0.1f;
+float adsrRel = 0.1f;
 
 
 //linked list of notes
@@ -210,7 +219,7 @@ int main(void)
 		play_note = get_last_note(note_list);
 
 		if (play_note == NULL){ //no notes in the list
-
+			pitch = 0;
 			trig = 0;
 		}
 		else {
@@ -689,8 +698,8 @@ void processBuffer(uint8_t* MIDI_buffer, uint8_t nb_MIDI_bytes)
 
 				note_list = add_note_last(note_list, key, velocity);
 
+				newNote = 1;
 
-				//play_note(midimsg, velocity);
 			}
 			else
 			{
@@ -773,7 +782,7 @@ void processBuffer(uint8_t* MIDI_buffer, uint8_t nb_MIDI_bytes)
 			nb_MIDI_bytes--;
 			state = 30;
 
-			ChangeParam();
+			setParams();
 
 			break;
 		}
@@ -818,7 +827,55 @@ void processBuffer(uint8_t* MIDI_buffer, uint8_t nb_MIDI_bytes)
 //TODO:logic for ADSR as well as DSP
 void setParams(){
 	switch (paramNum){
+	case 73:								// ADRS Attack Time
+		{
+			adsrAttack = 0.001f + (float_t) paramVal / 127;
+			break;
+		}
 
+	case 75:								// ADRS Decay Time
+		{
+			adsrDecay = 0.001f + (float_t) paramVal / 127;
+			break;
+		}
+
+	case 79:								// ADRS Sustain Level
+		{
+			adsrSus = (float_t) paramVal / 127;
+			break;
+		}
+
+	case 72:								// ADRS Release Time
+		{
+			adsrRel = 0.001f + (float_t) paramVal / 127;
+			break;
+		}
+
+
+	//Waveform Select OSC1
+	case 17:
+			{
+				if (paramVal >= 0 && paramVal < 32)	{
+					osc1Waveform = 0;
+				}
+				else if (paramVal >= 32 && paramVal < 64)	{
+					osc1Waveform = 1;
+				}
+				else if (paramVal >= 64 && paramVal < 96)	{
+					osc1Waveform = 2;
+				}
+				else if (paramVal >= 96 && paramVal < 125){
+					osc1Waveform = 3;
+				}
+				else if (paramVal >= 125 ){
+					osc1Waveform = 4;
+				}
+				else {
+					osc1Waveform = 0;
+				}
+
+				break;
+			}
 	}
 }
 
@@ -859,7 +916,44 @@ float calcSynth(){
 		b = 0;
 	}
 
-	osc = db * square[a] + da * square[b];
+
+	switch (osc1Waveform)
+	{
+		case 0 :
+		{
+			osc = db*square[a] + da*square[b];					// Linear interpolation (same as weighted average)
+			break;
+		}
+
+		case 1 :
+		{
+			osc = db*triangle[a] + da*triangle[b];
+			break;
+		}
+
+		case 2 :
+		{
+			osc = db*sawtooth[a] + da*sawtooth[b];
+			break;
+		}
+
+		case 3 :
+		{
+			osc = db*distosine[a] + da*distosine[b];
+			break;
+		}
+		case 4 :
+		{
+			osc = db*sinewave[a] + da*sinewave[b];
+			break;
+		}
+
+		default :
+		{
+			osc = db*sinewave[a] + da*sinewave[b];
+			break;
+		}
+	}
 
 	signal = osc * 32767.0f;
 	if (signal > 32767.0f){
