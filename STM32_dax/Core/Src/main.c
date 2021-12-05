@@ -51,7 +51,7 @@
 #define AUDIO_BUFFER_LENGTH 8192
 #define AUDIO_BUFFER_LENGTH_DIV2 AUDIO_BUFFER_LENGTH / 2
 #define WAVETABLE_LENGTH 1024
-#define SAMPLE_RATE 44100;
+#define SAMPLE_RATE 44100
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -88,10 +88,29 @@ uint8_t	osc1Waveform, osc2Waveform;
 float signal = 0;
 float pitch = 0;
 
-float adsrAttack = 0.1f;
-float adsrDecay = 0.1f;
-float adsrSus = 0.1f;
-float adsrRel = 0.1f;
+float_t		adsr1Output=0;
+uint8_t		adsr1State=0;
+float_t		attack1Inc=0;
+float_t		decay1Inc=0;
+float_t		release1Inc=0;
+
+float_t		adsr2Output=0;
+uint8_t		adsr2State=0;
+float_t		attack2Inc=0;
+float_t		decay2Inc=0;
+float_t		release2Inc=0;
+
+float adsr1Attack = 0.1f;
+float adsr1Decay = 0.1f;
+float adsr1Sus = 0.1f;
+float adsr1Rel = 0.1f;
+
+float adsr2Attack = 0.1f;
+float adsr2Decay = 0.1f;
+float adsr2Sus = 0.1f;
+float adsr2Rel = 0.1f;
+
+
 
 float osc1mix = 0.2f;
 float osc2mix = 0.2f;
@@ -183,6 +202,8 @@ int main(void)
   //Setting up the interupt case/callback
 	//HAL_I2S_Transmit_DMA(&hi2s1, sendBuff, AUDIO_BUFFER_LENGTH);
   //AUDIO_BUFFER_LENGTH = DATA NEEDED TO TRIGGER INTERUPT
+
+  /*
 	SSD1306_Init(); // initialize the LCD screen display
 	SSD1306_Clear();
 	  	SSD1306_GotoXY (0,0); 					// goto 10, 10
@@ -196,11 +217,13 @@ int main(void)
 	//SSD1306_DrawBitmap(0,0,wave1,128,64,1);
 	//SSD1306_InvertDisplay(1);
 	//SSD1306_Scrolldiagleft(0x00, 0x0f); 		//Scroll entire screen diagonally left
+
+
 	SSD1306_UpdateScreen();
 	HAL_Delay (2000);
-
+ */
   HAL_SAI_Transmit_DMA(&hsai_BlockA1,(uint16_t *) sendBuff, AUDIO_BUFFER_LENGTH);
-	HAL_UART_Receive_DMA(&huart4, UART4_rxBuffer, MIDI_BUFFER_LENGTH);
+  HAL_UART_Receive_DMA(&huart4, UART4_rxBuffer, MIDI_BUFFER_LENGTH);
 
 
 
@@ -835,25 +858,50 @@ void setParams(){
 	switch (paramNum){
 	case 73:								// ADRS Attack Time
 		{
-			adsrAttack = 0.001f + (float_t) paramVal / 127;
+			adsr1Attack = 0.001f + (float_t) paramVal / 127;
 			break;
 		}
 
 	case 75:								// ADRS Decay Time
 		{
-			adsrDecay = 0.001f + (float_t) paramVal / 127;
+			adsr1Decay = 0.001f + (float_t) paramVal / 127;
 			break;
 		}
 
 	case 79:								// ADRS Sustain Level
 		{
-			adsrSus = (float_t) paramVal / 127;
+			adsr1Sus = (float_t) paramVal / 127;
 			break;
 		}
 
 	case 72:								// ADRS Release Time
 		{
-			adsrRel = 0.001f + (float_t) paramVal / 127;
+			adsr1Rel = 0.001f + (float_t) paramVal / 127;
+			break;
+		}
+
+	//second ASDR
+	case 80:								// ADRS Attack Time
+		{
+			adsr2Attack = 0.001f + (float_t) paramVal / 127;
+			break;
+		}
+
+	case 81:								// ADRS Decay Time
+		{
+			adsr2Decay = 0.001f + (float_t) paramVal / 127;
+			break;
+		}
+
+	case 82:								// ADRS Sustain Level
+		{
+			adsr2Sus = (float_t) paramVal / 127;
+			break;
+		}
+
+	case 83:								// ADRS Release Time
+		{
+			adsr2Rel = 0.001f + (float_t) paramVal / 127;
 			break;
 		}
 
@@ -940,6 +988,35 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 float calcSynth(){
 	uint16_t a,b;
 	float da, db;
+
+
+	if (newNote){
+		newNote = 0;
+		adsr1State = 1; //first attck
+		adsr2State = 1; //first attck
+
+		attack1Inc = (1 - adsr1Output)/(adsr1Attack * SAMPLE_RATE);
+		attack2Inc = (1 - adsr2Output)/(adsr2Attack * SAMPLE_RATE);
+	}
+
+	if (trig == 0) //note is complete, set the release time
+		{
+			if (adsr1State != 4)
+			{
+				adsr1State = 4;
+				release1Inc = adsr1Output /(adsr1Rel * SAMPLE_RATE);
+			}
+
+			if (adsr2State != 4)
+			{
+				adsr2State = 4;
+				release2Inc = adsr2Output /(adsr2Rel * SAMPLE_RATE);
+			}
+
+		}
+
+		decay1Inc = (1-adsr1Sus) / (adsr1Decay * SAMPLE_RATE);
+		decay2Inc = (1-adsr2Sus) / (adsr2Decay * SAMPLE_RATE);
 
 	float osc_wtb_incr = WAVETABLE_LENGTH * (pitch) / SAMPLE_RATE;
 	osc1WavePointer = osc1WavePointer + osc_wtb_incr;
