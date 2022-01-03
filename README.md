@@ -1,0 +1,6 @@
+# STM32_GitHub
+
+
+A synthesizer is an electronic instrument that is able to produce audio signals through various methods. In the components, there exist two types synthesizers; analog and digital. Analog Synthesis creates its sound through hardware, while digital synthesis aims to simulate the hardware through computers. There also exist different methods of creating the audio signal such as; subtractive, additive or frequency modulation. These different methods incorporate different digital signal processing techniques such as filters, envelopes or low-frequency oscillators.
+
+An STM32 NUCLEO-F767ZI Microcontroller will be used as our embedded system to run digital hardware to simulate subtractive synthesis. The subtractive synthesis features will include two oscillators, able to play a sine, saw, triangle, and square wave. It will also be able to perform volume automation using an Attack, Decay, Sustain, Release (ADSR) envelope. The system will use a MIDI controller to be the user's interface, with knobs to adjust the parameters of the sound. There are also attempts at higher level functions, such as an Low-Frequency-Oscillator (LFO) and filtering. The group features three members, Joshua Mendoza, Megan Abundo, and Paris Villarrial.
