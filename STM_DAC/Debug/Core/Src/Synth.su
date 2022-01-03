@@ -1,4 +1,0 @@
-Synth.cpp:12:1:Synth::Synth()	16	static
-Synth.cpp:17:1:Synth::~Synth()	16	static
-Synth.cpp:17:1:virtual Synth::~Synth()	16	static
-Synth.cpp:21:7:float Synth::calculateOscilator()	40	static

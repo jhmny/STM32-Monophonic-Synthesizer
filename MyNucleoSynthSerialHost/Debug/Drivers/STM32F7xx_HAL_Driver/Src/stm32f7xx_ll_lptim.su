@@ -1,3 +1,0 @@
-stm32f7xx_ll_lptim.c:87:13:LL_LPTIM_DeInit	0	static
-stm32f7xx_ll_lptim.c:120:6:LL_LPTIM_StructInit	0	static
-stm32f7xx_ll_lptim.c:139:13:LL_LPTIM_Init	8	static
